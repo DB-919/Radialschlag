@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "Becker Tools – Messprotokoll",
+  "short_name": "Messprotokoll",
+  "description": "Messwerte und Abweichungen erfassen, Toleranzen prüfen und Excel exportieren.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f8",
+  "theme_color": "#13283b",
+  "lang": "de-DE",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
