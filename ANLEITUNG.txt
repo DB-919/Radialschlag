@@ -1,54 +1,21 @@
-BECKER TOOLS – MESSREIHEN & MASSVERGLEICH V1.2
-=============================================
+BECKER TOOLS – MESSREIHEN V1.2.1
+==================================
 
-INSTALLATION als Web-App auf dem iPhone:
-1) Alle Dateien dieses ZIPs in ein GitHub-Repository hochladen.
-2) Settings > Pages > Deploy from a branch > main / (root) > Save.
-3) Die bereitgestellte HTTPS-Adresse in Safari öffnen.
-4) Teilen > Zum Home-Bildschirm > Hinzufügen.
-5) Nach dem ersten Laden ist die App offline nutzbar.
+Behoben: Der Excel-Export erstellte ZIP/XLSX-Dateien mit widerspruechlichen
+Datei-Headern. Die zentralen ZIP-Header sind jetzt kompatibel zu den
+lokalen Headern und geben die korrekten Versions-/UTF-8-Felder an.
 
-Auf dem PC:
-- index.html / Becker_Messreihen_WebApp_V1_2.html lokal im Browser öffnen.
-- Keine Installation und kein Internet erforderlich.
+Aktualisierung via GitHub Pages:
+1. Alle Dateien aus dieser ZIP in das bisherige GitHub-Pages-Repository
+   hochladen (alte Dateien ueberschreiben).
+2. In Safari die App neu laden. Bei installierter Home-Bildschirm-App ggf.
+   schliessen und erneut oeffnen, damit der Offline-Cache erneuert wird.
+3. Einen neuen Excel-Export erzeugen. Bereits fehlerhafte exportierte
+   XLSX-Dateien werden dadurch nicht rueckwirkend repariert.
 
-WORKFLOW:
-1) Messreihe benennen.
-2) Unter „Sorten und Projekte“ mehrere Sorten mit Soll-Durchmesser, Probenzahl
-   und optionalem Proben-Präfix erstellen (z.B. 10 von Sorte A und 10 von Sorte B).
-   NEU: Vor dem Anlegen „Probennummern = Manuell eingeben“ wählen.
-   Alle Nummern zeilenweise oder durch Komma/Semikolon getrennt eintragen
-   (z.B. 143, 147, 168, 0012, A-08). Die Probenanzahl ergibt sich daraus.
-   Die gleiche Nummer darf in verschiedenen Sorten vorkommen, nicht doppelt
-   innerhalb einer Sorte.
-   Alternativ „Automatisch“ für laufende Nummern samt Präfix wählen.
-   Zusätzliche Proben lassen sich mit „＋ Probe mit Nr.“ anlegen. Bestehende
-   Nummern sind direkt in der Messwerttabelle editierbar.
-3) Prüfzustände festlegen. Vorbelegt sind vor WB, nach Lösungsglühen und nach T7.
-4) Oben den aktiven Prüfzustand auswählen und Messwerte je Probe eintragen
-   oder die Schnellerfassung benutzen.
-5) Für Vergleich Ausgangs- und Endzustand auswählen.
-6) Excel herunterladen – enthält Messwerte, Vergleich, Auswertung und Stammdaten.
+Deine Messreihen/Proben werden unveraendert unter demselben lokalen
+Speicherschluessel wie in V1.2 weiterverwendet. Zur Sicherheit vor dem
+Update zuerst eine JSON-Sicherung aus V1.2 erstellen.
 
-BERECHNUNGEN:
-Abweichung = Messwert – Referenz.
-Bei Radiusmessung: Referenz = Soll-Durchmesser / 2.
-Bei Durchmessermessung: Referenz = Soll-Durchmesser.
-Maßänderung = Messwert im Endzustand – Messwert im Ausgangszustand.
-Nur vollständige Probenpaare werden im Vergleich ausgewertet.
-Toleranzbewertung nur bei beiden ausgefüllten Grenzen möglich.
-
-SICHERUNG:
-- Daten werden lokal im Browser dieses Geräts gespeichert.
-- Für dauerhafte Sicherung JSON exportieren und sicher aufbewahren.
-- JSON wiederherstellen lädt die gesamte Messreihe mit allen Projekten/Zuständen.
-- CSV importiert/ergänzt Werte anhand Projekt + Probe + Zustand.
-- CSV und Excel eignen sich für externe Auswertungen.
-- Alte V1.0-Daten auf demselben Gerät werden beim ersten Start übernommen.
-- „Demo: 2 × 10 Proben“ lädt ein befülltes Beispiel.
-
-WICHTIG:
-- HTML-Datei allein ist im Browser nutzbar; die PWA-Offlineinstallation
-  benötigt alle Dateien aus dem ZIP auf einem HTTPS-Webserver (GitHub Pages).
-- Daten sind lokal pro Gerät/Browser; JSON für Datentransfer verwenden.
-- Keine automatische Datensynchronisierung zwischen PC und iPhone.
+Excel-Export: 4 Arbeitsblaetter mit Messwerten, Vergleich, Auswertung,
+Stammdaten. Alternativ steht der CSV-Export weiterhin zur Verfuegung.
