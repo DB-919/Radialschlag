@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Becker Messreihen">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Becker Tools | Messreihen V1.6.2</title>
+<title>Becker Tools | Messreihen V1.8.0</title>
 <style>
 :root{--ink:#192f41;--muted:#6a7e8a;--line:#dfebee;--bg:#f3f7f8;--navy:#142d40;--teal:#087e81;--red:#be3545;--shadow:0 10px 28px #143d5010}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:3px solid #8adcd2;outline-offset:2px}
@@ -84,10 +84,27 @@
 @media(max-width:760px){.measure-options{grid-template-columns:1fr 1fr}}
 @media(max-width:430px){.measure-options{grid-template-columns:1fr}}
 
+
+/* V1.8: geführter Messablauf und Live-Aufnahme */
+.workflow-settings{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.workflow-check{display:flex;align-items:center;gap:7px;font-size:13px;min-height:38px}
+.workflow-check input{width:17px;height:17px;accent-color:#087e81}
+.workflow-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0}
+.workflow-track{height:8px;border-radius:10px;overflow:hidden;background:#e5eef1;margin:10px 0 6px}
+.workflow-fill{height:100%;background:#168782;width:0%;transition:width .3s}
+.workflow-callout{background:#eff8f7;border:1px solid #c9e8e1;border-radius:10px;padding:10px;font-size:12px;margin-top:10px}
+.workflow-callout strong{font-size:13px}
+.measure-live{border:1px solid #c6dfe6;border-radius:11px;background:#071217;margin-top:10px;padding:8px;text-align:center}
+.measure-live video{display:block;max-height:260px;max-width:100%;width:100%;object-fit:contain;border-radius:7px}
+.measure-live .buttons{justify-content:center;margin-top:7px}
+.measure-profile{display:grid;grid-template-columns:1.25fr 1fr;gap:9px;margin:12px 0}
+.measure-mini-help{font-size:11px;color:#6a7e8a}
+@media(max-width:680px){.workflow-settings{grid-template-columns:1fr 1fr}.workflow-fields{grid-template-columns:1fr 1fr}.measure-profile{grid-template-columns:1fr}.measure-live video{max-height:200px}}
+@media(max-width:450px){.workflow-settings{grid-template-columns:1fr}.workflow-fields{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Lokale Kreissuche · OCR · Excel · X-Wert · V1.6.2</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
+<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · X-Kamera · Messworkflow · Excel · V1.8.0</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
 <main class="main wrap">
 <section class="card pad"><div class="head"><h2>01 / Messreihe</h2><div class="buttons"><button class="btn tiny" id="loadDemo">Demo: 2 × 10 Proben</button><button class="btn tiny danger" id="newSeries">Neue Messreihe</button></div></div>
 <div class="fields"><div class="field"><label for="series">Bezeichnung / Messreihe</label><input id="series" placeholder="z. B. WB-Versuch T7 – Oktober"></div><div class="field"><label for="date">Prüfdatum</label><input type="date" id="date"></div><div class="field"><label for="inspector">Prüfer</label><input id="inspector" placeholder="Name / Kürzel"></div><div class="field"><label for="mode">Messverfahren</label><select id="mode"><option value="radius">Radius (Ø / 2)</option><option value="diameter">Durchmesser (Ø)</option></select></div><div class="field"><label for="tolMinus">Δ Untergrenze [mm]</label><input id="tolMinus" inputmode="decimal" placeholder="z. B. -0,5"></div></div>
@@ -103,10 +120,23 @@
 <section class="card"><div class="pad" style="padding-bottom:0"><div class="head"><h2>04 / Messwerte</h2><small id="saveStatus">Automatisch lokal gespeichert</small></div><div class="toolbar"><div class="side"><div class="field"><label for="filterProject">Sorte / Projekt filtern</label><select id="filterProject"></select></div><div class="field"><label for="filterStatus">Status filtern</label><select id="filterStatus"><option value="all">Alle Proben</option><option value="open">Nur offene</option><option value="filled">Nur gemessene</option><option value="fail">n.i.O.</option></select></div><div class="field"><label for="sort">Sortieren</label><select id="sort"><option value="original">Erfassungsreihenfolge</option><option value="nr">Proben-Nr.</option><option value="delta">Größte |Abweichung|</option></select></div></div><div class="buttons"><button class="btn" id="addSample">＋ Probe automatisch</button><button class="btn" id="addManualSample">＋ Probe mit Nr.</button><button class="btn" id="openPhotoImport">📷 Probennummern aus Foto</button><button class="btn dark" id="exportXlsx">↓ Excel (.xlsx)</button></div></div></div>
 <div class="tablewrap"><table class="sheet"><thead><tr><th>Projekt / Sorte</th><th>Probe</th><th>Ø Soll [mm]</th><th>Messwert [mm]</th><th>Referenz [mm]</th><th>Abweichung [mm]</th><th>Bewertung</th><th>Δ Vergleich [mm]</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
 <div class="tablefoot"><span id="rowInfo"></span><div class="buttons"><button class="btn tiny" id="exportCsv">CSV</button><button class="btn tiny" id="importCsv">CSV importieren</button><button class="btn tiny" id="exportJson">Sicherung (JSON)</button><button class="btn tiny" id="importJson">Sicherung laden</button></div></div></section>
-<div class="bottom"><section class="card pad quick"><div class="head"><h2>05 / Schnellerfassung</h2><span id="quickProgress" class="tag">–</span></div><p class="muted" style="margin-top:-9px">Sorte und Proben-Nr. eindeutig auswählen, Messwert manuell eingeben oder die Digitalanzeige des Messgeräts fotografieren.</p><div class="quickgrid"><div class="field"><label for="quickProject">Projekt / Sorte</label><select id="quickProject"></select></div><div class="field"><label for="quickSample">Probe</label><select id="quickSample"></select></div><div class="field"><label for="quickValue">Messwert [mm]</label><input id="quickValue" inputmode="decimal" autocomplete="off" placeholder="10,236"></div></div><div class="buttons" style="margin-top:14px"><button class="btn primary" id="quickSave" style="flex:1">Messwert speichern →</button><button class="btn" id="quickCamera">📷 Messwert fotografieren</button><button class="btn" id="quickSkip">Überspringen</button></div><p class="hint" id="quickHint"></p></section>
+<div class="bottom"><section class="card pad quick"><div class="head"><h2>05 / Schnellerfassung</h2><span id="quickProgress" class="tag">–</span></div><p class="muted" style="margin-top:-9px">Sorte und Proben-Nr. eindeutig auswählen, Messwert manuell eingeben oder die Digitalanzeige des Messgeräts fotografieren.</p><div class="quickgrid"><div class="field"><label for="quickProject">Projekt / Sorte</label><select id="quickProject"></select></div><div class="field"><label for="quickSample">Probe</label><select id="quickSample"></select></div><div class="field"><label for="quickValue">Messwert [mm]</label><input id="quickValue" inputmode="decimal" autocomplete="off" placeholder="10,236"></div></div><div class="buttons" style="margin-top:14px"><button class="btn primary" id="quickSave" style="flex:1">Messwert speichern →</button><button class="btn" id="quickCamera">📷 Messwert fotografieren</button><button class="btn" id="quickSkip">Überspringen</button></div><p class="hint" id="quickHint"></p>
+<div class="workflow-track" aria-label="Fortschritt der Messrunde"><div class="workflow-fill" id="workflowFill"></div></div>
+<div class="workflow-settings">
+ <label class="workflow-check"><input type="checkbox" id="wfAutoNext" checked> Nach Speichern nächste offene Probe</label>
+ <label class="workflow-check"><input type="checkbox" id="wfSkipFilled" checked> Bereits gemessene überspringen</label>
+ <label class="workflow-check"><input type="checkbox" id="wfChecks" checked> Plausibilitätsprüfung</label>
+</div>
+<div class="workflow-fields">
+ <div class="field"><label for="wfMaxDeviation">Max. Abstand zur Referenz [mm]</label><input id="wfMaxDeviation" inputmode="decimal" value="3,0" placeholder="0 = aus"></div>
+ <div class="field"><label for="wfMaxChange">Max. Änderung zum vorherigen Zustand [mm]</label><input id="wfMaxChange" inputmode="decimal" value="2,0" placeholder="0 = aus"></div>
+</div>
+<div class="buttons"><button id="wfStart" class="btn dark">▶ Geführte Messrunde starten</button><button id="wfStop" class="btn" hidden>■ Messrunde beenden</button></div>
+<div class="workflow-callout" id="workflowStatus" role="status">Schnellerfassung bereit. Messgerätfoto oder manuelle Eingabe möglich.</div>
+</section>
 <section class="card pad"><div class="head"><h2>06 / Vergleich der Prüfzustände</h2><span id="compareCaption" class="tag"></span></div><div class="tablewrap"><table class="comparetable"><thead><tr><th>Projekt / Sorte</th><th>Vollständige Paare</th><th>Ø Änderung [mm]</th><th>Min [mm]</th><th>Max [mm]</th></tr></thead><tbody id="compareBody"></tbody></table></div></section></div>
 <section class="card pad"><div class="head"><h2>Maßänderung je Probe</h2><small>Endmessung − Ausgangsmessung · gleiche Probe über mehrere Prüfzustände</small></div><div id="chart" class="chart"><div class="empty">Noch keine vollständigen Vergleichspaare vorhanden.</div></div><div class="legend" id="chartCaption">Positive Werte = Maßzunahme · negative Werte = Maßabnahme</div></section>
-<p class="footapp">Becker Tools – Messreihen V1.6.2 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
+<p class="footapp">Becker Tools – Messreihen V1.8.0 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
 </main>
 <input id="fileCsv" type="file" accept=".csv,.txt,text/plain,text/csv" hidden><input id="fileJson" type="file" accept=".json,application/json" hidden>
 <!-- Messgerät-OCR: separates Foto, gespeicherte Messreihe wird erst nach Bestätigung verändert. -->
@@ -117,22 +147,34 @@
   <div class="head" style="margin-bottom:7px"><h2 id="measureModalTitle">📷 Messwert vom Messgerät</h2><button class="btn tiny" id="measureCloseTop" type="button" aria-label="Schließen">✕</button></div>
   <p class="hint" style="margin:0 0 12px">Fotografiere die <b>Digitalanzeige</b> eines Messgeräts (nicht das Bauteil selbst). Für deinen Anwendungsfall ist standardmäßig der <b>obere X-Wert</b> aktiviert; der untere Z-Wert soll ignoriert werden.</p>
   <div class="measure-target" id="measureTarget">–</div>
-  <div class="buttons" style="margin:12px 0 10px"><button type="button" class="btn primary" id="measureCamera">📷 Fotografieren</button><button type="button" class="btn" id="measureGallery">▧ Bild auswählen</button><button type="button" class="btn" id="measureRotate" disabled>↻ 90° drehen</button><button type="button" class="btn" id="measurePresetTop" disabled>⊞ Oberer X-Wert</button><button type="button" class="btn" id="measureResetCrop" disabled>Ausschnitt zurücksetzen</button><button type="button" class="btn" id="measureSavePreset" disabled>💾 Ausschnitt merken</button></div>
+  <div class="buttons" style="margin:12px 0 10px"><button type="button" class="btn" id="measureLiveStart">◉ Live-Kamera</button><button type="button" class="btn primary" id="measureCamera">📷 Fotografieren</button><button type="button" class="btn" id="measureGallery">▧ Bild auswählen</button><button type="button" class="btn" id="measureRotate" disabled>↻ 90° drehen</button><button type="button" class="btn" id="measureAutoOrient" disabled>⇄ Auto-Ausrichten</button><button type="button" class="btn" id="measurePresetTop" disabled>⊞ Oberer X-Wert</button><button type="button" class="btn" id="measureResetCrop" disabled>Ausschnitt zurücksetzen</button><button type="button" class="btn" id="measureSavePreset" disabled>💾 Ausschnitt merken</button></div>
+  <div class="measure-live" id="measureLivePanel" hidden>
+    <video id="measureLiveVideo" autoplay muted playsinline aria-label="Livebild des Messgeräts"></video>
+    <div class="buttons"><button id="measureCaptureFrame" type="button" class="btn primary">◎ Messgerätanzeige erfassen</button><button id="measureLiveStop" type="button" class="btn">Kamera stoppen</button></div>
+    <div class="measure-mini-help">Nur die X-Zahlenzeile aufnehmen. Bei Problemen Fotoauswahl nutzen. Die Kamera funktioniert über HTTPS bzw. localhost.</div>
+  </div>
   <div class="measure-preview"><canvas id="measureCanvas" width="600" height="260" aria-label="Digitalanzeige: einen Rahmen um die Zahl ziehen"></canvas><p id="measureEmpty">Foto auswählen. Anschließend den Zahlenbereich mit dem Finger einrahmen.</p></div>
   <div id="measureCropPreviewWrap" hidden style="margin-top:8px;padding:9px;border:1px solid #c8dfe4;border-radius:10px;background:#f4faf9"><b style="display:block;font-size:12px;margin-bottom:5px">Ausgewählter Bereich – hier darf nur der X-Wert stehen:</b><canvas id="measureCropPreview" width="440" height="115" style="display:block;width:auto;max-width:100%;height:auto;max-height:125px;border-radius:5px"></canvas><p class="hint" style="margin:5px 0 0">Wenn hier der Z-Wert erscheint, bitte den Rahmen auf dem Foto enger um die obere Zahl ziehen.</p></div>
   <p class="hint">Im Modus <b>„Nur oberer X-Wert“</b> wird zunächst die <b>obere helle Zahlenzeile</b> gesucht. Die Vorschau zeigt genau den Bereich, den die OCR liest. Ein Z-Wert darf dort nicht sichtbar sein.</p>
+  <div class="measure-profile">
+    <div class="field"><label for="measureProfile">Messgeräteprofil</label><select id="measureProfile"><option value="auto">Automatische X-Erkennung</option></select></div>
+    <div class="field"><label for="measureProfileName">Profilname (für Speichern)</label><input id="measureProfileName" maxlength="45" placeholder="z. B. Messplatz 1"></div>
+  </div>
+  <div class="buttons" style="margin:4px 0 12px"><button class="btn tiny" id="measureProfileSave" type="button">Profil speichern / aktualisieren</button><button class="btn tiny danger" id="measureProfileDelete" type="button">Profil löschen</button><span class="measure-mini-help">Speichert Ausschnitt, Filter und Nachkommastellen lokal.</span></div>
   <div class="measure-options">
    <div class="field"><label for="measureFilter">Bildaufbereitung</label><select id="measureFilter"><option value="contrast">Kontrast (empfohlen)</option><option value="original">Original</option><option value="binary">Schwarz-Weiß</option><option value="invert">Invertierte Anzeige</option></select></div>
    <div class="field"><label for="measureDecimals">Dezimalstellen</label><select id="measureDecimals"><option value="auto">Automatisch</option><option value="2">2 Nachkommastellen</option><option value="3">3 Nachkommastellen</option><option value="4">4 Nachkommastellen</option></select></div>
+   <div class="field"><label for="measureOcrSpeed">OCR-Verfahren</label><select id="measureOcrSpeed"><option value="fast">Schnell (1 Bildvariante)</option><option value="thorough">Gründlich (mehrere Versuche)</option></select></div>
    <div class="field"><label for="measureReadMode">Erkennungsmodus</label><select id="measureReadMode"><option value="topx">Nur oberer X-Wert</option><option value="manual">Freier Ausschnitt</option></select></div>
   </div>
-  <div class="buttons" style="margin:13px 0"><button class="btn primary" id="measureRecognize" type="button" disabled>Zahlenanzeige erkennen</button><span id="measureOcrStatus" class="tag" role="status" aria-live="polite">Noch kein Foto geladen</span></div>
+  <div class="buttons" style="margin:13px 0"><label class="workflow-check"><input type="checkbox" id="measureAutoRead"> Live-Aufnahme sofort auslesen</label><button class="btn primary" id="measureRecognize" type="button" disabled>Zahlenanzeige erkennen</button><span id="measureOcrStatus" class="tag" role="status" aria-live="polite">Noch kein Foto geladen</span></div>
   <div class="field"><label for="measureProposed">Erkannter Messwert [mm] – kontrollieren und ggf. korrigieren</label><input id="measureProposed" inputmode="decimal" autocomplete="off" placeholder="z. B. 10,236" style="font-size:25px;font-weight:800;letter-spacing:.03em"></div>
   <div id="measureSuggestions" class="measure-suggestions" aria-live="polite"></div>
   <div id="measureWarning" class="measure-warning" hidden></div>
   <details class="photo-raw"><summary>OCR-Rohtext (zur Fehlerprüfung)</summary><pre id="measureRaw">–</pre></details>
   <p class="hint">Die Übernahme erfolgt ausschließlich nach deiner Bestätigung. Bitte <b>mm</b> am Messgerät prüfen – Inch-Anzeigen werden nicht automatisch umgerechnet. Fotos werden nicht gespeichert oder hochgeladen; Tesseract.js muss beim ersten Mal aus dem Internet geladen werden.</p>
-  <div class="buttons measure-footer"><button class="btn" id="measureCancel" type="button">Abbrechen</button><button class="btn primary" id="measureAccept" type="button">✓ Wert übernehmen</button></div>
+  <div class="workflow-callout" id="measureWorkflowStatus" hidden></div>
+  <div class="buttons measure-footer"><button class="btn" id="measureSkipTarget" type="button" hidden>↷ Probe überspringen</button><button class="btn" id="measureCancel" type="button">Abbrechen</button><button class="btn primary" id="measureAccept" type="button">✓ Wert übernehmen</button></div>
  </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -386,15 +428,76 @@
     el.innerHTML=`<svg role="img" aria-label="Balkendiagramm der Maßänderungen" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${body.join('')}</svg>`;
     $('chartCaption').textContent=`${pairs.length} vollständige Paare · Jede Säule eine Probe (Farbe = Sorte) · positive Werte = Zunahme, negative = Abnahme`;
   }
+  // V1.8: Bedienvorgaben getrennt von Messdaten sichern.
+  const WF_KEY='becker.messreihen.workflow.v18';
+  const wfDefaults={autoNext:true,skipFilled:true,checks:true,maxDeviation:'3,0',maxChange:'2,0'};
+  let wfSettings={...wfDefaults},wfActive=false;
+  function wfLoad(){try{const d=JSON.parse(localStorage.getItem(WF_KEY)||'null');if(d&&typeof d==='object')wfSettings={...wfDefaults,...d};}catch(e){} }
+  function wfStore(){
+    wfSettings={autoNext:$('wfAutoNext').checked,skipFilled:$('wfSkipFilled').checked,checks:$('wfChecks').checked,maxDeviation:$('wfMaxDeviation').value,maxChange:$('wfMaxChange').value};
+    try{localStorage.setItem(WF_KEY,JSON.stringify(wfSettings));}catch(e){}
+    renderWorkflow();
+  }
+  function wfEligible(projectId=state.quickProject,stageId=state.activeStage){
+    const opts=state.samples.filter(s=>s.projectId===projectId);
+    return wfSettings.skipFilled?opts.filter(s=>measurement(s,stageId)===null):opts;
+  }
+  function wfNext(currentId,projectId=state.quickProject,stageId=state.activeStage){
+    const eligible=wfEligible(projectId,stageId);
+    if(!eligible.length)return null;
+    const all=state.samples.filter(s=>s.projectId===projectId);
+    const from=all.findIndex(s=>s.id===currentId);
+    // Reihenfolge nach der tatsächlichen Probenliste; im reinen Offene-Modus kein Rücksprung auf dieselbe Probe.
+    for(let offset=1;offset<=all.length;offset++){
+      const candidate=all[(from+offset+all.length)%all.length];
+      if(candidate&&candidate.id!==currentId&&eligible.some(s=>s.id===candidate.id))return candidate;
+    }
+    return null;
+  }
+  function wfCheck(sample,stageId,val,entered=''){
+    const issues=[];
+    if(!wfSettings.checks)return issues;
+    if(!Number.isFinite(val))return [{level:'critical',text:'Ungültiger Messwert.'}];
+    if(val<0)issues.push({level:'warning',text:'Negatives Messergebnis – Anzeige überprüfen.'});
+    const threshold=number(wfSettings.maxDeviation),base=ref(sample);
+    if(threshold!==null&&threshold>0&&base!==null&&Math.abs(val-base)>threshold)
+      issues.push({level:'warning',text:`Abstand zur Referenz ${fm(base,3)} mm beträgt ${fm(Math.abs(val-base),3)} mm (Grenze ${fm(threshold,3)} mm).`});
+    const stages=state.stages;const ix=stages.findIndex(s=>s.id===stageId);
+    const changeLimit=number(wfSettings.maxChange);
+    if(ix>0&&changeLimit!==null&&changeLimit>0){
+      for(let j=ix-1;j>=0;j--){const prior=measurement(sample,stages[j].id);
+        if(prior!==null){if(Math.abs(val-prior)>changeLimit)issues.push({level:'warning',text:`Änderung gegenüber „${stages[j].name}“: ${fm(Math.abs(val-prior),3)} mm (Grenze ${fm(changeLimit,3)} mm).`});break;}
+      }
+    }
+    if(entered&&(!/[.,]/.test(entered))&&$('measureDecimals')?.value==='3')
+      issues.push({level:'warning',text:'Dezimalzeichen fehlt – bitte Anzeige kontrollieren.'});
+    return issues;
+  }
+  function wfConfirmMessage(sample,stageId,val,entered=''){
+    const issues=wfCheck(sample,stageId,val,entered);
+    return issues.map(x=>x.text).join(' ');
+  }
+  function renderWorkflow(){
+    const p=state.quickProject,opts=state.samples.filter(s=>s.projectId===p),done=opts.filter(s=>measurement(s,state.activeStage)!==null).length;
+    const pct=opts.length?Math.round(100*done/opts.length):0;
+    $('workflowFill').style.width=pct+'%';
+    const sample=state.samples.find(s=>s.id===$('quickSample').value);
+    $('workflowStatus').innerHTML=`<strong>${wfActive?'● Geführte Messrunde aktiv':'Messrunde bereit'}</strong> · ${done}/${opts.length} gemessen (${pct} %) · ${esc(proj(p)?.name||'Keine Sorte')} · ${esc(stage(state.activeStage)?.name||'–')}${sample?` · nächste Probe: ${esc(sample.nr)}`:''}`;
+    $('wfStart').hidden=wfActive;$('wfStop').hidden=!wfActive;
+    $('measureWorkflowStatus').hidden=!wfActive;
+    if(wfActive)$('measureWorkflowStatus').textContent=`Geführte Messrunde: ${done}/${opts.length} gemessen – nach dem Bestätigen geht es zur nächsten Probe.`;
+    $('measureSkipTarget').hidden=!wfActive;
+  }
   function refreshQuick(forceNext=false){
-    const p=state.quickProject;const opts=state.samples.filter(s=>s.projectId===p);
+    const p=state.quickProject,opts=state.samples.filter(s=>s.projectId===p);
     let chosen=$('quickSample').value;
     const open=opts.filter(s=>measurement(s,state.activeStage)===null);
-    if(forceNext||!opts.some(s=>s.id===chosen))chosen=open[0]?.id||opts[0]?.id||'';
+    if(forceNext||!opts.some(s=>s.id===chosen))chosen=(wfSettings.skipFilled?open[0]?.id:null)||opts[0]?.id||'';
     $('quickSample').innerHTML=opts.map(s=>`<option value="${esc(s.id)}">${esc(s.nr)} ${measurement(s,state.activeStage)!==null?'✓':''}</option>`).join('');
     $('quickSample').value=chosen;
     const done=opts.length-open.length;$('quickProgress').textContent=`${done} / ${opts.length} erfasst`;
     $('quickHint').textContent=opts.length===0?'Noch keine Proben für dieses Projekt angelegt.':open.length===0?'Alle Proben dieses Projekts in diesem Prüfzustand gemessen.':'Messwert wird der aktuell ausgewählten Probe und dem aktuellen Prüfzustand zugeordnet.';
+    renderWorkflow();
   }
   function render(){syncFields();renderProjects();renderStages();renderTable();renderKpis();renderComparison();refreshQuick(false);}
   function saveAndRender(){persist();render();}
@@ -476,14 +579,20 @@
   async function saveQuick(){
     const s=state.samples.find(s=>s.id===$('quickSample').value&&s.projectId===state.quickProject),val=$('quickValue').value.trim();
     if(!s){toast('Bitte eine Probe auswählen.');return;}
-    if(number(val)===null){toast('Bitte einen gültigen Messwert eingeben.');$('quickValue').focus();return;}
+    const n=number(val);if(n===null||Math.abs(n)>100000){toast('Bitte einen gültigen Messwert eingeben.');$('quickValue').focus();return;}
+    const issues=wfConfirmMessage(s,state.activeStage,n,val);
+    if(issues&&!await confirmAction('Messwert prüfen',`${issues} Trotzdem ${val} mm für Probe ${s.nr} speichern?`,'Trotzdem speichern'))return;
     if(number(s.measures[state.activeStage])!==null&&!await confirmAction('Messwert überschreiben?',`Projekt: ${proj(s.projectId)?.name} · Probe ${s.nr} · Zustand: ${stage(state.activeStage)?.name}`, 'Überschreiben'))return;
-    s.measures[state.activeStage]=val;$('quickValue').value='';quickIndex++;persist();renderTable();renderKpis();renderComparison();renderProjects();refreshQuick(true);$('quickValue').focus();toast(`Messwert gespeichert: ${proj(s.projectId)?.name} / ${s.nr}`);
+    const targetStage=state.activeStage;
+    s.measures[targetStage]=val;$('quickValue').value='';quickIndex++;persist();render();
+    const next=wfSettings.autoNext?wfNext(s.id,s.projectId,targetStage):null;
+    if(next){$('quickSample').value=next.id;renderWorkflow();}
+    $('quickValue').focus();toast(`Messwert gespeichert: ${proj(s.projectId)?.name} / ${s.nr}`);
   }
   function skipQuick(){
-    const opts=state.samples.filter(s=>s.projectId===state.quickProject&&measurement(s,state.activeStage)===null);
-    if(!opts.length){toast('Keine offenen Proben mehr.');return;}
-    const idx=opts.findIndex(s=>s.id===$('quickSample').value),next=opts[(idx+1)%opts.length];$('quickSample').value=next.id;$('quickValue').focus();
+    const next=wfNext($('quickSample').value);
+    if(!next){toast('Keine weitere Probe verfügbar.');return;}
+    $('quickSample').value=next.id;$('quickValue').focus();renderWorkflow();
   }
   function loadDemo(){
     const d=defaultState();d.series='Demo – A20X / 2 Sorten / 3 Zustände';d.tolMinus='-0,50';d.tolPlus='1,00';d.projects[1].soll='19,50';
@@ -1164,6 +1273,70 @@
     else{$('photoFocusPanel').hidden=true;photoFocusIndex=-1;toast('Letzte Nummer übernommen. Bitte Gesamtliste prüfen.');}
   };
 
+  // V1.8: lokale Messgeräteprofile (kein Cloud-Upload, keine Messwerte darin).
+  const PROFILES_KEY='becker.messreihen.measureprofiles.v18';
+  let measureProfiles=[],measureLiveStream=null,measureLiveRequested=false,measureWorker=null,measureWorkerPromise=null;
+  function loadProfiles(){
+    try{const all=JSON.parse(localStorage.getItem(PROFILES_KEY)||'[]');if(Array.isArray(all))measureProfiles=all.filter(p=>p&&typeof p.id==='string'&&p.id.length<100&&typeof p.name==='string').slice(0,30);}catch(e){}
+  }
+  function storeProfiles(){try{localStorage.setItem(PROFILES_KEY,JSON.stringify(measureProfiles));}catch(e){toast('Profile können nicht lokal gespeichert werden.');}}
+  function selectedProfile(){return measureProfiles.find(p=>p.id===$('measureProfile').value)||null;}
+  function renderProfiles(){
+    const sel=$('measureProfile'),old=sel.value;
+    sel.replaceChildren();const o=document.createElement('option');o.value='auto';o.textContent='Automatische X-Erkennung';sel.append(o);
+    for(const p of measureProfiles){const op=document.createElement('option');op.value=p.id;op.textContent=p.name;sel.append(op);}
+    sel.value=measureProfiles.some(p=>p.id===old)?old:'auto';
+  }
+  function applyProfile(){
+    const p=selectedProfile();if(p){$('measureFilter').value=p.filter||'contrast';$('measureDecimals').value=p.decimals||'3';$('measureReadMode').value=p.mode||'topx';$('measureProfileName').value=p.name;}
+    if(measurePhoto){measureCrop=null;measurePaint();}
+  }
+  function saveProfile(){
+    if(!measurePhoto){toast('Zuerst Foto laden und X-Ausschnitt markieren.');return;}
+    const name=$('measureProfileName').value.trim();if(!name){toast('Bitte Profilnamen eingeben.');return;}
+    const rect=measureCrop||measureDefaultCrop();if(!rect)return;
+    const normalized={x:rect.x/measurePhoto.width,y:rect.y/measurePhoto.height,w:rect.w/measurePhoto.width,h:rect.h/measurePhoto.height};
+    const old=selectedProfile();const id=old?.id||uid();
+    const p={id,name,rect:normalized,filter:$('measureFilter').value,decimals:$('measureDecimals').value,mode:$('measureReadMode').value};
+    if(old)Object.assign(old,p);else{if(measureProfiles.length>=30){toast('Maximal 30 Messgeräteprofile.');return;}measureProfiles.push(p);}
+    storeProfiles();renderProfiles();$('measureProfile').value=id;toast('Messgeräteprofil gespeichert.');
+  }
+  function deleteProfile(){
+    const p=selectedProfile();if(!p){toast('Bitte erst ein gespeichertes Profil auswählen.');return;}
+    measureProfiles=measureProfiles.filter(x=>x.id!==p.id);storeProfiles();renderProfiles();$('measureProfileName').value='';
+    if(measurePhoto){measureCrop=null;measurePaint();}toast('Profil gelöscht.');
+  }
+  async function getMeasureWorker(){
+    if(measureWorker)return measureWorker;
+    if(!measureWorkerPromise)measureWorkerPromise=(async()=>{await ensureTesseract();const worker=await window.Tesseract.createWorker('eng',1);await worker.setParameters({tessedit_char_whitelist:'0123456789.,+-mMinch',load_system_dawg:'0',load_freq_dawg:'0'});measureWorker=worker;return worker;})().catch(e=>{measureWorkerPromise=null;throw e;});
+    return measureWorkerPromise;
+  }
+  async function stopLiveCamera(){
+    if(measureLiveStream){measureLiveStream.getTracks().forEach(t=>t.stop());measureLiveStream=null;}
+    $('measureLiveVideo').srcObject=null;$('measureLivePanel').hidden=true;measureLiveRequested=false;
+  }
+  async function startLiveCamera(){
+    if(!navigator.mediaDevices?.getUserMedia){measureStatus('Live-Kamera benötigt HTTPS / modernen Browser. Alternativ „Fotografieren“ wählen.');return;}
+    try{
+      if(measureLiveStream){$('measureLivePanel').hidden=false;return;}
+      const stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}}});
+      // Dialog kann während der Berechtigungsabfrage geschlossen worden sein.
+      if($('measureModalCover').style.display==='none'){stream.getTracks().forEach(t=>t.stop());return;}
+      measureLiveStream=stream;const v=$('measureLiveVideo');v.srcObject=stream;
+      $('measureLivePanel').hidden=false;measureLiveRequested=true;
+      try{await v.play();}catch(e){}
+      measureStatus('Live-Kamera aktiv. Anzeige ausrichten und „Messgerätanzeige erfassen“ drücken.');
+    }catch(e){measureStatus('Kamera nicht verfügbar / Berechtigung verweigert. Foto auswählen oder manuell eingeben.');}
+  }
+  function captureLiveFrame(){
+    const v=$('measureLiveVideo');if(!measureLiveStream||!v.videoWidth||!v.videoHeight){toast('Kein Kamerabild verfügbar.');return;}
+    const ratio=Math.min(1,2200/Math.max(v.videoWidth,v.videoHeight));
+    const c=document.createElement('canvas');c.width=Math.round(v.videoWidth*ratio);c.height=Math.round(v.videoHeight*ratio);
+    c.getContext('2d').drawImage(v,0,0,c.width,c.height);
+    applyMeasureCanvas(c);
+    measureStatus('Live-Bild übernommen – X-Ausschnitt prüfen und OCR starten.');
+    if($('measureAutoRead').checked)recognizeMeasurement();
+  }
   // -------- V1.6.0: Digitalanzeige -> geprüfter Messwert --------
   // Unabhängig von der OCR der eingeprägten Proben-NUMMERN.
   let measureTargetSampleId='',measureTargetStageId='',measurePhoto=null,measureCrop=null,measureDrag=null,measureBusy=false;
@@ -1200,15 +1373,17 @@
     measurePhoto=null;measureCrop=null;measureDrag=null;measureAutoXFound=false;
     $('measureCropPreviewWrap').hidden=true;
     $('measureProposed').value='';$('measureRaw').textContent='–';$('measureSuggestions').replaceChildren();$('measureWarning').hidden=true;
-    $('measureFilter').value='contrast';$('measureDecimals').value='3';$('measureReadMode').value='topx';
+    $('measureFilter').value='contrast';$('measureDecimals').value='3';$('measureReadMode').value='topx';$('measureOcrSpeed').value='fast';
+    renderProfiles();applyProfile();
     $('measureCanvas').style.display='none';$('measureEmpty').hidden=false;
-    $('measureRotate').disabled=$('measureResetCrop').disabled=$('measureRecognize').disabled=$('measurePresetTop').disabled=$('measureSavePreset').disabled=true;
+    $('measureRotate').disabled=$('measureResetCrop').disabled=$('measureRecognize').disabled=$('measurePresetTop').disabled=$('measureSavePreset').disabled=$('measureAutoOrient').disabled=true;
     $('measureTarget').textContent=`Projekt: ${proj(sample.projectId)?.name||'–'}  ·  Probe: ${sample.nr}  ·  Zustand: ${stage(measureTargetStageId)?.name||'–'}  ·  bisher: ${sample.measures[measureTargetStageId]||'–'} mm`;
-    measureStatus('Foto auswählen oder manuell Messwert eingeben.');
-    $('measureModalCover').style.display='flex';
+    measureStatus('Foto auswählen oder Live-Kamera verwenden.');
+    $('measureModalCover').style.display='flex';renderWorkflow();
   }
   function closeMeasurePhoto(){
     if(measureBusy){toast('Bitte die laufende Erkennung abschließen lassen.');return;}
+    stopLiveCamera();
     $('measureModalCover').style.display='none';measurePhoto=null;measureCrop=null;measureDrag=null;
     $('measureCropPreviewWrap').hidden=true;
     measureCanvas.width=1;measureCanvas.height=1;
@@ -1263,6 +1438,8 @@
   function measureDefaultCrop(){
     if(!measurePhoto)return null;
     const W=measurePhoto.width,H=measurePhoto.height;
+    const profile=selectedProfile();
+    if(profile?.rect){const r=presetToRect(profile.rect);if(r)return r;}
     if($('measureReadMode').value==='topx'){
       const stored=loadMeasurePreset();if(stored){const r=presetToRect(stored);if(r)return r;}
       const found=findUpperXRow(measurePhoto);if(found){measureAutoXFound=true;return found;}
@@ -1310,6 +1487,14 @@
   }
   measureCanvas.addEventListener('pointerup',finishMeasureSelection);
   measureCanvas.addEventListener('pointercancel',()=>{measureDrag=null;measurePaint();});
+  function applyMeasureCanvas(c){
+    measurePhoto=c;measureCrop=null;measureDrag=null;measureAutoXFound=false;
+    measureCanvas.style.display='block';$('measureEmpty').hidden=true;
+    $('measureRotate').disabled=$('measureResetCrop').disabled=$('measureRecognize').disabled=$('measurePresetTop').disabled=$('measureSavePreset').disabled=$('measureAutoOrient').disabled=false;
+    $('measureProposed').value='';$('measureRaw').textContent='–';$('measureSuggestions').replaceChildren();$('measureWarning').hidden=true;
+    measurePaint();
+    measureStatus(measureAutoXFound?'Obere X-Zeile erkannt – Vorschau prüfen.':'X-Ausschnitt prüfen und ggf. mit dem Finger nachziehen.');
+  }
   function loadMeasureFile(file){
     if(!file)return;
     if(!file.type.startsWith('image/')||file.size>35*1024*1024){toast('Bitte JPEG/PNG/HEIC-Foto bis 35 MB verwenden.');return;}
@@ -1318,11 +1503,7 @@
       const ratio=Math.min(1,2500/Math.max(img.naturalWidth,img.naturalHeight));
       const c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.naturalWidth*ratio));c.height=Math.max(1,Math.round(img.naturalHeight*ratio));
       c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      measurePhoto=c;measureCrop=null;measureDrag=null;measureAutoXFound=false;
-      measureCanvas.style.display='block';$('measureEmpty').hidden=true;
-      $('measureRotate').disabled=$('measureResetCrop').disabled=$('measureRecognize').disabled=$('measurePresetTop').disabled=$('measureSavePreset').disabled=false;
-      $('measureRaw').textContent='–';$('measureSuggestions').replaceChildren();measurePaint();
-      measureStatus(measureAutoXFound?'Obere Zahlenzeile automatisch gefunden. Vorschau vor OCR prüfen.':'Rahmen bitte prüfen: Nur die obere X-Anzeige darf in der Vorschau sichtbar sein.');URL.revokeObjectURL(url);
+      applyMeasureCanvas(c);URL.revokeObjectURL(url);
     };
     img.onerror=()=>{URL.revokeObjectURL(url);toast('Bild konnte nicht geöffnet werden. Bitte JPEG/PNG verwenden.');};
     img.src=url;
@@ -1332,6 +1513,34 @@
     const c=document.createElement('canvas');c.width=measurePhoto.height;c.height=measurePhoto.width;
     const g=c.getContext('2d');g.translate(c.width,0);g.rotate(Math.PI/2);g.drawImage(measurePhoto,0,0);
     measurePhoto=c;measureCrop=null;measurePaint();
+  }
+  function measureRotateCopy(src,turns){
+    if(!turns)return src;
+    const swapped=turns%2===1,c=document.createElement('canvas');c.width=swapped?src.height:src.width;c.height=swapped?src.width:src.height;
+    const ctx=c.getContext('2d');ctx.translate(c.width/2,c.height/2);ctx.rotate(turns*Math.PI/2);ctx.drawImage(src,-src.width/2,-src.height/2);return c;
+  }
+  function measureXQuality(src,region){
+    if(!region)return 0;
+    const ww=Math.round(region.w),hh=Math.round(region.h);if(ww<30||hh<10)return 0;
+    let data;try{data=src.getContext('2d',{willReadFrequently:true}).getImageData(region.x,region.y,ww,hh).data;}catch(e){return 0;}
+    let white=0,dark=0;for(let i=0;i<data.length;i+=16){const lum=.299*data[i]+.587*data[i+1]+.114*data[i+2];if(lum>176)white++;if(lum<90)dark++;}
+    const total=Math.max(1,data.length/16),frac=white/total,background=dark/total;
+    if(frac<.015||frac>.55||background<.2)return 0;
+    return frac*100+Math.min(10,region.w/src.width*15);
+  }
+  function autoOrientMeasurePhoto(){
+    if(!measurePhoto||measureBusy)return;
+    const candidates=[];
+    for(let turns=0;turns<4;turns++){
+      const canvas=measureRotateCopy(measurePhoto,turns),rect=findUpperXRow(canvas);
+      candidates.push({turns,canvas,rect,score:measureXQuality(canvas,rect)});
+    }
+    const current=candidates[0],best=candidates.reduce((a,b)=>b.score>a.score?b:a);
+    // Nur drehen, wenn die neue Lage klar besser aussieht; keine ungesicherte automatische Umorientierung.
+    if(best.turns>0&&best.score>Math.max(8,current.score*1.6)){
+      measurePhoto=best.canvas;measureCrop=null;measurePaint();
+      measureStatus(`Ausrichtung um ${best.turns*90}° korrigiert – X-Vorschau bitte prüfen.`);
+    }else measureStatus('Ausrichtung unverändert. X-Vorschau prüfen oder 90° manuell drehen.');
   }
   function processedMeasurePhoto(mode){
     const r=measureCrop||measureDefaultCrop();if(!r||!measurePhoto)throw new Error('Foto fehlt.');
@@ -1381,22 +1590,21 @@
       const refValue=ref(sample);
       if(refValue!==null&&Math.abs(n-refValue)>5)notes.push(`Der Messwert weicht um mehr als 5 mm vom Referenzwert ${fm(refValue,3)} mm ab. Einheit und Dezimalstelle prüfen.`);
     }
-    warning.textContent=notes.join(' ');warning.hidden=notes.length===0;
+    if(n!==null&&sample)notes.push(...wfCheck(sample,measureTargetStageId,n,value).map(x=>x.text));
+    warning.textContent=[...new Set(notes)].join(' ');warning.hidden=notes.length===0;
   }
   async function recognizeMeasurement(){
     if(!measurePhoto||measureBusy)return;
     measureBusy=true;$('measureRecognize').disabled=true;$('measureAccept').disabled=true;
-    let worker=null;
     try{
-      measureStatus('OCR wird geladen …');await ensureTesseract();
-      worker=await window.Tesseract.createWorker('eng',1);
-      await worker.setParameters({tessedit_char_whitelist:'0123456789.,+-mMinch',load_system_dawg:'0',load_freq_dawg:'0'});
+      measureStatus('OCR bereitstellen …');const worker=await getMeasureWorker();
       const chosen=$('measureFilter').value;
-      const variants=[...new Set([chosen,chosen==='contrast'?'original':'contrast'])];
+      const fast=$('measureOcrSpeed').value==='fast';
+      const variants=fast?[chosen]:[...new Set([chosen,chosen==='contrast'?'original':'contrast'])];
       const all=[],raw=[];
       for(const variant of variants){
         const image=processedMeasurePhoto(variant);
-        for(const psm of (($('measureReadMode').value==='topx')?['7','6']:['7','8'])){
+        for(const psm of (fast?['7']:(($('measureReadMode').value==='topx')?['7','6']:['7','8']))){
           measureStatus(`Anzeige lesen: ${variant} / Modus ${psm} …`);
           await worker.setParameters({tessedit_pageseg_mode:psm});
           const {data}=await worker.recognize(image);
@@ -1434,30 +1642,55 @@
         $('measureWarning').textContent='Möglicherweise Inch-Anzeige. Bitte vor Übernahme auf mm am Messgerät umstellen!';$('measureWarning').hidden=false;
       }else measureWarn();
     }catch(err){console.warn('Messwert-OCR:',err);measureStatus('OCR nicht verfügbar – manuelle Eingabe bleibt möglich.');toast(err.message||'Foto konnte nicht gelesen werden.');}
-    finally{try{await worker?.terminate();}catch(e){}measureBusy=false;$('measureRecognize').disabled=!measurePhoto;$('measureAccept').disabled=false;}
+    finally{measureBusy=false;$('measureRecognize').disabled=!measurePhoto;$('measureAccept').disabled=false;}
   }
   async function acceptMeasurement(){
     if(measureBusy)return;
     const s=state.samples.find(x=>x.id===measureTargetSampleId);
     const validStage=state.stages.some(x=>x.id===measureTargetStageId);
     if(!s||!validStage){toast('Probe oder Prüfzustand existiert nicht mehr.');return;}
-    const val=$('measureProposed').value.trim();const n=number(val);
-    if(n===null){toast('Bitte einen gültigen Messwert eingeben.');$('measureProposed').focus();return;}
-    if(!measurePhoto && !$('measureProposed').value.trim())return;
+    const val=$('measureProposed').value.trim(),n=number(val);
+    if(n===null||Math.abs(n)>100000){toast('Bitte einen gültigen Messwert eingeben.');$('measureProposed').focus();return;}
+    const issues=wfConfirmMessage(s,measureTargetStageId,n,val);
+    if(issues&&!await confirmAction('Messwert auffällig',`${issues} Trotzdem ${val} mm für Probe ${s.nr} speichern?`,'Trotzdem speichern'))return;
     if(number(s.measures[measureTargetStageId])!==null && !await confirmAction('Messwert überschreiben?',`Projekt: ${proj(s.projectId)?.name} · Probe ${s.nr} · Zustand: ${stage(measureTargetStageId)?.name}`, 'Überschreiben'))return;
-    if(Math.abs(n)>100000){toast('Messwert außerhalb des unterstützten Bereichs.');return;}
-    s.measures[measureTargetStageId]=val.replace('.',',');
-    const advance=measureTargetStageId===state.activeStage && $('quickSample').value===s.id;
+    const st=measureTargetStageId,projectId=s.projectId,hadLive=!!measureLiveStream;
+    s.measures[st]=val.replace('.',',');
+    const advance=st===state.activeStage&&state.quickProject===projectId;
     if(advance){quickIndex++;$('quickValue').value='';}
-    closeMeasurePhoto();persist();render();
-    if(advance)refreshQuick(true);
+    persist();render();
+    const next=(advance&&wfSettings.autoNext)?wfNext(s.id,projectId,st):null;
+    if(next){$('quickSample').value=next.id;renderWorkflow();}
     toast(`Messwert ${val} mm gespeichert: ${proj(s.projectId)?.name} / ${s.nr}`);
+    if(wfActive&&next){
+      openMeasurePhoto(next.id);
+      if(hadLive&&measureLiveStream){$('measureLivePanel').hidden=false;measureStatus('Nächste Probe bereit. Live-Kamera läuft – neue Anzeige erfassen.');}
+      return;
+    }
+    if(wfActive&&!next){wfActive=false;toast('Messrunde abgeschlossen.');}
+    closeMeasurePhoto();renderWorkflow();
+  }
+  function skipMeasureTarget(){
+    if(!wfActive||measureBusy)return;
+    const next=wfNext(measureTargetSampleId,state.quickProject,measureTargetStageId);
+    if(!next){toast('Keine weitere Probe verfügbar.');return;}
+    const hadLive=!!measureLiveStream;
+    $('quickSample').value=next.id;openMeasurePhoto(next.id);
+    if(hadLive&&measureLiveStream){$('measureLivePanel').hidden=false;measureStatus('Probe übersprungen. Live-Kamera bereit.');}
   }
   $('quickCamera').onclick=()=>openMeasurePhoto();
   $('measureCamera').onclick=()=>$('measureCameraFile').click();
+  $('measureLiveStart').onclick=startLiveCamera;
+  $('measureCaptureFrame').onclick=captureLiveFrame;
+  $('measureLiveStop').onclick=stopLiveCamera;
+  $('measureSkipTarget').onclick=skipMeasureTarget;
+  $('measureProfileSave').onclick=saveProfile;
+  $('measureProfileDelete').onclick=deleteProfile;
+  $('measureProfile').onchange=applyProfile;
   $('measureGallery').onclick=()=>$('measureGalleryFile').click();
   for(const id of ['measureCameraFile','measureGalleryFile'])$(id).addEventListener('change',e=>{loadMeasureFile(e.target.files?.[0]);e.target.value='';});
   $('measureRotate').onclick=rotateMeasurePhoto;
+  $('measureAutoOrient').onclick=autoOrientMeasurePhoto;
   $('measurePresetTop').onclick=()=>{setMeasureTopPreset();measureStatus('Ausschnitt auf oberen X-Wert gesetzt.');};
   $('measureResetCrop').onclick=()=>{measureCrop=null;measurePaint();};
   $('measureSavePreset').onclick=()=>{const rect=measureCrop||measureDefaultCrop(); if(saveMeasurePreset(rect)) {toast('Messgeräte-Ausschnitt gespeichert.'); measureStatus('Ausschnitt gespeichert – wird künftig für den oberen X-Wert vorgeschlagen.');} else toast('Ausschnitt konnte nicht gespeichert werden.');};
@@ -1468,12 +1701,25 @@
   $('measureProposed').addEventListener('input',measureWarn);
   $('measureModalCover').addEventListener('click',e=>{if(e.target===$('measureModalCover'))closeMeasurePhoto();});
 
+  // V1.8 workflow controls.
+  wfLoad();loadProfiles();
+  $('wfAutoNext').checked=!!wfSettings.autoNext;$('wfSkipFilled').checked=!!wfSettings.skipFilled;$('wfChecks').checked=!!wfSettings.checks;
+  $('wfMaxDeviation').value=wfSettings.maxDeviation;$('wfMaxChange').value=wfSettings.maxChange;
+  for(const id of ['wfAutoNext','wfSkipFilled','wfChecks','wfMaxDeviation','wfMaxChange'])$(id).addEventListener('change',wfStore);
+  $('wfStart').onclick=()=>{
+    if(!state.samples.some(s=>s.projectId===state.quickProject)){toast('Bitte eine Sorte mit Proben auswählen.');return;}
+    if(wfSettings.skipFilled&&!wfEligible().length){toast('Alle Proben dieser Sorte im aktuellen Zustand sind bereits gemessen.');return;}
+    wfActive=true;refreshQuick(true);const s=state.samples.find(s=>s.id===$('quickSample').value);
+    if(s)openMeasurePhoto(s.id);renderWorkflow();
+  };
+  $('wfStop').onclick=()=>{wfActive=false;if($('measureModalCover').style.display!=='none')closeMeasurePhoto();renderWorkflow();toast('Geführte Messrunde beendet.');};
+  window.addEventListener('pagehide',()=>{stopLiveCamera();try{measureWorker?.terminate();}catch(e){}measureWorker=null;measureWorkerPromise=null;});
   // Controls and actions
   loadState();render();
   for(const id of coreFields){
     $(id).addEventListener(id==='mode'?'change':'input',()=>{state[id]=$(id).value;persist();if(id==='mode'||id==='tolMinus'||id==='tolPlus'){renderKpis();renderTable();renderComparison();$('formula').textContent=state.mode==='radius'?'Abweichung = Messwert − (Soll-Durchmesser / 2)':'Abweichung = Messwert − Soll-Durchmesser';}});
   }
-  for(const id of ['activeStage','compareStart','compareEnd'])$(id).addEventListener('change',()=>{state[id]=$(id).value;quickIndex=0;saveAndRender();refreshQuick(id==='activeStage');});
+  for(const id of ['activeStage','compareStart','compareEnd'])$(id).addEventListener('change',()=>{state[id]=$(id).value;quickIndex=0;if(id==='activeStage')wfActive=false;saveAndRender();refreshQuick(id==='activeStage');});
   for(const id of ['filterProject','filterStatus','sort'])$(id).addEventListener('change',()=>{state[id]=$(id).value;if(id==='filterProject'&&state.filterProject!=='all')state.quickProject=state.filterProject;saveAndRender();});
   $('addProject').onclick=addProject;
   $('numberingMode').addEventListener('change',updateNumberingMode);
@@ -1550,17 +1796,17 @@
   $('cancelManualSingle').onclick=dismissManualSample;
   $('manualSingleNr').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveManualSample();}});
   $('sampleModalCover').addEventListener('click',e=>{if(e.target===$('sampleModalCover'))dismissManualSample();});
-  $('quickProject').addEventListener('change',()=>{state.quickProject=$('quickProject').value;quickIndex=0;persist();refreshQuick(true);});
-  $('quickSample').addEventListener('change',()=>{$('quickValue').focus();});
+  $('quickProject').addEventListener('change',()=>{state.quickProject=$('quickProject').value;quickIndex=0;wfActive=false;persist();refreshQuick(true);});
+  $('quickSample').addEventListener('change',()=>{renderWorkflow();$('quickValue').focus();});
   $('quickSave').onclick=saveQuick;$('quickSkip').onclick=skipQuick;
   $('quickValue').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveQuick();}});
   $('newSeries').onclick=async()=>{
     if(!(await confirmAction('Neue Messreihe beginnen?',`Alle aktuellen ${state.samples.length} Proben und deren Messwerte werden durch eine neue Vorlage (2 × 10 Proben) ersetzt. Zuvor eine JSON-Sicherung erstellen.`,'Neu beginnen')))return;
-    state=defaultState();quickIndex=0;saveAndRender();toast('Neue Messreihe vorbereitet.');
+    state=defaultState();quickIndex=0;wfActive=false;saveAndRender();toast('Neue Messreihe vorbereitet.');
   };
   $('loadDemo').onclick=async()=>{
     if(hasMeasurements()&&!(await confirmAction('Beispiel laden?', 'Die aktuellen Daten werden durch zwei Beispielsorten mit je 10 Proben und drei Messzuständen ersetzt. Bitte zuvor sichern.','Beispiel laden')))return;
-    state=loadDemo();quickIndex=0;saveAndRender();toast('Demo geladen: 2 Sorten × 10 Proben × 3 Zustände.');
+    state=loadDemo();quickIndex=0;wfActive=false;saveAndRender();toast('Demo geladen: 2 Sorten × 10 Proben × 3 Zustände.');
   };
   $('exportXlsx').onclick=()=>{try{download(buildExcel(),safeFile('xlsx'),'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');toast('Excel exportiert: Messwerte, Vergleich, Auswertung und Stammdaten.');}catch(err){console.error(err);toast('Excel-Export fehlgeschlagen: '+err.message);}};
   $('exportCsv').onclick=csvExport;$('exportJson').onclick=jsonExport;

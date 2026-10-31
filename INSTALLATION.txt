@@ -1,25 +1,56 @@
-BECKER MESSREIHEN V1.6.2 - iPhone und GitHub Pages
+BECKER TOOLS – MESSREIHEN V1.8.0 (V1.7 + V1.8)
+====================================================
 
-1. Bestehende Messreihe zuerst als JSON sichern.
-2. Die Dateien index.html, manifest.webmanifest, sw.js, icon-192.png
-   und icon-512.png in das Stammverzeichnis des GitHub-Pages-Repositories hochladen.
-3. Danach dieselbe GitHub-Pages-URL in Safari öffnen und neu laden.
-4. Ggf. die Seite im Safari-Tab schließen und neu öffnen, wenn noch
-   die vorherige Version aus dem Cache angezeigt wird.
-5. Auf Wunsch in Safari: Teilen > Zum Home-Bildschirm.
+INSTALLATION / UPDATE MIT GITHUB PAGES
 
-MESSWERT PER FOTO:
-- Probe und Prüfzustand auswählen, Kamera-Symbol antippen.
-- Foto der Digitalanzeige aufnehmen oder aus der Fotomediathek auswählen.
-- Im X-Modus zeigt die Vorschau ausschließlich den oberen Zahlenstreifen.
-  Ist der Z-Wert sichtbar, den Rahmen manuell enger auf die X-Zeile ziehen.
-- Auf 'Zahlenanzeige erkennen' tippen. Wert und Einheit kontrollieren.
-- Erst danach 'Wert übernehmen' antippen.
-- Bei wiederkehrendem Bildaufbau 'Ausschnitt merken' verwenden.
+1) Vor der Aktualisierung: bestehende Messreihe als JSON sichern.
+2) Alle Dateien aus diesem ZIP in dasselbe Verzeichnis wie bisher
+   auf GitHub Pages hochladen und die alten Dateien ersetzen:
+   index.html, sw.js, manifest.webmanifest, icon-192.png, icon-512.png
+3) In Safari die bisherige GitHub-Pages-Adresse neu laden.
+4) Wenn die alte Version noch erscheint: Safari-Tab schließen,
+   URL neu aufrufen und ggf. Website-Cache leeren.
+5) Bei Nutzung als Home-Bildschirm-App ggf. die App beenden
+   und neu öffnen. Der bestehende lokale Speicher bleibt
+   bei gleichbleibender Website-Adresse normalerweise erhalten.
 
-HINWEISE:
-- Die automatische X-Zeilensuche ist auf helle Ziffern auf dunklem Display
-  ausgelegt. Bei anderem Bildaufbau kann man den Bereich per Finger markieren.
-- OCR benötigt beim ersten Einsatz eine Internetverbindung (Tesseract.js).
-- Kamera-Fotos und Messwerte werden ohne ausdrücklichen Export lokal verarbeitet.
-- Die Software ist keine metrologisch validierte Messdatenerfassung.
+SICHERHEITSHINWEIS: JSON-Sicherung vorher erstellen; lokale
+Browserdaten lassen sich nicht geräteübergreifend synchronisieren.
+
+NEUER SCHNELLMESS-WORKFLOW (V1.7)
+
+1) In Abschnitt "Schnellerfassung" Sorte und Prüfzustand auswählen.
+2) Optional: Checkboxen zum automatischen Wechsel, Überspringen
+   bereits gemessener Proben und Plausibilitätskontrolle setzen.
+3) Toleranz für Referenzabweichung und Änderung zwischen Zuständen
+   optional einstellen. Eingabe 0 = Prüfung ausgeschaltet.
+4) "Geführte Messrunde starten" wählen.
+5) Messgerät per Foto oder Live-Kamera erfassen, X-Wert lesen lassen,
+   kontrollieren und bestätigen. Nächste Probe wird vorbereitet.
+6) "Probe überspringen" bei unklarer Messung verwenden.
+7) Bei auffälligen Werten nur nach ausdrücklicher Bestätigung speichern.
+
+KAMERA & MESSGERÄTEPROFILE (V1.8)
+
+- "Live-Kamera" verlangt eine moderne Browser-Version mit HTTPS;
+  bei Problemen "Fotografieren" oder "Bild auswählen" verwenden.
+- "Messgerätanzeige erfassen" übernimmt ein Standbild aus dem
+  laufenden Kamerabild. Die Kamera kann beim Probenwechsel offenbleiben.
+- "Live-Aufnahme sofort auslesen" kann optional aktiviert werden.
+- "Auto-Ausrichten" versucht nach 90°-Schritten eine besser passende
+  Bildorientierung. X-Vorschau auf jeden Fall kontrollieren.
+- Für wiederkehrende Messgeräte: Foto laden, X-Rahmen anpassen,
+  Profilname eingeben und "Profil speichern / aktualisieren" wählen.
+- "Schnell" nutzt einen OCR-Durchlauf; "Gründlich" prüft mehr Varianten.
+- Für das Beispiel mit X oben und Z unten: nur der obere X-Wert darf
+  in der Bildausschnitt-Vorschau sichtbar sein.
+- Manuelle Eingabe bleibt jederzeit verfügbar.
+
+WICHTIG
+
+- Die OCR muss beim ersten Einsatz Tesseract.js aus dem Internet laden.
+- Fotoaufnahme und Texterkennung erfolgen im Browser; Fotos werden nicht
+  als Projektbestandteil gespeichert oder an einen Bilderkennungsdienst gesendet.
+- Messwerte und Profile sind nur lokal auf dem jeweiligen Gerät gespeichert.
+- Kontrolliere jeden erkannten Wert und die Einheit mm.
+- Die Software ersetzt keine metrologische Prüfung oder Validierung.
