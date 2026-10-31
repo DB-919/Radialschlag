@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Becker Messreihen">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Becker Tools | Messreihen V1.6.0</title>
+<title>Becker Tools | Messreihen V1.6.1</title>
 <style>
 :root{--ink:#192f41;--muted:#6a7e8a;--line:#dfebee;--bg:#f3f7f8;--navy:#142d40;--teal:#087e81;--red:#be3545;--shadow:0 10px 28px #143d5010}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:3px solid #8adcd2;outline-offset:2px}
@@ -75,18 +75,19 @@
 .measure-preview{position:relative;min-height:135px;max-height:320px;display:flex;justify-content:center;align-items:center;background:#f5f7f8;border:1px dashed #b7cfd7;border-radius:12px;overflow:hidden}
 .measure-preview canvas{display:none;max-width:100%;max-height:320px;width:auto;height:auto;touch-action:none;cursor:crosshair}
 .measure-preview p{padding:10px 17px;color:#82939c;text-align:center}
-.measure-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:13px}
+.measure-options{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:13px}
 .measure-suggestions{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:9px 0 5px;min-height:14px;font-size:12px}
 .measure-chip{border:1px solid #c8dbe1;background:#f7fafb;color:#1d495a;border-radius:8px;padding:6px 10px;font-size:14px;font-weight:740}
 .measure-warning{margin:10px 0;border:1px solid #ebd2a2;border-radius:9px;background:#fff8ea;color:#805c16;padding:10px 12px;font-size:12px}
 .measure-warning[hidden]{display:none}.measure-footer{justify-content:flex-end;margin-top:15px}
 @media(max-width:680px){.measure-modal{padding:14px 15px;max-height:100dvh}.measure-options{gap:8px}.measure-preview{max-height:265px}.measure-preview canvas{max-height:265px}.measure-footer .btn{flex:1}}
-@media(max-width:390px){.measure-options{grid-template-columns:1fr}}
+@media(max-width:760px){.measure-options{grid-template-columns:1fr 1fr}}
+@media(max-width:430px){.measure-options{grid-template-columns:1fr}}
 
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Lokale Kreissuche · OCR · Excel · V1.6.0</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
+<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Lokale Kreissuche · OCR · Excel · X-Wert · V1.6.1</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
 <main class="main wrap">
 <section class="card pad"><div class="head"><h2>01 / Messreihe</h2><div class="buttons"><button class="btn tiny" id="loadDemo">Demo: 2 × 10 Proben</button><button class="btn tiny danger" id="newSeries">Neue Messreihe</button></div></div>
 <div class="fields"><div class="field"><label for="series">Bezeichnung / Messreihe</label><input id="series" placeholder="z. B. WB-Versuch T7 – Oktober"></div><div class="field"><label for="date">Prüfdatum</label><input type="date" id="date"></div><div class="field"><label for="inspector">Prüfer</label><input id="inspector" placeholder="Name / Kürzel"></div><div class="field"><label for="mode">Messverfahren</label><select id="mode"><option value="radius">Radius (Ø / 2)</option><option value="diameter">Durchmesser (Ø)</option></select></div><div class="field"><label for="tolMinus">Δ Untergrenze [mm]</label><input id="tolMinus" inputmode="decimal" placeholder="z. B. -0,5"></div></div>
@@ -105,7 +106,7 @@
 <div class="bottom"><section class="card pad quick"><div class="head"><h2>05 / Schnellerfassung</h2><span id="quickProgress" class="tag">–</span></div><p class="muted" style="margin-top:-9px">Sorte und Proben-Nr. eindeutig auswählen, Messwert manuell eingeben oder die Digitalanzeige des Messgeräts fotografieren.</p><div class="quickgrid"><div class="field"><label for="quickProject">Projekt / Sorte</label><select id="quickProject"></select></div><div class="field"><label for="quickSample">Probe</label><select id="quickSample"></select></div><div class="field"><label for="quickValue">Messwert [mm]</label><input id="quickValue" inputmode="decimal" autocomplete="off" placeholder="10,236"></div></div><div class="buttons" style="margin-top:14px"><button class="btn primary" id="quickSave" style="flex:1">Messwert speichern →</button><button class="btn" id="quickCamera">📷 Messwert fotografieren</button><button class="btn" id="quickSkip">Überspringen</button></div><p class="hint" id="quickHint"></p></section>
 <section class="card pad"><div class="head"><h2>06 / Vergleich der Prüfzustände</h2><span id="compareCaption" class="tag"></span></div><div class="tablewrap"><table class="comparetable"><thead><tr><th>Projekt / Sorte</th><th>Vollständige Paare</th><th>Ø Änderung [mm]</th><th>Min [mm]</th><th>Max [mm]</th></tr></thead><tbody id="compareBody"></tbody></table></div></section></div>
 <section class="card pad"><div class="head"><h2>Maßänderung je Probe</h2><small>Endmessung − Ausgangsmessung · gleiche Probe über mehrere Prüfzustände</small></div><div id="chart" class="chart"><div class="empty">Noch keine vollständigen Vergleichspaare vorhanden.</div></div><div class="legend" id="chartCaption">Positive Werte = Maßzunahme · negative Werte = Maßabnahme</div></section>
-<p class="footapp">Becker Tools – Messreihen V1.6.0 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
+<p class="footapp">Becker Tools – Messreihen V1.6.1 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
 </main>
 <input id="fileCsv" type="file" accept=".csv,.txt,text/plain,text/csv" hidden><input id="fileJson" type="file" accept=".json,application/json" hidden>
 <!-- Messgerät-OCR: separates Foto, gespeicherte Messreihe wird erst nach Bestätigung verändert. -->
@@ -114,14 +115,15 @@
 <div class="modalcover" id="measureModalCover" style="display:none" role="presentation">
  <div class="modal measure-modal" role="dialog" aria-modal="true" aria-labelledby="measureModalTitle">
   <div class="head" style="margin-bottom:7px"><h2 id="measureModalTitle">📷 Messwert vom Messgerät</h2><button class="btn tiny" id="measureCloseTop" type="button" aria-label="Schließen">✕</button></div>
-  <p class="hint" style="margin:0 0 12px">Fotografiere die <b>Digitalanzeige</b> eines Messgeräts (nicht das Bauteil selbst). Dezimalpunkt, Vorzeichen und Einheit sollten gut erkennbar sein.</p>
+  <p class="hint" style="margin:0 0 12px">Fotografiere die <b>Digitalanzeige</b> eines Messgeräts (nicht das Bauteil selbst). Für deinen Anwendungsfall ist standardmäßig der <b>obere X-Wert</b> aktiviert; der untere Z-Wert soll ignoriert werden.</p>
   <div class="measure-target" id="measureTarget">–</div>
-  <div class="buttons" style="margin:12px 0 10px"><button type="button" class="btn primary" id="measureCamera">📷 Fotografieren</button><button type="button" class="btn" id="measureGallery">▧ Bild auswählen</button><button type="button" class="btn" id="measureRotate" disabled>↻ 90° drehen</button><button type="button" class="btn" id="measureResetCrop" disabled>Ausschnitt zurücksetzen</button></div>
+  <div class="buttons" style="margin:12px 0 10px"><button type="button" class="btn primary" id="measureCamera">📷 Fotografieren</button><button type="button" class="btn" id="measureGallery">▧ Bild auswählen</button><button type="button" class="btn" id="measureRotate" disabled>↻ 90° drehen</button><button type="button" class="btn" id="measurePresetTop" disabled>⊞ Oberer X-Wert</button><button type="button" class="btn" id="measureResetCrop" disabled>Ausschnitt zurücksetzen</button><button type="button" class="btn" id="measureSavePreset" disabled>💾 Ausschnitt merken</button></div>
   <div class="measure-preview"><canvas id="measureCanvas" width="600" height="260" aria-label="Digitalanzeige: einen Rahmen um die Zahl ziehen"></canvas><p id="measureEmpty">Foto auswählen. Anschließend den Zahlenbereich mit dem Finger einrahmen.</p></div>
-  <p class="hint">Ziehe einen Rahmen <b>eng um den angezeigten Zahlenwert</b> oder nutze den vorbereiteten mittigen Ausschnitt. Die Markierung lässt sich wiederholen.</p>
+  <p class="hint">Im Modus <b>„Nur oberer X-Wert“</b> setzt die App automatisch einen passenden Ausschnitt für die obere Anzeige. Du kannst ihn bei Bedarf verschieben oder einen eigenen Rahmen ziehen.</p>
   <div class="measure-options">
    <div class="field"><label for="measureFilter">Bildaufbereitung</label><select id="measureFilter"><option value="contrast">Kontrast (empfohlen)</option><option value="original">Original</option><option value="binary">Schwarz-Weiß</option><option value="invert">Invertierte Anzeige</option></select></div>
    <div class="field"><label for="measureDecimals">Dezimalstellen</label><select id="measureDecimals"><option value="auto">Automatisch</option><option value="2">2 Nachkommastellen</option><option value="3">3 Nachkommastellen</option><option value="4">4 Nachkommastellen</option></select></div>
+   <div class="field"><label for="measureReadMode">Erkennungsmodus</label><select id="measureReadMode"><option value="topx">Nur oberer X-Wert</option><option value="manual">Freier Ausschnitt</option></select></div>
   </div>
   <div class="buttons" style="margin:13px 0"><button class="btn primary" id="measureRecognize" type="button" disabled>Zahlenanzeige erkennen</button><span id="measureOcrStatus" class="tag" role="status" aria-live="polite">Noch kein Foto geladen</span></div>
   <div class="field"><label for="measureProposed">Erkannter Messwert [mm] – kontrollieren und ggf. korrigieren</label><input id="measureProposed" inputmode="decimal" autocomplete="off" placeholder="z. B. 10,236" style="font-size:25px;font-weight:800;letter-spacing:.03em"></div>
@@ -225,7 +227,7 @@
     const projects=[mkProject('Sorte 1','19,22'),mkProject('Sorte 2','19,22')];
     const stages=[mkStage('vor WB'),mkStage('nach Lösungsglühen'),mkStage('nach T7')];
     const samples=[];addGenerated(samples,projects[0],10,'S1-');addGenerated(samples,projects[1],10,'S2-');
-    return {version:2,series:'Neue Messreihe',date:today(),inspector:'',mode:'radius',tolMinus:'',tolPlus:'',projects,stages,samples,activeStage:stages[0].id,compareStart:stages[0].id,compareEnd:stages[2].id,filterProject:'all',filterStatus:'all',sort:'original',quickProject:projects[0].id};
+    return {version:3,series:'Neue Messreihe',date:today(),inspector:'',mode:'radius',tolMinus:'',tolPlus:'',projects,stages,samples,activeStage:stages[0].id,compareStart:stages[0].id,compareEnd:stages[2].id,filterProject:'all',filterStatus:'all',sort:'original',quickProject:projects[0].id};
   }
   let state=defaultState();let quickIndex=0;let modalResolve=null;
   function number(v){
@@ -1126,7 +1128,7 @@
       // Kurzer Fokuslauf: zwei Bildvarianten und beide Einzelwort-/Einzelzeilenmodi.
       for(const mode of [...new Set([preferred,preferred==='local'?'original':'local'])]){
         const image=photoFocusOcrImage(mode);
-        for(const psm of ['7','8']){
+        for(const psm of (($('measureReadMode').value==='topx')?['7','13','8']:['7','8'])){
           label.textContent=`Stempel lesen: ${mode} · OCR-Modus ${psm}`;
           await worker.setParameters({tessedit_pageseg_mode:psm});
           const {data}=await worker.recognize(image);
@@ -1165,6 +1167,27 @@
   // Unabhängig von der OCR der eingeprägten Proben-NUMMERN.
   let measureTargetSampleId='',measureTargetStageId='',measurePhoto=null,measureCrop=null,measureDrag=null,measureBusy=false;
   const measureCanvas=$('measureCanvas');
+  const MEASURE_PRESET_KEY='becker_messreihen_measure_preset_v1';
+  function loadMeasurePreset(){
+    try{const obj=JSON.parse(localStorage.getItem(MEASURE_PRESET_KEY)||'null');
+      if(obj&&Number.isFinite(obj.x)&&Number.isFinite(obj.y)&&Number.isFinite(obj.w)&&Number.isFinite(obj.h))return obj;
+    }catch(e){}
+    return null;
+  }
+  function saveMeasurePreset(rect){
+    if(!rect||!measurePhoto)return false;
+    const rel={x:rect.x/measurePhoto.width,y:rect.y/measurePhoto.height,w:rect.w/measurePhoto.width,h:rect.h/measurePhoto.height};
+    try{localStorage.setItem(MEASURE_PRESET_KEY,JSON.stringify(rel));return true;}catch(e){return false;}
+  }
+  function presetToRect(preset){
+    if(!preset||!measurePhoto)return null;
+    const W=measurePhoto.width,H=measurePhoto.height;
+    const x=Math.max(0,Math.min(W-1,Math.round(preset.x*W)));
+    const y=Math.max(0,Math.min(H-1,Math.round(preset.y*H)));
+    const w=Math.max(20,Math.min(W-x,Math.round(preset.w*W)));
+    const h=Math.max(20,Math.min(H-y,Math.round(preset.h*H)));
+    return {x,y,w,h};
+  }
   function measureStatus(message){$('measureOcrStatus').textContent=message;}
   function openMeasurePhoto(sampleId=''){
     const selected=sampleId || $('quickSample').value;
@@ -1173,9 +1196,9 @@
     measureTargetSampleId=sample.id;measureTargetStageId=state.activeStage;
     measurePhoto=null;measureCrop=null;measureDrag=null;
     $('measureProposed').value='';$('measureRaw').textContent='–';$('measureSuggestions').replaceChildren();$('measureWarning').hidden=true;
-    $('measureFilter').value='contrast';$('measureDecimals').value='auto';
+    $('measureFilter').value='contrast';$('measureDecimals').value='3';$('measureReadMode').value='topx';
     $('measureCanvas').style.display='none';$('measureEmpty').hidden=false;
-    $('measureRotate').disabled=$('measureResetCrop').disabled=$('measureRecognize').disabled=true;
+    $('measureRotate').disabled=$('measureResetCrop').disabled=$('measureRecognize').disabled=$('measurePresetTop').disabled=$('measureSavePreset').disabled=true;
     $('measureTarget').textContent=`Projekt: ${proj(sample.projectId)?.name||'–'}  ·  Probe: ${sample.nr}  ·  Zustand: ${stage(measureTargetStageId)?.name||'–'}  ·  bisher: ${sample.measures[measureTargetStageId]||'–'} mm`;
     measureStatus('Foto auswählen oder manuell Messwert eingeben.');
     $('measureModalCover').style.display='flex';
@@ -1194,8 +1217,15 @@
   function measureDefaultCrop(){
     if(!measurePhoto)return null;
     const W=measurePhoto.width,H=measurePhoto.height;
-    return {x:W*.1,y:H*.2,w:W*.8,h:H*.6};
+    const mode=$('measureReadMode')?.value||'topx';
+    if(mode==='topx'){
+      const stored=loadMeasurePreset();
+      if(stored){const r=presetToRect(stored);if(r)return r;}
+      return {x:Math.round(W*0.13),y:Math.round(H*0.16),w:Math.round(W*0.52),h:Math.round(H*0.18)};
+    }
+    return {x:Math.round(W*.1),y:Math.round(H*.2),w:Math.round(W*.8),h:Math.round(H*.6)};
   }
+  function setMeasureTopPreset(){if(!measurePhoto)return;measureCrop=measureDefaultCrop();measurePaint();}
   function measurePaint(){
     if(!measurePhoto)return;
     measureCanvas.width=measurePhoto.width;measureCanvas.height=measurePhoto.height;
@@ -1309,14 +1339,14 @@
       const all=[],raw=[];
       for(const variant of variants){
         const image=processedMeasurePhoto(variant);
-        for(const psm of ['7','8']){
+        for(const psm of (($('measureReadMode').value==='topx')?['7','13','8']:['7','8'])){
           measureStatus(`Anzeige lesen: ${variant} / Modus ${psm} …`);
           await worker.setParameters({tessedit_pageseg_mode:psm});
           const {data}=await worker.recognize(image);
           const str=String(data.text||'').trim();raw.push(`${variant} · Modus ${psm}: ${str||'(kein Text)'}`);
           for(const match of parseMeasureCandidates(str)){
             const confidence=Number.isFinite(data.confidence)?data.confidence:0;
-            let score=confidence+(match.estimated?-35:0)+(match.value.includes('.')?12:0);
+            let score=confidence+(match.estimated?-35:0)+(match.value.includes('.')?12:0)+(($('measureReadMode').value==='topx'&&Number(match.value)<1000)?8:0);
             // Bestätigung bleibt zwingend, unabhängig vom Score.
             all.push({...match,confidence,score,source:variant});
           }
@@ -1338,7 +1368,7 @@
         // Keine automatische Vorauswahl extrem abweichender OCR-Ergebnisse.
         // Ein tatsächlich abweichender Messwert bleibt über den Vorschlagsbutton auswählbar.
         $('measureProposed').value=farFromNominal?'':best.value.replace('.',',');
-        measureStatus(farFromNominal?'OCR-Ergebnis auffällig: Bitte korrekten Vorschlag wählen oder selbst eingeben.':`${candidates.length} Vorschläge – bitte Anzeige und Dezimalstellen kontrollieren.`);
+        measureStatus(farFromNominal?'OCR-Ergebnis auffällig: Bitte korrekten Vorschlag wählen oder selbst eingeben.':`${candidates.length} Vorschläge – bitte den oberen X-Wert und die Dezimalstellen kontrollieren.`);
       }else measureStatus('Kein Messwert erkannt. Ausschnitt enger ziehen oder Wert manuell eintragen.');
       const rawCombined=raw.join(' ').toLowerCase();
       if(/\b(inch|inches)\b/.test(rawCombined)){
@@ -1369,7 +1399,10 @@
   $('measureGallery').onclick=()=>$('measureGalleryFile').click();
   for(const id of ['measureCameraFile','measureGalleryFile'])$(id).addEventListener('change',e=>{loadMeasureFile(e.target.files?.[0]);e.target.value='';});
   $('measureRotate').onclick=rotateMeasurePhoto;
+  $('measurePresetTop').onclick=()=>{setMeasureTopPreset();measureStatus('Ausschnitt auf oberen X-Wert gesetzt.');};
   $('measureResetCrop').onclick=()=>{measureCrop=null;measurePaint();};
+  $('measureSavePreset').onclick=()=>{const rect=measureCrop||measureDefaultCrop(); if(saveMeasurePreset(rect)) {toast('Messgeräte-Ausschnitt gespeichert.'); measureStatus('Ausschnitt gespeichert – wird künftig für den oberen X-Wert vorgeschlagen.');} else toast('Ausschnitt konnte nicht gespeichert werden.');};
+  $('measureReadMode').addEventListener('change',()=>{if(measurePhoto){measureCrop=null;measurePaint();measureStatus($('measureReadMode').value==='topx'?'Modus „oberer X-Wert“ aktiv.':'Freier Ausschnitt aktiv.');}});
   $('measureRecognize').onclick=recognizeMeasurement;
   $('measureAccept').onclick=acceptMeasurement;
   $('measureCancel').onclick=$('measureCloseTop').onclick=closeMeasurePhoto;
