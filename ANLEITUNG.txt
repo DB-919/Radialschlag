@@ -1,45 +1,43 @@
-BECKER TOOLS MESSREIHEN – V1.4.1
+BECKER TOOLS MESSREIHEN – V1.5.0
 ===================================
+NEU: Stempel-Lupe für schwer erkennbare, gedrehte Gravuren.
 
-Fehlerkorrektur gegenüber V1.4.0:
-Die runden Stirnflächen werden jetzt durch einen eigenen Bildalgorithmus
-im Browser gefunden. OpenCV.js ist hierfür nicht mehr notwendig.
+VERWENDUNG
+1. Foto wählen, Sorte/Projekt auswählen, Stirnflächen finden.
+2. Runde Markierungen kontrollieren und fehlende Kreise antippen.
+3. Bei einer Probe auf „Lupe“ tippen.
+4. Nummer möglichst waagerecht drehen (Schieberegler).
+5. Kleines Rechteck direkt um die Ziffern ziehen. Tesseract liest
+   ausschließlich dieses Feld. Bei Bedarf Lokalkontrast versuchen.
+6. Gewünschte Ziffernzahl wählen; „Nur Nummernfeld erkennen“ drücken.
+7. Nummer am Bauteilbild prüfen, bei Bedarf korrigieren.
+8. „Nummer übernehmen und weiter“ wählen.
+9. Zum Schluss Liste prüfen und geprüfte Nummern übernehmen.
+10. Messwerte erfassen und echte XLSX-Datei exportieren.
 
-ANWENDUNG
-1. Projekt / Sorte auswählen und "Probennummern aus Foto" öffnen.
-2. Foto aufnehmen oder aus der Galerie wählen.
-3. "Stirnflächen finden" antippen – markierte Kreise kontrollieren.
-   Im bereitgestellten Musterfoto wurden 21 Kreisflächen erkannt.
-4. Irrtümlich markierte Kreise entfernen oder fehlende ergänzen:
-   "Fehlende Probe antippen" aktivieren und auf das Foto tippen.
-5. "Nummern erkennen" antippen. Hierfür wird Tesseract.js benötigt;
-   beim ersten Aufruf ist Internet zum Laden der Bibliothek notwendig.
-6. Alle Nummern gegen das Foto prüfen. Fehlerhafte oder nicht erkannte
-   Nummern in den Einzelprobenfeldern korrigieren. Auch längere Nummern
-   werden übernommen.
-7. "Geprüfte Nummern übernehmen"; anschließend Messwerte erfassen
-   und als .xlsx exportieren.
+AUFNAHME-TIPPS
+- Nicht alle 20 Proben aus großer Entfernung: in Gruppen von 4–6 fotografieren.
+- iPhone möglichst lotrecht; Fokus auf Stirnflächen setzen.
+- Diffuses, seitliches Licht statt Blitz; keine starken Reflexionen.
+- Ziffern groß und scharf aufnehmen; möglichst stabile Ablage.
 
 HINWEISE
-- Die automatische Erkennung von geprägten Nummern auf rauem Metall
-  ist mit allgemeiner OCR nur eingeschränkt zuverlässig. Wenn die OCR
-  nicht lädt, die schon erkannten Kreisflächen manuell beschriften.
-- Die Kreisfindung läuft offline. Fotos werden nicht an einen
-  eigenen Server gesendet und nicht im Messprojekt gespeichert.
-- Proben-/Projektinformationen werden im Browser gespeichert.
-  Vor Aktualisierung unbedingt zuerst eine JSON-Sicherung erstellen.
+- Die automatische Erkennung der Prägungen ist weiterhin nicht zuverlässig
+  genug für eine unbeaufsichtigte automatische Übernahme.
+- Die Stempel-Lupe soll gezielte Ausschnitte und eine schnelle manuelle
+  Korrektur ermöglichen. Eine reale Qualitätssteigerung der OCR muss im
+  Praxisversuch auf mehreren Bauteilfotos geprüft werden.
+- Fotos verbleiben im Browser; OCR lädt die Bibliothek aus dem Internet.
+- Vor Aktualisierung JSON-Projektsicherung anlegen.
 
-AKTUALISIEREN (GitHub Pages)
-1. JSON-Sicherung erstellen.
-2. Alle Dateien dieser ZIP in dasselbe Repository hochladen.
-3. Die bisherige index.html, sw.js und manifest.webmanifest ersetzen.
-4. App komplett schließen, Safari/Startbildschirm-App neu starten.
-   Bei angezeigter alter Version die Webseite erneut laden.
+INSTALLATION MIT GITHUB PAGES
+1. ZIP entpacken; alle enthaltenen Dateien ins bestehende Repository laden.
+2. Vorhandene index.html, sw.js und manifest.webmanifest ersetzen.
+3. App beenden, neu öffnen, ggf. Webseite aktualisieren.
 
 TESTSTATUS
-- Originalfoto: 21 Kreise (Browser, keine OpenCV-Datei geladen).
-- Mobilgröße: 21 Kreise (Chromium emulierte mobile Ansicht).
-- OCR-Ablauf/Übernahme: Test mit simulierten OCR-Werten, inkl. langer Nummern.
-- Excel-Dateistruktur: geöffnet und geprüft (openpyxl).
-- Eine echte Safari-auf-iPhone-Prüfung und zuverlässige OCR-Lesung der
-  Metallprägungen sind noch nicht nachgewiesen.
+- 21 Stirnflächen am bereitgestellten Foto erkannt (lokaler Browser-Test).
+- Lupe: markieren, drehen, filtern, simulierte OCR, Nummer kontrollieren
+  und Übernahme: Browser-Test bestanden.
+- XLSX-Datei mit openpyxl geöffnet und Blätter validiert.
+- Tatsächliche OCR-Lesegenauigkeit auf iPhone/Safari nicht nachgewiesen.

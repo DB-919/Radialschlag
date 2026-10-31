@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Becker Messreihen">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Becker Tools | Messreihen V1.4.1</title>
+<title>Becker Tools | Messreihen V1.5.0</title>
 <style>
 :root{--ink:#192f41;--muted:#6a7e8a;--line:#dfebee;--bg:#f3f7f8;--navy:#142d40;--teal:#087e81;--red:#be3545;--shadow:0 10px 28px #143d5010}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:3px solid #8adcd2;outline-offset:2px}
@@ -32,7 +32,7 @@
 .photo-footer{margin-top:17px;justify-content:flex-end}
 @media(max-width:720px){.photo-modal{padding:14px 15px;max-height:100dvh;border-radius:11px}.photo-settings{grid-template-columns:1fr;gap:8px}.photo-modal .buttons .btn{white-space:normal}.photo-preview{max-height:270px}.photo-preview canvas{max-height:270px}.photo-footer .btn{flex:1}}
 
-/* V1.4.1: individuelle Stirnflächen mit unabhängiger Drehwinkel-OCR */
+/* V1.5.0: individuelle Stirnflächen mit unabhängiger Drehwinkel-OCR */
 .photo-advanced{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:10px;margin-top:10px}
 .photo-advanced .hint{font-size:10px;margin:4px 0 0}
 .photo-face-actions{flex-wrap:wrap}
@@ -49,10 +49,26 @@
 .face-remove{border:0;background:#f1f4f5;color:#667;border-radius:6px;padding:3px 6px;align-self:flex-start;cursor:pointer}
 @media(max-width:740px){.photo-advanced{grid-template-columns:1fr 1fr}.photo-advanced .field:first-child{grid-column:span 2}.photo-face-grid{grid-template-columns:1fr 1fr;max-height:280px}.photo-face-thumb{width:55px;height:55px}.photo-face-card{padding:5px}.photo-face-actions .btn{flex:1 1 42%}}
 @media(max-width:400px){.photo-face-grid{grid-template-columns:1fr}.photo-face-thumb{width:68px;height:68px}}
+
+/* Präzisions-Lupe: der Benutzer markiert die tatsächliche Stempelgravur */
+.photo-focus-panel{border:1px solid #bbd9da;background:#f7fbfb;border-radius:14px;padding:14px;margin:15px 0}
+.photo-focus-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.photo-focus-heading{font-weight:800;margin-right:auto}
+.photo-focus-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:10px}
+.photo-focus-controls label{font-size:12px;color:#526978;font-weight:700;display:block}
+.photo-focus-controls input,.photo-focus-controls select{width:100%;min-height:38px;background:white;border:1px solid #cddde0;border-radius:8px;padding:7px}
+.photo-focus-canvas{display:block;width:min(100%,470px);height:auto;touch-action:none;background:#fff;border:1px solid #ccdce0;border-radius:10px;margin:auto;cursor:crosshair}
+.photo-focus-read{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.photo-focus-entry{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.photo-focus-entry .field{flex:1 1 160px}
+.photo-focus-entry input{font-size:19px;font-weight:700}
+.photo-focus-status{font-size:12px;color:#526978;margin:8px 0}
+.photo-face-zoom{border:1px solid #b8d9d7;color:#087e81;background:#eef9f8;border-radius:6px;font-size:12px;padding:6px;cursor:pointer;align-self:center}
+@media(max-width:740px){.photo-focus-controls{grid-template-columns:1fr 1fr}.photo-focus-controls>div:first-child{grid-column:span 2}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Lokale Kreissuche · OCR · Excel · V1.4.1</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
+<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Lokale Kreissuche · OCR · Excel · V1.5.0</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
 <main class="main wrap">
 <section class="card pad"><div class="head"><h2>01 / Messreihe</h2><div class="buttons"><button class="btn tiny" id="loadDemo">Demo: 2 × 10 Proben</button><button class="btn tiny danger" id="newSeries">Neue Messreihe</button></div></div>
 <div class="fields"><div class="field"><label for="series">Bezeichnung / Messreihe</label><input id="series" placeholder="z. B. WB-Versuch T7 – Oktober"></div><div class="field"><label for="date">Prüfdatum</label><input type="date" id="date"></div><div class="field"><label for="inspector">Prüfer</label><input id="inspector" placeholder="Name / Kürzel"></div><div class="field"><label for="mode">Messverfahren</label><select id="mode"><option value="radius">Radius (Ø / 2)</option><option value="diameter">Durchmesser (Ø)</option></select></div><div class="field"><label for="tolMinus">Δ Untergrenze [mm]</label><input id="tolMinus" inputmode="decimal" placeholder="z. B. -0,5"></div></div>
@@ -71,7 +87,7 @@
 <div class="bottom"><section class="card pad quick"><div class="head"><h2>05 / Schnellerfassung</h2><span id="quickProgress" class="tag">–</span></div><p class="muted" style="margin-top:-9px">Sorte und Proben-Nr. eindeutig auswählen, Messwert eingeben – mit Enter übernehmen.</p><div class="quickgrid"><div class="field"><label for="quickProject">Projekt / Sorte</label><select id="quickProject"></select></div><div class="field"><label for="quickSample">Probe</label><select id="quickSample"></select></div><div class="field"><label for="quickValue">Messwert [mm]</label><input id="quickValue" inputmode="decimal" autocomplete="off" placeholder="10,236"></div></div><div class="buttons" style="margin-top:14px"><button class="btn primary" id="quickSave" style="flex:1">Messwert speichern →</button><button class="btn" id="quickSkip">Überspringen</button></div><p class="hint" id="quickHint"></p></section>
 <section class="card pad"><div class="head"><h2>06 / Vergleich der Prüfzustände</h2><span id="compareCaption" class="tag"></span></div><div class="tablewrap"><table class="comparetable"><thead><tr><th>Projekt / Sorte</th><th>Vollständige Paare</th><th>Ø Änderung [mm]</th><th>Min [mm]</th><th>Max [mm]</th></tr></thead><tbody id="compareBody"></tbody></table></div></section></div>
 <section class="card pad"><div class="head"><h2>Maßänderung je Probe</h2><small>Endmessung − Ausgangsmessung · gleiche Probe über mehrere Prüfzustände</small></div><div id="chart" class="chart"><div class="empty">Noch keine vollständigen Vergleichspaare vorhanden.</div></div><div class="legend" id="chartCaption">Positive Werte = Maßzunahme · negative Werte = Maßabnahme</div></section>
-<p class="footapp">Becker Tools – Messreihen V1.4.1 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
+<p class="footapp">Becker Tools – Messreihen V1.5.0 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
 </main>
 <input id="fileCsv" type="file" accept=".csv,.txt,text/plain,text/csv" hidden><input id="fileJson" type="file" accept=".json,application/json" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -110,7 +126,25 @@
   <div class="photo-preview" id="photoPreviewWrap"><canvas id="photoPreview" aria-label="Bauteilfoto: Ausschnitt markieren oder mit dem Finger einzelne runde Proben antippen."></canvas><p id="photoEmpty">Noch kein Foto ausgewählt</p></div>
   <p class="hint" id="photoFacesHint">Bei runden Bauteilen zuerst „Stirnflächen finden“, danach ggf. fehlende Kreise mit „Probe antippen“ ergänzen. Kreise können erneut angetippt werden, um sie zu entfernen.</p>
   <div id="photoFaceResults" class="photo-face-results" hidden></div>
-  <p class="hint">Tipp: Nummern scharf und möglichst groß fotografieren. Bei reflektierendem Metall seitliches, diffuses Licht verwenden. Die vorgeschlagenen Nummern unbedingt am Foto kontrollieren: z. B. 6/9 oder 2/5 können verwechselt werden. Mehrere Fotos lassen sich sammeln.</p>
+
+  <section class="photo-focus-panel" id="photoFocusPanel" hidden>
+    <div class="photo-focus-toolbar"><strong class="photo-focus-heading" id="photoFocusHeading">Stempel-Lupe</strong>
+      <button type="button" class="btn tiny" id="photoFocusPrev">← Vorherige</button>
+      <button type="button" class="btn tiny" id="photoFocusNext">Nächste →</button>
+      <button type="button" class="btn tiny" id="photoFocusClose">✕</button>
+    </div>
+    <p class="hint" style="margin:0 0 12px">Das Nummernfeld mit dem Finger einrahmen. Winkel und Kontrast anpassen. Nur dieser Ausschnitt wird gelesen; Ergebnisse vor Übernahme prüfen.</p>
+    <div class="photo-focus-controls">
+      <div><label for="photoFocusAngle">Drehung: <span id="photoFocusAngleValue">0°</span></label><input id="photoFocusAngle" type="range" min="-180" max="180" step="5" value="0"></div>
+      <div><label for="photoFocusFilter">Bildaufbereitung</label><select id="photoFocusFilter"><option value="original">Original</option><option value="local">Lokalkontrast</option><option value="soft">Rauschen glätten</option><option value="bw">Schwarz-Weiß</option></select></div>
+      <div><label for="photoFocusLength">Ziffernzahl</label><select id="photoFocusLength"><option value="0">Beliebig</option><option value="3">3 Ziffern</option><option value="4">4 Ziffern</option><option value="5">5 Ziffern</option><option value="6">6 Ziffern</option><option value="7">7 Ziffern</option><option value="8">8 Ziffern</option></select></div>
+    </div>
+    <canvas class="photo-focus-canvas" id="photoFocusCanvas" width="480" height="480" aria-label="Stirnfläche vergrößert: ein Rechteck um die Ziffern ziehen"></canvas>
+    <div class="photo-focus-read"><button type="button" class="btn" id="photoFocusWhole">Ausschnitt zurücksetzen</button><button type="button" class="btn primary" id="photoFocusRead">Nur Nummernfeld erkennen</button></div>
+    <div class="photo-focus-status" id="photoFocusStatus" aria-live="polite">Mit dem Finger um die Gravur einen Rahmen ziehen.</div>
+    <div class="photo-focus-entry"><div class="field"><label for="photoFocusValue">Probennummer (Vorschlag kontrollieren)</label><input id="photoFocusValue" autocomplete="off" placeholder="z. B. 629"></div><button class="btn primary" type="button" id="photoFocusAccept">Nummer übernehmen und weiter →</button></div>
+  </section>
+  <p class="hint">Tipp: Mit der Stempel-Lupe jede Nummer einzeln einrahmen und drehen. Nummern scharf und möglichst groß fotografieren. Bei reflektierendem Metall seitliches, diffuses Licht verwenden. Die vorgeschlagenen Nummern unbedingt am Foto kontrollieren: z. B. 6/9 oder 2/5 können verwechselt werden. Mehrere Fotos lassen sich sammeln.</p>
   <div class="buttons" style="margin-top:13px"><button class="btn primary" id="photoRunOcr" type="button" disabled>Nummern erkennen</button><span class="tag" id="photoOcrStatus" aria-live="polite">Noch kein Foto geladen</span></div>
   <div class="photo-results">
     <div class="head" style="margin-top:18px;margin-bottom:7px"><h3 style="font-size:15px;margin:0">Erkannte Nummern prüfen</h3><span class="tag" id="photoResultCount">0 Vorschläge</span></div>
@@ -526,6 +560,7 @@
   let photoSource = null, photoCrop = null, photoDragging = null, photoIsBusy = false;
   let photoFaces=[], photoTapMode=false, photoInjected=[], photoCvPromise=null;
   let photoWorker = null, photoLibraryPromise = null;
+  let photoFocusIndex=-1,photoFocusRect=null,photoFocusDrag=null;
   const photoCanvas = $('photoPreview');
   const photoLog = msg => {$('photoOcrStatus').textContent = msg;};
   function openPhotoImport(target=''){
@@ -535,6 +570,7 @@
     const preferred=target==='draft'?'draft':(proj(target)?.id|| (state.filterProject!=='all'?state.filterProject:state.quickProject));
     $('photoTarget').value=preferred||'draft';
     $('photoModalCover').style.display='flex';
+    $('photoFocusPanel').hidden=true;photoFocusIndex=-1;
     $('photoNumbers').value='';$('photoRawText').textContent='–';
     updatePhotoCount();photoLog('Foto auswählen oder aufnehmen. Einzelne Stirnflächen können unabhängig gedreht werden.');
   }
@@ -707,6 +743,7 @@
     photoFaces.sort((a,b)=>Math.abs(a.y-b.y)>d*.53?a.y-b.y:a.x-b.x);
   }
   function renderPhotoFaces(){
+    if(photoFocusIndex>=photoFaces.length){photoFocusIndex=-1;$('photoFocusPanel').hidden=true;}
     const host=$('photoFaceResults');host.replaceChildren();updatePhotoFaceControls();
     if(!photoFaces.length)return;
     const heading=document.createElement('div');heading.className='face-heading';
@@ -727,7 +764,9 @@
       note.textContent=f.confidence===null?(f.number?'Manuell geprüft / eingetragen':'Noch nicht erkannt'):f.number?`OCR ${Math.round(f.confidence)} % · bitte prüfen`:'Nicht erkannt';
       const remove=document.createElement('button');remove.className='face-remove';remove.type='button';remove.textContent='✕';remove.title='Kreis entfernen';remove.setAttribute('aria-label',`Probe ${i+1} entfernen`);
       remove.addEventListener('click',()=>{photoFaces.splice(i,1);syncPhotoFaceNumbers();renderPhotoFaces();paintPhoto();});
-      details.append(lbl,input,note);wrap.append(mini,details,remove);grid.append(wrap);
+      const zoom=document.createElement('button');zoom.type='button';zoom.className='photo-face-zoom';zoom.textContent='🔎 Lupe';zoom.setAttribute('aria-label',`Nummernfeld für Probe ${i+1} vergrößern`);
+      zoom.addEventListener('click',()=>openPhotoFocus(i));
+      details.append(lbl,input,note,zoom);wrap.append(mini,details,remove);grid.append(wrap);
     });
   }
   function syncPhotoFaceNumbers(){
@@ -760,7 +799,7 @@
     }
     return c;
   }
-  // V1.4.1: lokaler, vollständig offline laufender Kreisfinder.
+  // V1.5.0: lokaler, vollständig offline laufender Kreisfinder.
   // Richtungsbasierte Hough-Abstimmung über geglättete Kanten; keine externe
   // OpenCV-Bibliothek/WebAssembly und damit kein stiller CDN-Ausfall auf iOS.
   function faceGaussianKernel(size,sigma){
@@ -943,6 +982,142 @@
   $('photoRunOcr').onclick=recognizePhoto;
   $('photoApply').onclick=applyPhotoNumbers;
   $('photoNumbers').addEventListener('input',updatePhotoCount);
+
+
+  // Präzisions-Lupe: unabhängig vom automatischen OCR-Lauf, bewusst nur einzelne Nummernfelder.
+  function openPhotoFocus(i){
+    if(!photoFaces[i])return;
+    photoFocusIndex=i;photoFocusRect=null;
+    $('photoFocusPanel').hidden=false;
+    $('photoFocusValue').value=photoFaces[i].number||'';
+    $('photoFocusStatus').textContent='Rahmen um die Gravur ziehen; danach „Nur Nummernfeld erkennen“. Alternativ Nummer direkt eingeben.';
+    redrawPhotoFocus();
+    $('photoFocusPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function redrawPhotoFocus(){
+    if(photoFocusIndex<0||!photoFaces[photoFocusIndex])return;
+    const i=photoFocusIndex,f=photoFaces[i],cnv=$('photoFocusCanvas'),g=cnv.getContext('2d');
+    const src=makePhotoFaceCanvas(f,Number($('photoFocusAngle').value),false,480);
+    g.clearRect(0,0,480,480);g.drawImage(src,0,0);
+    const mode=$('photoFocusFilter').value;
+    if(mode!=='original')photoFocusEnhance(cnv,mode);
+    $('photoFocusAngleValue').textContent=`${$('photoFocusAngle').value}°`;
+    $('photoFocusHeading').textContent=`Stempel-Lupe · Probe ${i+1} von ${photoFaces.length}`;
+    $('photoFocusPrev').disabled=i<=0;
+    $('photoFocusNext').disabled=i>=photoFaces.length-1;
+    const r=photoFocusRect;
+    if(r){g.strokeStyle='#06b6a4';g.lineWidth=4;g.setLineDash([10,6]);g.strokeRect(r.x,r.y,r.w,r.h);g.setLineDash([]);g.fillStyle='rgba(5,170,151,.08)';g.fillRect(r.x,r.y,r.w,r.h);}
+  }
+  function photoFocusEnhance(cnv,mode){
+    const g=cnv.getContext('2d',{willReadFrequently:true}),im=g.getImageData(0,0,cnv.width,cnv.height),d=im.data;
+    const w=cnv.width,h=cnv.height,luma=new Uint8ClampedArray(w*h),n=w*h;
+    for(let i=0;i<n;i++){const j=i*4;luma[i]=.299*d[j]+.587*d[j+1]+.114*d[j+2];}
+    // Integrierte lokale Mittelung entfernt breitflächige Helligkeitsunterschiede.
+    const integral=new Float64Array((w+1)*(h+1));
+    for(let y=1;y<=h;y++){
+      let sum=0;for(let x=1;x<=w;x++){
+        sum+=luma[(y-1)*w+x-1];integral[y*(w+1)+x]=integral[(y-1)*(w+1)+x]+sum;
+      }
+    }
+    const R=mode==='soft'?2:13;
+    for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+      const x1=Math.max(0,x-R),x2=Math.min(w-1,x+R),y1=Math.max(0,y-R),y2=Math.min(h-1,y+R);
+      const mean=(integral[(y2+1)*(w+1)+x2+1]-integral[y1*(w+1)+x2+1]-integral[(y2+1)*(w+1)+x1]+integral[y1*(w+1)+x1])/((x2-x1+1)*(y2-y1+1));
+      const p=luma[y*w+x];let v=mode==='soft'?.55*p+.45*mean:128+(p-mean)*2.8;
+      if(mode==='bw')v=v>126?255:0;
+      v=Math.max(0,Math.min(255,v));const j=(y*w+x)*4;d[j]=d[j+1]=d[j+2]=v;
+    }
+    g.putImageData(im,0,0);
+  }
+  function photoFocusPointerCoords(ev){
+    const r=$('photoFocusCanvas').getBoundingClientRect();
+    return {x:Math.max(0,Math.min(480,(ev.clientX-r.left)/r.width*480)),y:Math.max(0,Math.min(480,(ev.clientY-r.top)/r.height*480))};
+  }
+  function photoFocusRectFrom(a,b){return{x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),w:Math.abs(a.x-b.x),h:Math.abs(a.y-b.y)};}
+  const focusCanvas=$('photoFocusCanvas');
+  focusCanvas.addEventListener('pointerdown',e=>{
+    if(photoIsBusy||photoFocusIndex<0)return;
+    photoFocusDrag=photoFocusPointerCoords(e);photoFocusRect=null;focusCanvas.setPointerCapture(e.pointerId);e.preventDefault();
+  });
+  focusCanvas.addEventListener('pointermove',e=>{
+    if(!photoFocusDrag)return;photoFocusRect=photoFocusRectFrom(photoFocusDrag,photoFocusPointerCoords(e));redrawPhotoFocus();e.preventDefault();
+  });
+  const finishFocusDrag=e=>{
+    if(!photoFocusDrag)return;
+    photoFocusRect=photoFocusRectFrom(photoFocusDrag,photoFocusPointerCoords(e));photoFocusDrag=null;
+    if(photoFocusRect.w<12||photoFocusRect.h<12)photoFocusRect=null;
+    redrawPhotoFocus();e.preventDefault();
+  };
+  focusCanvas.addEventListener('pointerup',finishFocusDrag);
+  focusCanvas.addEventListener('pointercancel',()=>{photoFocusDrag=null;redrawPhotoFocus();});
+  $('photoFocusAngle').addEventListener('input',()=>{photoFocusRect=null;redrawPhotoFocus();});
+  $('photoFocusFilter').addEventListener('change',redrawPhotoFocus);
+  $('photoFocusWhole').onclick=()=>{photoFocusRect=null;redrawPhotoFocus();};
+  $('photoFocusClose').onclick=()=>{$('photoFocusPanel').hidden=true;photoFocusIndex=-1;};
+  function movePhotoFocus(delta){
+    const next=photoFocusIndex+delta;
+    if(next<0||next>=photoFaces.length)return;
+    openPhotoFocus(next);
+  }
+  $('photoFocusPrev').onclick=()=>movePhotoFocus(-1);
+  $('photoFocusNext').onclick=()=>movePhotoFocus(1);
+  function photoFocusOcrImage(mode){
+    const idx=photoFocusIndex,f=photoFaces[idx];
+    const src=makePhotoFaceCanvas(f,Number($('photoFocusAngle').value),false,480);
+    if(mode!=='original')photoFocusEnhance(src,mode);
+    const r=photoFocusRect||{x:0,y:0,w:480,h:480};
+    const pad=18,scale=Math.min(3,660/Math.max(r.w,r.h));
+    const out=document.createElement('canvas');out.width=Math.max(60,Math.round(r.w*scale)+pad*2);out.height=Math.max(60,Math.round(r.h*scale)+pad*2);
+    const g=out.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,out.width,out.height);
+    g.drawImage(src,r.x,r.y,r.w,r.h,pad,pad,out.width-2*pad,out.height-2*pad);
+    return out;
+  }
+  async function readPhotoFocus(){
+    if(photoFocusIndex<0||photoIsBusy)return;
+    photoIsBusy=true;$('photoFocusRead').disabled=true;$('photoFocusAccept').disabled=true;
+    const label=$('photoFocusStatus'),numeric=$('photoCharset').value==='digits';let worker=null;
+    try{
+      label.textContent='OCR für markiertes Nummernfeld wird geladen …';await ensureTesseract();
+      worker=await window.Tesseract.createWorker('eng',1);
+      await worker.setParameters({tessedit_char_whitelist:numeric?'0123456789':'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._/',load_system_dawg:'0',load_freq_dawg:'0'});
+      let candidates=[];const preferred=$('photoFocusFilter').value;
+      // Kurzer Fokuslauf: zwei Bildvarianten und beide Einzelwort-/Einzelzeilenmodi.
+      for(const mode of [...new Set([preferred,preferred==='local'?'original':'local'])]){
+        const image=photoFocusOcrImage(mode);
+        for(const psm of ['7','8']){
+          label.textContent=`Stempel lesen: ${mode} · OCR-Modus ${psm}`;
+          await worker.setParameters({tessedit_pageseg_mode:psm});
+          const {data}=await worker.recognize(image);
+          const words=extractPhotoNumbers(data.text,numeric?'digits':'mixed');
+          const expected=Number($('photoFocusLength').value);
+          for(const value of words){
+            if(value.length<2||value.length>30)continue;
+            let score=(Number.isFinite(data.confidence)?data.confidence:0);
+            if(expected&&value.length===expected)score+=20;
+            if(expected&&value.length!==expected)score-=25;
+            candidates.push({value,score,conf:data.confidence||0,mode,psm});
+          }
+        }
+      }
+      candidates.sort((a,b)=>b.score-a.score);
+      const best=candidates[0];
+      if(best){
+        $('photoFocusValue').value=best.value;
+        const alternatives=[...new Set(candidates.map(c=>c.value))].slice(0,5);
+        label.textContent=`OCR-Vorschlag: ${best.value} · weitere: ${alternatives.join(', ')}. Nummer am Foto prüfen!`;
+      }else label.textContent='Keine sichere Nummer erkannt. Bildausschnitt enger ziehen, Winkel ändern oder Nummer selbst eingeben.';
+    }catch(e){label.textContent=`OCR fehlgeschlagen: ${e.message||e}. Manuelle Eingabe bleibt möglich.`;}
+    finally{try{await worker?.terminate();}catch(e){}photoIsBusy=false;$('photoFocusRead').disabled=false;$('photoFocusAccept').disabled=false;}
+  }
+  $('photoFocusRead').onclick=readPhotoFocus;
+  $('photoFocusAccept').onclick=()=>{
+    if(photoFocusIndex<0)return;
+    const value=$('photoFocusValue').value.trim();if(!value){toast('Nummer eingeben oder erkennen lassen.');return;}
+    photoFaces[photoFocusIndex].number=value;photoFaces[photoFocusIndex].confidence=null;
+    syncPhotoFaceNumbers();renderPhotoFaces();paintPhoto();
+    if(photoFocusIndex<photoFaces.length-1)openPhotoFocus(photoFocusIndex+1);
+    else{$('photoFocusPanel').hidden=true;photoFocusIndex=-1;toast('Letzte Nummer übernommen. Bitte Gesamtliste prüfen.');}
+  };
 
   // Controls and actions
   loadState();render();

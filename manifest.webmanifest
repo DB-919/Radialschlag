@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Becker Tools – Messreihen & Probenerkennung",
   "short_name": "Messreihen",
-  "description": "Runde Bauteile direkt im Browser erkennen, Probennummern erfassen und Messreihen nach Excel exportieren.",
+  "description": "Runde Bauteile erkennen, eingeprägte Nummern mit Stempel-Lupe erfassen und Messreihen nach Excel exportieren.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
