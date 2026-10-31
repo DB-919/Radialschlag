@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Becker Messreihen">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Becker Tools | Messreihen V1.3.0</title>
+<title>Becker Tools | Messreihen V1.4.0</title>
 <style>
 :root{--ink:#192f41;--muted:#6a7e8a;--line:#dfebee;--bg:#f3f7f8;--navy:#142d40;--teal:#087e81;--red:#be3545;--shadow:0 10px 28px #143d5010}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:3px solid #8adcd2;outline-offset:2px}
@@ -31,10 +31,28 @@
 .photo-raw{font-size:12px;color:#657e8e;margin-top:8px}.photo-raw summary{cursor:pointer}.photo-raw pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:120px;overflow:auto;background:#f5f8f9;padding:8px;border-radius:8px}
 .photo-footer{margin-top:17px;justify-content:flex-end}
 @media(max-width:720px){.photo-modal{padding:14px 15px;max-height:100dvh;border-radius:11px}.photo-settings{grid-template-columns:1fr;gap:8px}.photo-modal .buttons .btn{white-space:normal}.photo-preview{max-height:270px}.photo-preview canvas{max-height:270px}.photo-footer .btn{flex:1}}
+
+/* V1.4.0: individuelle Stirnflächen mit unabhängiger Drehwinkel-OCR */
+.photo-advanced{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:10px;margin-top:10px}
+.photo-advanced .hint{font-size:10px;margin:4px 0 0}
+.photo-face-actions{flex-wrap:wrap}
+.photo-face-results{border-top:1px solid #d4e3e6;margin-top:13px;padding-top:10px}
+.face-heading{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.photo-face-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;max-height:350px;overflow:auto;padding:2px}
+.photo-face-card{position:relative;border:1px solid #d7e3e6;border-radius:10px;background:#fff;display:flex;align-items:center;padding:8px;gap:7px;min-width:0}
+.photo-face-thumb{width:75px;height:75px;flex:none;border-radius:50%;background:#eee}
+.photo-face-detail{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.photo-face-detail label{font-weight:700;font-size:12px;color:#345}
+.photo-face-input{width:100%;padding:7px;border-radius:7px;border:1px solid #cbd8df;font-weight:700;font-size:14px;min-width:0}
+.photo-face-detail small{font-size:10px;line-height:1.25;word-break:break-word}
+.face-uncertain{color:#9c6113}.face-confident{color:#147e6e}
+.face-remove{border:0;background:#f1f4f5;color:#667;border-radius:6px;padding:3px 6px;align-self:flex-start;cursor:pointer}
+@media(max-width:740px){.photo-advanced{grid-template-columns:1fr 1fr}.photo-advanced .field:first-child{grid-column:span 2}.photo-face-grid{grid-template-columns:1fr 1fr;max-height:280px}.photo-face-thumb{width:55px;height:55px}.photo-face-card{padding:5px}.photo-face-actions .btn{flex:1 1 42%}}
+@media(max-width:400px){.photo-face-grid{grid-template-columns:1fr}.photo-face-thumb{width:68px;height:68px}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Foto-OCR · Excel · V1.3.0</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
+<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Drehwinkel-OCR · Excel · V1.4.0</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
 <main class="main wrap">
 <section class="card pad"><div class="head"><h2>01 / Messreihe</h2><div class="buttons"><button class="btn tiny" id="loadDemo">Demo: 2 × 10 Proben</button><button class="btn tiny danger" id="newSeries">Neue Messreihe</button></div></div>
 <div class="fields"><div class="field"><label for="series">Bezeichnung / Messreihe</label><input id="series" placeholder="z. B. WB-Versuch T7 – Oktober"></div><div class="field"><label for="date">Prüfdatum</label><input type="date" id="date"></div><div class="field"><label for="inspector">Prüfer</label><input id="inspector" placeholder="Name / Kürzel"></div><div class="field"><label for="mode">Messverfahren</label><select id="mode"><option value="radius">Radius (Ø / 2)</option><option value="diameter">Durchmesser (Ø)</option></select></div><div class="field"><label for="tolMinus">Δ Untergrenze [mm]</label><input id="tolMinus" inputmode="decimal" placeholder="z. B. -0,5"></div></div>
@@ -53,7 +71,7 @@
 <div class="bottom"><section class="card pad quick"><div class="head"><h2>05 / Schnellerfassung</h2><span id="quickProgress" class="tag">–</span></div><p class="muted" style="margin-top:-9px">Sorte und Proben-Nr. eindeutig auswählen, Messwert eingeben – mit Enter übernehmen.</p><div class="quickgrid"><div class="field"><label for="quickProject">Projekt / Sorte</label><select id="quickProject"></select></div><div class="field"><label for="quickSample">Probe</label><select id="quickSample"></select></div><div class="field"><label for="quickValue">Messwert [mm]</label><input id="quickValue" inputmode="decimal" autocomplete="off" placeholder="10,236"></div></div><div class="buttons" style="margin-top:14px"><button class="btn primary" id="quickSave" style="flex:1">Messwert speichern →</button><button class="btn" id="quickSkip">Überspringen</button></div><p class="hint" id="quickHint"></p></section>
 <section class="card pad"><div class="head"><h2>06 / Vergleich der Prüfzustände</h2><span id="compareCaption" class="tag"></span></div><div class="tablewrap"><table class="comparetable"><thead><tr><th>Projekt / Sorte</th><th>Vollständige Paare</th><th>Ø Änderung [mm]</th><th>Min [mm]</th><th>Max [mm]</th></tr></thead><tbody id="compareBody"></tbody></table></div></section></div>
 <section class="card pad"><div class="head"><h2>Maßänderung je Probe</h2><small>Endmessung − Ausgangsmessung · gleiche Probe über mehrere Prüfzustände</small></div><div id="chart" class="chart"><div class="empty">Noch keine vollständigen Vergleichspaare vorhanden.</div></div><div class="legend" id="chartCaption">Positive Werte = Maßzunahme · negative Werte = Maßabnahme</div></section>
-<p class="footapp">Becker Tools – Messreihen V1.3.0 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
+<p class="footapp">Becker Tools – Messreihen V1.4.0 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
 </main>
 <input id="fileCsv" type="file" accept=".csv,.txt,text/plain,text/csv" hidden><input id="fileJson" type="file" accept=".json,application/json" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -78,8 +96,21 @@
   </div>
   <input id="photoCameraFile" type="file" accept="image/*" capture="environment" hidden>
   <input id="photoGalleryFile" type="file" accept="image/*" hidden>
-  <div class="photo-preview" id="photoPreviewWrap"><canvas id="photoPreview" aria-label="Fotovorschau. Mit dem Finger oder der Maus einen Ausschnitt um die Nummern markieren."></canvas><p id="photoEmpty">Noch kein Foto ausgewählt</p></div>
-  <p class="hint">Tipp: Nummern groß und scharf fotografieren. Du kannst mehrere Fotos nacheinander auswerten; die Vorschläge werden gesammelt. Bei spiegelndem Metall die Beleuchtung seitlich ändern. Du kannst auf dem Bild einen Ausschnitt mit den Nummern markieren; mehrere Bauteile pro Foto sind möglich.</p>
+  <div class="photo-advanced">
+    <div class="field"><label for="photoMethod">Erkennung</label><select id="photoMethod"><option value="faces">Runde Bauteile – beliebige Drehlage</option><option value="whole">Klassisch – gesamtes Bild</option></select></div>
+    <div class="field"><label for="photoFaceDiameter">Stirnflächen-Ø im Bild (Pixel)</label><input id="photoFaceDiameter" type="number" min="25" max="900" step="5" value="130" inputmode="numeric"><span class="hint">Für dieses Beispielfoto etwa 130 px; bei anderer Entfernung anpassen</span></div>
+    <div class="field"><label for="photoScanMode">Drehwinkel-Prüfung</label><select id="photoScanMode"><option value="fast">Schnell – 4 Winkel (90°)</option><option value="thorough">Gründlich – 12 Winkel (30°)</option></select></div>
+  </div>
+  <div class="buttons photo-face-actions" style="margin:11px 0">
+    <button type="button" class="btn primary" id="photoAutoFaces" disabled>◉ Stirnflächen automatisch finden</button>
+    <button type="button" class="btn" id="photoTapFaces" disabled>⊕ Fehlende Probe antippen</button>
+    <button type="button" class="btn" id="photoCropMode" disabled>▱ Bildausschnitt</button>
+    <button type="button" class="btn" id="photoClearFaces" disabled>Markierungen löschen</button>
+  </div>
+  <div class="photo-preview" id="photoPreviewWrap"><canvas id="photoPreview" aria-label="Bauteilfoto: Ausschnitt markieren oder mit dem Finger einzelne runde Proben antippen."></canvas><p id="photoEmpty">Noch kein Foto ausgewählt</p></div>
+  <p class="hint" id="photoFacesHint">Bei runden Bauteilen zuerst „Stirnflächen automatisch finden“, danach ggf. fehlende Kreise mit „Probe antippen“ ergänzen. Kreise können erneut angetippt werden, um sie zu entfernen.</p>
+  <div id="photoFaceResults" class="photo-face-results" hidden></div>
+  <p class="hint">Tipp: Nummern scharf und möglichst groß fotografieren. Bei reflektierendem Metall seitliches, diffuses Licht verwenden. Die vorgeschlagenen Nummern unbedingt am Foto kontrollieren: z. B. 6/9 oder 2/5 können verwechselt werden. Mehrere Fotos lassen sich sammeln.</p>
   <div class="buttons" style="margin-top:13px"><button class="btn primary" id="photoRunOcr" type="button" disabled>Nummern erkennen</button><span class="tag" id="photoOcrStatus" aria-live="polite">Noch kein Foto geladen</span></div>
   <div class="photo-results">
     <div class="head" style="margin-top:18px;margin-bottom:7px"><h3 style="font-size:15px;margin:0">Erkannte Nummern prüfen</h3><span class="tag" id="photoResultCount">0 Vorschläge</span></div>
@@ -87,7 +118,7 @@
     <textarea id="photoNumbers" rows="5" placeholder="Erkannte Probennummern erscheinen hier. Auch manuell ergänzbar."></textarea>
     <details class="photo-raw"><summary>Originaltext der OCR anzeigen</summary><pre id="photoRawText">–</pre></details>
   </div>
-  <p class="hint">Datenschutz: Das Foto bleibt auf deinem Gerät. Die Texterkennung wird im Browser ausgeführt; zum erstmaligen Laden der Erkennungsbibliothek ist Internet erforderlich. Die OCR ist bei schwachen Lasergravuren nicht immer zuverlässig.</p>
+  <p class="hint">Datenschutz: Fotos werden lokal verarbeitet und nicht hochgeladen. Für die automatische Kreisfindung (OpenCV.js) und Texterkennung (Tesseract.js) ist Internet zum Laden der Bibliotheken erforderlich; ihre Offline-Verfügbarkeit hängt vom Browsercache ab. Geprägte Nummern können falsch oder unvollständig erkannt werden.</p>
   <div class="buttons photo-footer"><button id="photoCancel" class="btn" type="button">Abbrechen</button><button id="photoApply" class="btn primary" type="button">Geprüfte Nummern übernehmen</button></div>
  </div>
 </div>
@@ -493,6 +524,7 @@
 
   // ------- Optional OCR-Erfassung von Probennummern auf echten Bauteilfotos -------
   let photoSource = null, photoCrop = null, photoDragging = null, photoIsBusy = false;
+  let photoFaces=[], photoTapMode=false, photoInjected=[], photoCvPromise=null;
   let photoWorker = null, photoLibraryPromise = null;
   const photoCanvas = $('photoPreview');
   const photoLog = msg => {$('photoOcrStatus').textContent = msg;};
@@ -504,16 +536,16 @@
     $('photoTarget').value=preferred||'draft';
     $('photoModalCover').style.display='flex';
     $('photoNumbers').value='';$('photoRawText').textContent='–';
-    updatePhotoCount();photoLog('Foto auswählen oder aufnehmen');
+    updatePhotoCount();photoLog('Foto auswählen oder aufnehmen. Einzelne Stirnflächen können unabhängig gedreht werden.');
   }
   function closePhotoImport(){
     if(photoIsBusy){toast('Bitte die laufende Texterkennung abschließen lassen.');return;}
     $('photoModalCover').style.display='none';
     // Bilder werden nie in localStorage gespeichert; nach Schließen Arbeitsspeicher freigeben.
-    photoSource=null;photoCrop=null;photoCanvas.width=0;photoCanvas.height=0;
+    photoSource=null;photoCrop=null;photoFaces=[];photoInjected=[];photoTapMode=false;photoCanvas.width=0;photoCanvas.height=0;
     $('photoCameraFile').value='';$('photoGalleryFile').value='';
     $('photoPreview').style.display='none';$('photoEmpty').style.display='block';
-    $('photoRunOcr').disabled=$('photoRotate').disabled=$('photoResetCrop').disabled=true;
+    $('photoRunOcr').disabled=$('photoRotate').disabled=$('photoResetCrop').disabled=true;updatePhotoFaceControls();
   }
   function photoXY(evt){
     const r=photoCanvas.getBoundingClientRect();
@@ -530,10 +562,22 @@
       g.drawImage(photoSource,area.x,area.y,area.w,area.h,area.x,area.y,area.w,area.h);
       g.lineWidth=Math.max(3,photoCanvas.width/350);g.strokeStyle='#00e2c4';g.strokeRect(area.x,area.y,area.w,area.h);
     }
+    if($('photoMethod').value==='faces')photoFaces.forEach((f,i)=>{
+      g.beginPath();g.arc(f.x,f.y,f.r,0,2*Math.PI);g.lineWidth=Math.max(3,photoCanvas.width/390);
+      g.strokeStyle=f.number?(f.confidence>=70?'#0aa67c':'#f0b429'):'#1fd8ff';g.stroke();
+      const size=Math.max(15,Math.min(32,f.r*.37));g.font=`bold ${size}px system-ui, sans-serif`;
+      const label=String(i+1),w=g.measureText(label).width+13;
+      g.fillStyle='#15384c';g.fillRect(f.x-f.r,f.y-f.r,w,size+5);g.fillStyle='#fff';g.fillText(label,f.x-f.r+6,f.y-f.r+size);
+    });
   }
   photoCanvas.addEventListener('pointerdown',evt=>{
     if(!photoSource||photoIsBusy)return;
-    evt.preventDefault();photoDragging={start:photoXY(evt),end:photoXY(evt)};
+    evt.preventDefault();
+    if(photoTapMode){const pt=photoXY(evt),radius=Number($('photoFaceDiameter').value)/2||65;
+      const i=photoFaces.findIndex(f=>Math.hypot(f.x-pt.x,f.y-pt.y)<Math.max(f.r*.72,22));
+      if(i>=0)photoFaces.splice(i,1);else photoFaces.push({x:pt.x,y:pt.y,r:radius,number:'',confidence:null,alternatives:[],enabled:true});
+      orderPhotoFaces();renderPhotoFaces();paintPhoto();return;}
+    photoDragging={start:photoXY(evt),end:photoXY(evt)};
     photoCanvas.setPointerCapture(evt.pointerId);
   });
   photoCanvas.addEventListener('pointermove',evt=>{
@@ -557,10 +601,11 @@
       const maxSide=2500,ratio=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
       const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.naturalWidth*ratio));canvas.height=Math.max(1,Math.round(img.naturalHeight*ratio));
       const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,canvas.width,canvas.height);
-      photoSource=canvas;photoCrop=null;
+      photoSource=canvas;photoCrop=null;photoFaces=[];photoInjected=[];photoTapMode=false;
+      $('photoFaceDiameter').value=Math.round(Math.max(40,Math.min(350,canvas.width/12))/5)*5;
       $('photoPreview').style.display='block';$('photoEmpty').style.display='none';
       $('photoRunOcr').disabled=$('photoRotate').disabled=$('photoResetCrop').disabled=false;
-      $('photoRawText').textContent='–';updatePhotoCount();
+      $('photoRawText').textContent='–';updatePhotoCount();renderPhotoFaces();updatePhotoFaceControls();
       paintPhoto();photoLog(`Foto geladen: ${canvas.width} × ${canvas.height} Pixel`);
       URL.revokeObjectURL(url);
     };
@@ -571,7 +616,7 @@
     if(!photoSource||photoIsBusy)return;
     const rotated=document.createElement('canvas');rotated.width=photoSource.height;rotated.height=photoSource.width;
     const g=rotated.getContext('2d');g.translate(rotated.width,0);g.rotate(Math.PI/2);g.drawImage(photoSource,0,0);
-    photoSource=rotated;photoCrop=null;paintPhoto();photoLog('Bild um 90° gedreht');
+    photoSource=rotated;photoCrop=null;photoFaces=photoFaces.map(f=>({ ...f,x:photoSource.width-f.y,y:f.x}));paintPhoto();renderPhotoFaces();photoLog('Bild um 90° gedreht');
   }
   function processedPhoto(){
     if(!photoSource)throw new Error('Bitte zunächst ein Foto auswählen.');
@@ -614,7 +659,7 @@
     }).catch(e=>{photoLibraryPromise=null;throw e;});
     return photoLibraryPromise;
   }
-  async function recognizePhoto(){
+  async function recognizePhotoLegacy(){
     if(!photoSource||photoIsBusy)return;
     photoIsBusy=true;$('photoRunOcr').disabled=true;$('photoApply').disabled=true;
     let worker=null;
@@ -646,6 +691,179 @@
       photoIsBusy=false;$('photoRunOcr').disabled=!photoSource;$('photoApply').disabled=false;
     }
   }
+  // Separate Rundproben: Kreiserkennung über OpenCV.js; manuelles Antippen als Fallback.
+  // Für diese Funktion genügt eine normale statische GitHub-Pages-Web-App, ohne Serverupload.
+  function updatePhotoFaceControls(){
+    const has=!!photoSource,faces=$('photoMethod').value==='faces';
+    for(const id of ['photoAutoFaces','photoTapFaces','photoCropMode','photoClearFaces'])$(id).disabled=!has||!faces||photoIsBusy;
+    $('photoTapFaces').classList.toggle('primary',has&&faces&&photoTapMode);
+    $('photoCropMode').classList.toggle('primary',has&&faces&&!photoTapMode);
+    $('photoFacesHint').textContent=faces?`Markierte Stirnflächen: ${photoFaces.length}. ${photoTapMode?'Tippe auf eine unmarkierte Probe, um einen Kreis hinzuzufügen; erneutes Tippen entfernt sie.':'Bildausschnitt durch Ziehen eingrenzen. „Probe antippen“ ergänzt fehlende Kreise.'}`:'Klassische Erkennung: Bereich markieren und das Bild ggf. drehen.';
+    $('photoFaceResults').hidden=!faces||!photoFaces.length;
+  }
+  function orderPhotoFaces(){
+    // Von oben nach unten, links nach rechts; stabile Reihenfolge auch bei leicht versetzten Reihen.
+    const d=Math.max(15,Number($('photoFaceDiameter').value)||130);
+    photoFaces.sort((a,b)=>Math.abs(a.y-b.y)>d*.53?a.y-b.y:a.x-b.x);
+  }
+  function renderPhotoFaces(){
+    const host=$('photoFaceResults');host.replaceChildren();updatePhotoFaceControls();
+    if(!photoFaces.length)return;
+    const heading=document.createElement('div');heading.className='face-heading';
+    const title=document.createElement('strong');title.textContent=`Einzelproben (${photoFaces.length})`;
+    const subtitle=document.createElement('span');subtitle.className='hint';subtitle.textContent='Nummer ergänzen oder korrigieren; unsichere Werte am Foto nachprüfen.';
+    heading.append(title,subtitle);host.append(heading);
+    const grid=document.createElement('div');grid.className='photo-face-grid';host.append(grid);
+    photoFaces.forEach((f,i)=>{
+      const wrap=document.createElement('div');wrap.className='photo-face-card';
+      const mini=makePhotoFaceCanvas(f,0,false,116);
+      mini.className='photo-face-thumb';mini.setAttribute('aria-label',`Ausschnitt von Probe ${i+1}`);
+      const details=document.createElement('div');details.className='photo-face-detail';
+      const lbl=document.createElement('label');lbl.textContent=`Probe ${i+1}`;
+      const input=document.createElement('input');input.className='photo-face-input';input.value=f.number||'';input.placeholder='Nummer prüfen';input.maxLength=100;
+      input.setAttribute('aria-label',`Probennummer von Probe ${i+1}`);
+      input.addEventListener('input',()=>{f.number=input.value.trim();f.confidence=null;syncPhotoFaceNumbers();paintPhoto();});
+      const note=document.createElement('small');note.className=f.number&&f.confidence>=75?'face-confident':'face-uncertain';
+      note.textContent=f.confidence===null?(f.number?'Manuell geprüft / eingetragen':'Noch nicht erkannt'):f.number?`OCR ${Math.round(f.confidence)} % · bitte prüfen`:'Nicht erkannt';
+      const remove=document.createElement('button');remove.className='face-remove';remove.type='button';remove.textContent='✕';remove.title='Kreis entfernen';remove.setAttribute('aria-label',`Probe ${i+1} entfernen`);
+      remove.addEventListener('click',()=>{photoFaces.splice(i,1);syncPhotoFaceNumbers();renderPhotoFaces();paintPhoto();});
+      details.append(lbl,input,note);wrap.append(mini,details,remove);grid.append(wrap);
+    });
+  }
+  function syncPhotoFaceNumbers(){
+    // Frühere Fotos und ggf. manuell ergänzte Nummern bleiben stehen.
+    const old=parseManualNumbers($('photoNumbers').value);
+    const prior=new Set(photoInjected.map(sampleKey));
+    const preserved=old.filter(n=>!prior.has(sampleKey(n)));
+    photoInjected=[...new Set(photoFaces.filter(f=>f.enabled!==false).map(f=>String(f.number||'').trim()).filter(Boolean))];
+    const additions=photoInjected.filter(n=>!preserved.some(p=>sampleKey(p)===sampleKey(n)));
+    $('photoNumbers').value=[...preserved,...additions].join('\n');updatePhotoCount();
+  }
+  function makePhotoFaceCanvas(f,angle=0,prepare=true,size=420){
+    const c=document.createElement('canvas');c.width=c.height=size;
+    const g=c.getContext('2d',{willReadFrequently:prepare});g.fillStyle='#fff';g.fillRect(0,0,size,size);
+    const margin=Math.round(size*.065),inner=size-2*margin;
+    g.save();g.translate(size/2,size/2);g.rotate(angle*Math.PI/180);
+    g.beginPath();g.arc(0,0,inner*.5,0,Math.PI*2);g.clip();
+    g.drawImage(photoSource,f.x-f.r,f.y-f.r,f.r*2,f.r*2,-inner/2,-inner/2,inner,inner);g.restore();
+    if(prepare){
+      const mode=$('photoProcessing').value;
+      if(mode!=='original'){
+        const image=g.getImageData(0,0,size,size),d=image.data;
+        for(let i=0;i<d.length;i+=4){
+          const gray=.299*d[i]+.587*d[i+1]+.114*d[i+2];
+          const v=mode==='binary'?(gray>145?255:0):Math.min(255,Math.max(0,(gray-124)*2.0+128));
+          d[i]=d[i+1]=d[i+2]=v;
+        }
+        g.putImageData(image,0,0);
+      }
+    }
+    return c;
+  }
+  function ensureOpenCV(){
+    if(window.cv?.Mat&&window.cv?.HoughCircles)return Promise.resolve(window.cv);
+    if(photoCvPromise)return photoCvPromise;
+    photoCvPromise=new Promise((resolve,reject)=>{
+      const t=document.createElement('script');t.src='https://docs.opencv.org/4.10.0/opencv.js';t.async=true;
+      t.onerror=()=>reject(new Error('Kreiserkennung konnte nicht geladen werden. Du kannst die Proben stattdessen antippen.'));
+      t.onload=async()=>{
+        try{
+          let mod=window.cv;
+          if(mod&&typeof mod.then==='function'){mod=await mod;window.cv=mod;}
+          if(mod?.Mat&&mod?.HoughCircles){resolve(mod);return;}
+          // Ältere OpenCV.js-Builds initialisieren WebAssembly asynchron.
+          if(!mod){reject(new Error('OpenCV nicht initialisiert.'));return;}
+          const previous=mod.onRuntimeInitialized;
+          mod.onRuntimeInitialized=()=>{try{previous?.();if(mod.Mat&&mod.HoughCircles)resolve(mod);else reject(new Error('Kreisfunktion fehlt.'));}catch(e){reject(e);}};
+        }catch(e){reject(e);}
+      };
+      document.head.append(t);
+    }).catch(err=>{photoCvPromise=null;throw err;});
+    return photoCvPromise;
+  }
+  async function autoFindPhotoFaces(){
+    if(!photoSource||photoIsBusy)return;
+    photoIsBusy=true;updatePhotoFaceControls();photoLog('Kreiserkennung wird geladen …');
+    let src,gray,blur,circles;
+    try{
+      const cv=await ensureOpenCV();
+      const factor=Math.min(1,1400/Math.max(photoSource.width,photoSource.height));
+      const scaled=document.createElement('canvas');scaled.width=Math.round(photoSource.width*factor);scaled.height=Math.round(photoSource.height*factor);
+      scaled.getContext('2d').drawImage(photoSource,0,0,scaled.width,scaled.height);
+      const d=(Number($('photoFaceDiameter').value)||130)*factor;
+      src=cv.imread(scaled);gray=new cv.Mat();blur=new cv.Mat();circles=new cv.Mat();
+      cv.cvtColor(src,gray,cv.COLOR_RGBA2GRAY);cv.medianBlur(gray,blur,5);
+      const minDist=Math.max(12,d*.80),lo=Math.max(7,Math.floor(d*.39)),hi=Math.ceil(d*.59);
+      photoLog('Runde Stirnflächen werden gesucht …');
+      cv.HoughCircles(blur,circles,cv.HOUGH_GRADIENT,1.2,minDist,110,38,lo,hi);
+      let found=[];const nums=circles.data32F||new Float32Array();
+      for(let i=0;i<nums.length;i+=3){
+        const f={x:nums[i]/factor,y:nums[i+1]/factor,r:nums[i+2]/factor,number:'',confidence:null,alternatives:[],enabled:true};
+        if(photoCrop&&(f.x<photoCrop.x||f.x>photoCrop.x+photoCrop.w||f.y<photoCrop.y||f.y>photoCrop.y+photoCrop.h))continue;
+        if(f.x-f.r<0||f.y-f.r<0||f.x+f.r>photoSource.width||f.y+f.r>photoSource.height)continue;
+        found.push(f);
+      }
+      if(!found.length)toast('Keine Kreise gefunden. Durchmesser anpassen oder die Proben im Bild antippen.');
+      // Bereits manuell ausgewählte Kreise behalten und dieselbe Stirnfläche nicht doppelt anlegen.
+      for(const f of found){if(!photoFaces.some(p=>Math.hypot(p.x-f.x,p.y-f.y)<Math.min(p.r,f.r)*.65))photoFaces.push(f);}
+      if(photoFaces.length>120)photoFaces=photoFaces.slice(0,120);
+      orderPhotoFaces();renderPhotoFaces();paintPhoto();
+      photoLog(`${found.length} Stirnflächen gefunden, insgesamt ${photoFaces.length} markiert. Bitte Kreise prüfen und dann „Nummern erkennen“. `);
+    }catch(e){console.warn('Kreiserkennung',e);photoLog('Automatische Kreiserkennung nicht verfügbar – Proben antippen');toast(e.message||String(e));}
+    finally{for(const m of [src,gray,blur,circles])try{m?.delete();}catch(e){}photoIsBusy=false;updatePhotoFaceControls();}
+  }
+  async function recognizePhotoFaces(){
+    if(!photoFaces.length){toast('Bitte zuerst Stirnflächen automatisch finden oder einzelne Proben antippen.');return;}
+    if(photoIsBusy)return;
+    photoIsBusy=true;$('photoRunOcr').disabled=$('photoApply').disabled=true;updatePhotoFaceControls();
+    let worker=null;
+    try{
+      photoLog('Texterkennung wird geladen …');await ensureTesseract();
+      worker=await window.Tesseract.createWorker('eng',1);
+      const numeric=$('photoCharset').value==='digits';
+      await worker.setParameters({tessedit_pageseg_mode:'11',
+        tessedit_char_whitelist:numeric?'0123456789':'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._/',
+        preserve_interword_spaces:'0'});
+      const angles=$('photoScanMode').value==='thorough'?[0,30,60,90,120,150,180,210,240,270,300,330]:[0,90,180,270];
+      const results=[];
+      for(let i=0;i<photoFaces.length;i++){
+        const f=photoFaces[i];let variants=[];
+        for(let a=0;a<angles.length;a++){
+          photoLog(`Probe ${i+1}/${photoFaces.length} · Winkel ${angles[a]}° · ${i*angles.length+a+1}/${photoFaces.length*angles.length}`);
+          const face=makePhotoFaceCanvas(f,angles[a],true,420);
+          const {data}=await worker.recognize(face);
+          const values=extractPhotoNumbers(data.text,numeric?'digits':'mixed').filter(v=>v.length>=2&&v.length<=14);
+          if(values.length!==1)continue; // Keine Fantasienummern aus Einzelzeichen/Textfragmenten zusammenkleben.
+          const conf=Number.isFinite(data.confidence)?data.confidence:0;
+          const score=conf +(values[0].length>=3?5:0);
+          variants.push({num:values[0],confidence:conf,score,angle:angles[a]});
+        }
+        variants.sort((a,b)=>b.score-a.score);
+        const best=variants[0];
+        if(best){f.number=best.num;f.confidence=best.confidence;f.alternatives=[...new Set(variants.map(v=>v.num))].slice(0,5);}
+        else{f.number='';f.confidence=null;f.alternatives=[];}
+        results.push(`${i+1}: ${best?`${best.num} (${Math.round(best.confidence)} %, ${best.angle}°)`:'nicht erkannt'}`);
+        renderPhotoFaces();paintPhoto();
+      }
+      $('photoRawText').textContent=results.join('\n');
+      syncPhotoFaceNumbers();
+      const ok=photoFaces.filter(f=>f.number).length;
+      photoLog(`${ok} von ${photoFaces.length} Nummern vorgeschlagen · bitte jede Probe kontrollieren`);
+      if(ok<photoFaces.length)toast('Nicht alle Nummern erkannt. Fehlende Werte können direkt in der Probe ergänzt werden.');
+    }catch(e){console.warn('Drehwinkel-OCR',e);photoLog('Drehwinkel-OCR nicht abgeschlossen');toast(e.message||String(e));}
+    finally{try{await worker?.terminate();}catch(e){}photoIsBusy=false;$('photoRunOcr').disabled=!photoSource;$('photoApply').disabled=false;updatePhotoFaceControls();}
+  }
+  function recognizePhoto(){
+    if($('photoMethod').value==='faces')return recognizePhotoFaces();
+    return recognizePhotoLegacy();
+  }
+  $('photoMethod').addEventListener('change',()=>{photoTapMode=false;renderPhotoFaces();paintPhoto();});
+  $('photoTapFaces').onclick=()=>{photoTapMode=true;updatePhotoFaceControls();photoLog('Tippe die Mitte jeder noch fehlenden Stirnfläche an. Nochmals tippen entfernt sie.');};
+  $('photoCropMode').onclick=()=>{photoTapMode=false;updatePhotoFaceControls();photoLog('Ziehe den gewünschten Bereich auf dem Bild auf.');};
+  $('photoClearFaces').onclick=()=>{photoFaces=[];syncPhotoFaceNumbers();renderPhotoFaces();paintPhoto();photoLog('Alle Kreismarkierungen gelöscht.');};
+  $('photoAutoFaces').onclick=autoFindPhotoFaces;
+  $('photoFaceDiameter').addEventListener('input',()=>{if(photoTapMode)photoLog('Neuer Kreisdurchmesser für weitere Markierungen eingestellt.');});
+
   function applyPhotoNumbers(){
     const names=parseManualNumbers($('photoNumbers').value),duplicates=duplicatesIn(names);
     if(!names.length){toast('Bitte mindestens eine überprüfte Probennummer eingeben.');return;}

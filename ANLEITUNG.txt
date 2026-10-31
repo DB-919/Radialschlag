@@ -1,42 +1,52 @@
-BECKER TOOLS - MESSREIHEN V1.3.0
+BECKER TOOLS – MESSREIHEN V1.4.0
 ===================================
 
-NEU: PROBENNUMMERN AUF BAUTEILFOTOS ERKENNEN
-- In der Messwerttabelle „Probennummern aus Foto“ wählen.
-- Für eine noch nicht angelegte Sorte: Nummerierungsmodus „Manuell / Foto“ wählen,
-  dann „Aus Bauteilfoto übernehmen“ nutzen.
-- Zielprojekt auswählen.
-- Auf dem iPhone „Jetzt fotografieren“ verwenden oder ein vorhandenes Foto auswählen.
-- Einen Ausschnitt um die Gravur/Nummern ziehen, bei Bedarf drehen und den Kontrast ändern.
-- „Nummern erkennen“ auswählen. Die Vorschlagsliste kontrollieren und korrigieren.
-- Erst nach Bestätigung werden neue Proben angelegt. Bestehende Probennummern
-  desselben Projekts werden nicht nochmals angelegt.
-- Mehrere Fotos nacheinander können in einer Sitzung erfasst werden, bevor die
-  gesammelten Nummern übernommen werden.
+NEU: BAUTEIL-FOTOS MIT DREHBARER EINZELPROBEN-ERKENNUNG
+1. Messreihe öffnen. „Probennummern aus Foto“ oder „Aus Bauteilfoto übernehmen“ wählen.
+2. Projekt/Sorte wählen (oder Neue Sorte/Projekt).
+3. Jetzt fotografieren / Foto auswählen. Für runde Proben ist der Modus
+   „Runde Bauteile – beliebige Drehlage“ voreingestellt.
+4. „Stirnflächen automatisch finden“ anklicken; die Kreise mit dem Bild abgleichen.
+   Bei nicht erkannten/fehlerhaft markierten Proben „Fehlende Probe antippen“.
+   Erneut auf einen markierten Kreis tippen entfernt ihn. Kreisdurchmesser in Pixel
+   bei Bedarf ändern. Über „Bildausschnitt“ kann das Bild eingegrenzt werden.
+5. „Nummern erkennen“ wählen. Jede Stirnfläche wird separat per OCR mit
+   4 Drehwinkeln (0/90/180/270) oder im gründlichen Modus mit 12 Winkeln
+   (0 bis 330 Grad in 30-Grad-Schritten) geprüft.
+6. Im Bereich „Einzelproben“ die Nummern anhand der angezeigten
+   Stirnflächenausschnitte prüfen und korrigieren. Mehrstellige Zahlen und
+   optional Buchstaben-Ziffer-Kennungen werden unterstützt.
+7. Die geprüfte Nummernliste kontrollieren und „Geprüfte Nummern übernehmen“.
+   Bereits vorhandene Proben im selben Projekt werden nicht doppelt angelegt.
 
-TECHNIK / DATENSCHUTZ
-Die Texterkennung verwendet Tesseract.js 6.0.1, das beim ersten Aufruf aus dem
-Internet geladen wird (inklusive Sprachmodell und WebAssembly). Danach hängt
-Offline-Verfügbarkeit von den Browser-Caches ab. Die Fotos werden auf dem Gerät
-verarbeitet und nicht auf einen Server hochgeladen oder im Projekt gespeichert.
-Die Erkennung kann bei Lasergravuren oder schlechten Fotos Fehler enthalten.
-Jede Nummer muss geprüft werden. Keine automatische Übernahme.
+Weitere Fotos können innerhalb desselben Fotodialogs nacheinander ergänzt werden.
+Die klassische Ganzfoto-Erkennung aus V1.3 bleibt als Auswahl verfügbar.
 
-INSTALLATION AUF DEM IPHONE VIA GITHUB PAGES
-1. Eine JSON-Sicherung der bisherigen Messreihe erstellen.
-2. Alle Dateien dieser ZIP ins bestehende Repository hochladen und alte Versionen
-   von index.html/manifest.webmanifest/sw.js ersetzen.
-3. GitHub Pages auf dem iPhone in Safari öffnen, ggf. einmal vollständig neu laden.
-4. Über Teilen > Zum Home-Bildschirm hinzufügen / bestehendes Icon verwenden.
-5. Bei älteren Anzeigeversionen PWA einmal schließen und neu öffnen.
+WICHTIGE GRENZEN
+- Eine auf ein Foto aufgedruckte/gravierte Nummer wird nicht immer richtig
+  erkannt, insbesondere bei rauer Metalloberfläche, Reflexen, kleinen Schriften
+  oder 6/9 bzw. 2/5. Jeder Vorschlag MUSS am Foto überprüft werden.
+- Automatische Kreisfindung funktioniert am besten mit runden Stirnflächen
+  ungefähr gleicher Größe. Im Einzelfall zusätzliche Kreise antippen.
+- Tesseract.js und OpenCV.js werden beim ersten Gebrauch aus dem Netz geladen;
+  eine Online-Verbindung ist hierfür erforderlich. Eine dauerhafte Offline-
+  Verfügbarkeit dieser Bibliotheken ist nicht garantiert.
+- Die Fotos werden ausschließlich im Browser verarbeitet; nicht an einen
+  eigenen Uploadserver übertragen oder im Messprojekt gespeichert.
 
-VERHALTEN BESTEHENDER DATEN
-Lokale Projektdaten werden mit demselben Speicher-Schlüssel wie V1.2.1 geladen,
-sofern die App weiterhin unter derselben Origin / GitHub-Pages-Adresse läuft.
-Sicherung vor Update empfohlen. Fotos werden nicht in einer JSON-Sicherung gespeichert.
+AKTUALISIEREN / IPHONE
+1. Die bestehende Messreihe vorher als JSON sichern.
+2. Alle Dateien dieser ZIP in dasselbe GitHub-Pages-Repository hochladen.
+3. Vorhandene index.html, manifest.webmanifest, sw.js ersetzen.
+4. GitHub Pages in Safari neu laden; ggf. PWA schließen und erneut starten.
+5. Lokale Projektdaten verwenden weiterhin denselben Storage-Key wie V1.2/V1.3,
+   sofern URL / Origin gleich bleibt. Eine JSON-Sicherung ist trotzdem sinnvoll.
 
-EXPORT
-Excel: Messwerte, Vergleich, Auswertung und Stammdaten.
-Excel-Datei wurde im Browser erstellt und erfolgreich durch openpyxl wieder eingelesen.
-Browser-Test der Foto-Verwaltung mit simuliertem OCR-Ergebnis erfolgreich.
-Die Tesseract-Erkennung selbst und echte Bauteilgravuren wurden nicht real getestet.
+TESTSTATUS
+- Mit dem mitgelieferten Beispielbauteilfoto getestet: die Python-OpenCV-
+  Kreissuche ermittelt unter ähnlichen Parametern ca. 21 Kreis-Kandidaten.
+- Browser-Test mit markierten Einzelproben, mehreren 3- bis 8-stelligen
+  simulierten OCR-Ergebnissen, manueller Korrektur und Übernahme erfolgreich.
+- .xlsx-Export im Browser erstellt und erfolgreich mit openpyxl geöffnet.
+- OpenCV.js- und Tesseract.js-OCR-Automatikergebnisse auf dem echten Foto
+  wurden in dieser Ausführung nicht vollständig live im iPhone-Browser geprüft.

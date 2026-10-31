@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Becker Tools – Messreihen, Bauteilfoto & Maßvergleich",
+  "name": "Becker Tools – Messreihen & Drehwinkel-Erkennung",
   "short_name": "Messreihen",
-  "description": "Probennummern aus Bauteilfotos lokal erkennen, verschiedene Sorten und Prüfzustände messen, Maßänderungen vergleichen und Excel exportieren.",
+  "description": "Runde Bauteile auf Fotos automatisch lokalisieren, Probennummern in verschiedenen Winkeln erkennen und Messreihen nach Excel exportieren.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
