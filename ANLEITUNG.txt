@@ -1,21 +1,42 @@
-BECKER TOOLS – MESSREIHEN V1.2.1
-==================================
+BECKER TOOLS - MESSREIHEN V1.3.0
+===================================
 
-Behoben: Der Excel-Export erstellte ZIP/XLSX-Dateien mit widerspruechlichen
-Datei-Headern. Die zentralen ZIP-Header sind jetzt kompatibel zu den
-lokalen Headern und geben die korrekten Versions-/UTF-8-Felder an.
+NEU: PROBENNUMMERN AUF BAUTEILFOTOS ERKENNEN
+- In der Messwerttabelle „Probennummern aus Foto“ wählen.
+- Für eine noch nicht angelegte Sorte: Nummerierungsmodus „Manuell / Foto“ wählen,
+  dann „Aus Bauteilfoto übernehmen“ nutzen.
+- Zielprojekt auswählen.
+- Auf dem iPhone „Jetzt fotografieren“ verwenden oder ein vorhandenes Foto auswählen.
+- Einen Ausschnitt um die Gravur/Nummern ziehen, bei Bedarf drehen und den Kontrast ändern.
+- „Nummern erkennen“ auswählen. Die Vorschlagsliste kontrollieren und korrigieren.
+- Erst nach Bestätigung werden neue Proben angelegt. Bestehende Probennummern
+  desselben Projekts werden nicht nochmals angelegt.
+- Mehrere Fotos nacheinander können in einer Sitzung erfasst werden, bevor die
+  gesammelten Nummern übernommen werden.
 
-Aktualisierung via GitHub Pages:
-1. Alle Dateien aus dieser ZIP in das bisherige GitHub-Pages-Repository
-   hochladen (alte Dateien ueberschreiben).
-2. In Safari die App neu laden. Bei installierter Home-Bildschirm-App ggf.
-   schliessen und erneut oeffnen, damit der Offline-Cache erneuert wird.
-3. Einen neuen Excel-Export erzeugen. Bereits fehlerhafte exportierte
-   XLSX-Dateien werden dadurch nicht rueckwirkend repariert.
+TECHNIK / DATENSCHUTZ
+Die Texterkennung verwendet Tesseract.js 6.0.1, das beim ersten Aufruf aus dem
+Internet geladen wird (inklusive Sprachmodell und WebAssembly). Danach hängt
+Offline-Verfügbarkeit von den Browser-Caches ab. Die Fotos werden auf dem Gerät
+verarbeitet und nicht auf einen Server hochgeladen oder im Projekt gespeichert.
+Die Erkennung kann bei Lasergravuren oder schlechten Fotos Fehler enthalten.
+Jede Nummer muss geprüft werden. Keine automatische Übernahme.
 
-Deine Messreihen/Proben werden unveraendert unter demselben lokalen
-Speicherschluessel wie in V1.2 weiterverwendet. Zur Sicherheit vor dem
-Update zuerst eine JSON-Sicherung aus V1.2 erstellen.
+INSTALLATION AUF DEM IPHONE VIA GITHUB PAGES
+1. Eine JSON-Sicherung der bisherigen Messreihe erstellen.
+2. Alle Dateien dieser ZIP ins bestehende Repository hochladen und alte Versionen
+   von index.html/manifest.webmanifest/sw.js ersetzen.
+3. GitHub Pages auf dem iPhone in Safari öffnen, ggf. einmal vollständig neu laden.
+4. Über Teilen > Zum Home-Bildschirm hinzufügen / bestehendes Icon verwenden.
+5. Bei älteren Anzeigeversionen PWA einmal schließen und neu öffnen.
 
-Excel-Export: 4 Arbeitsblaetter mit Messwerten, Vergleich, Auswertung,
-Stammdaten. Alternativ steht der CSV-Export weiterhin zur Verfuegung.
+VERHALTEN BESTEHENDER DATEN
+Lokale Projektdaten werden mit demselben Speicher-Schlüssel wie V1.2.1 geladen,
+sofern die App weiterhin unter derselben Origin / GitHub-Pages-Adresse läuft.
+Sicherung vor Update empfohlen. Fotos werden nicht in einer JSON-Sicherung gespeichert.
+
+EXPORT
+Excel: Messwerte, Vergleich, Auswertung und Stammdaten.
+Excel-Datei wurde im Browser erstellt und erfolgreich durch openpyxl wieder eingelesen.
+Browser-Test der Foto-Verwaltung mit simuliertem OCR-Ergebnis erfolgreich.
+Die Tesseract-Erkennung selbst und echte Bauteilgravuren wurden nicht real getestet.

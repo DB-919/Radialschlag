@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Becker Messreihen">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Becker Tools | Messreihen V1.2.1</title>
+<title>Becker Tools | Messreihen V1.3.0</title>
 <style>
 :root{--ink:#192f41;--muted:#6a7e8a;--line:#dfebee;--bg:#f3f7f8;--navy:#142d40;--teal:#087e81;--red:#be3545;--shadow:0 10px 28px #143d5010}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:3px solid #8adcd2;outline-offset:2px}
@@ -18,34 +18,79 @@
 .toolbar{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:14px}.toolbar .side{display:flex;gap:9px;flex-wrap:wrap;align-items:end}.toolbar .field{min-width:145px}.tablewrap{overflow-x:auto}.sheet{border-collapse:collapse;min-width:1030px;width:100%;text-align:left}.sheet th{background:#eaf1f4;color:#5c7585;font-size:11px;letter-spacing:.025em;text-transform:uppercase;padding:12px;white-space:nowrap}.sheet td{border-bottom:1px solid #eaf0f2;padding:5px 10px;height:52px}.sheet td:first-child,.sheet th:first-child{padding-left:22px}.sheet tr:hover td{background:#f7fcfc}.sheet input{width:100%;max-width:150px;border:1px solid transparent;border-radius:8px;background:transparent;padding:9px 7px;min-height:37px;font-weight:650;color:#223b49;font-variant-numeric:tabular-nums}.sheet input:focus{background:#fff;border-color:#a8dcdb;outline:2px solid #baf0e6}.mono{font-variant-numeric:tabular-nums;font-weight:720}.low{color:#8293a0;font-weight:500}.status{display:inline-flex;border-radius:40px;padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap}.status.ok{background:#d9f7e9;color:#057b55}.status.fail{background:#ffe9eb;color:#b3394e}.status.pending{background:#eef3f5;color:#7c8e9b}.status.neutral{background:#e8f2fb;color:#477189}.del{border:0;background:transparent;font-size:18px;color:#96aab6;padding:4px 8px;border-radius:6px}.del:hover{background:#ffecee;color:#b23447}.tablefoot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 22px;align-items:center;font-size:12px;color:#718595;border-top:1px solid #e5eef0}.comparegrid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.comparetable{border-collapse:collapse;width:100%}.comparetable th{font-size:11px;background:#edf4f6;color:#566e7d;text-align:left;padding:10px}.comparetable td{padding:10px;border-bottom:1px solid #ebf2f4}.comparetable td:not(:first-child){font-variant-numeric:tabular-nums}.chart{height:210px;width:100%}.chart svg{width:100%;height:100%}.empty{color:#899ca9;display:flex;align-items:center;justify-content:center;min-height:190px;text-align:center;font-size:13px}.legend{font-size:11px;color:#85949c}.quick{background:linear-gradient(130deg,#f1fcfa,#fff)}.quickgrid{display:grid;grid-template-columns:1.2fr 1.2fr 1fr;gap:10px;align-items:end}.quickgrid input#quickValue{font-size:22px;font-weight:800;min-height:50px}.bottom{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}.footapp{font-size:12px;color:#879aab;text-align:center;padding:3px 0 7px}.toast{position:fixed;z-index:80;right:20px;bottom:20px;max-width:min(380px,calc(100% - 40px));padding:12px 17px;border-radius:11px;color:white;background:#153b4b;box-shadow:0 8px 28px #173a4b40;transform:translateY(110px);opacity:0;transition:.22s;pointer-events:none}.toast.show{transform:translateY(0);opacity:1}.modalcover{position:fixed;z-index:100;inset:0;background:#092334a8;display:flex;align-items:center;justify-content:center;padding:20px}.modal{width:min(460px,100%);background:#fff;border-radius:17px;padding:25px;box-shadow:0 25px 90px #00162c4d}.modal h2{font-size:21px;margin:0 0 8px}.modal p{margin:0 0 18px;color:#607889}.modal .buttons{justify-content:flex-end}
 @media(max-width:1050px){.fields{grid-template-columns:repeat(3,minmax(0,1fr))}.fields .field:first-child{grid-column:span 2}.kpis{grid-template-columns:repeat(3,1fr)}.bottom,.comparegrid{grid-template-columns:1fr}}
 @media(max-width:700px){.wrap{width:calc(100% - 24px)}.pad{padding:17px 15px}.top{padding:18px 0 45px}.top h1{font-size:30px}.main{margin-top:-23px}.fields,.fields.secondary{grid-template-columns:repeat(2,minmax(0,1fr))}.fields .field:first-child{grid-column:span 2}.projectgrid{grid-template-columns:1fr}.new-line{grid-template-columns:1fr 1fr}.new-line .field:first-child{grid-column:span 2}.new-line .btn{width:100%}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.kpi{padding:12px}.kpi .big{font-size:23px}.toolbar .side{width:100%}.toolbar .field{flex:1}.quickgrid{grid-template-columns:1fr 1fr}.quickgrid .field:first-child{grid-column:span 2}.newstage{flex-wrap:wrap}.newstage input{width:min(100%,210px)}}
+
+/* Bauteilfoto / OCR */
+.photo-modal{width:min(940px,100%);max-height:calc(100dvh - 24px);overflow:auto;padding:20px 22px}
+.photo-modal p{margin-bottom:10px}.photo-modal .head h2{font-size:clamp(16px,3.4vw,20px);line-height:1.25}.photo-modal>.head{flex-wrap:nowrap;align-items:flex-start}.photo-modal>.head .btn{flex-shrink:0}
+.photo-settings{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px}
+.photo-preview{position:relative;border:1px dashed #b6d0d9;background:repeating-conic-gradient(#f2f6f7 0 25%,#e9eff1 0 50%) 50%/22px 22px;border-radius:11px;display:flex;align-items:center;justify-content:center;min-height:155px;max-height:360px;overflow:hidden}
+.photo-preview canvas{display:none;width:auto;max-width:100%;max-height:360px;height:auto;touch-action:none;cursor:crosshair;object-fit:contain}
+.photo-preview p{font-size:13px;color:#7a8d99;margin:0}
+.photo-results textarea{display:block;width:100%;min-height:100px;border:1px solid #cfdfe5;border-radius:10px;resize:vertical;padding:11px 12px;color:#213d4e;background:#fafdfe;font:600 14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}
+.photo-results textarea:focus{outline:2px solid #bcf0e9;border-color:#087e81}
+.photo-raw{font-size:12px;color:#657e8e;margin-top:8px}.photo-raw summary{cursor:pointer}.photo-raw pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:120px;overflow:auto;background:#f5f8f9;padding:8px;border-radius:8px}
+.photo-footer{margin-top:17px;justify-content:flex-end}
+@media(max-width:720px){.photo-modal{padding:14px 15px;max-height:100dvh;border-radius:11px}.photo-settings{grid-template-columns:1fr;gap:8px}.photo-modal .buttons .btn{white-space:normal}.photo-preview{max-height:270px}.photo-preview canvas{max-height:270px}.photo-footer .btn{flex:1}}
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Offline · Excel · V1.2.1</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
+<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Foto-OCR · Excel · V1.3.0</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
 <main class="main wrap">
 <section class="card pad"><div class="head"><h2>01 / Messreihe</h2><div class="buttons"><button class="btn tiny" id="loadDemo">Demo: 2 × 10 Proben</button><button class="btn tiny danger" id="newSeries">Neue Messreihe</button></div></div>
 <div class="fields"><div class="field"><label for="series">Bezeichnung / Messreihe</label><input id="series" placeholder="z. B. WB-Versuch T7 – Oktober"></div><div class="field"><label for="date">Prüfdatum</label><input type="date" id="date"></div><div class="field"><label for="inspector">Prüfer</label><input id="inspector" placeholder="Name / Kürzel"></div><div class="field"><label for="mode">Messverfahren</label><select id="mode"><option value="radius">Radius (Ø / 2)</option><option value="diameter">Durchmesser (Ø)</option></select></div><div class="field"><label for="tolMinus">Δ Untergrenze [mm]</label><input id="tolMinus" inputmode="decimal" placeholder="z. B. -0,5"></div></div>
 <div class="fields secondary"><div class="field"><label for="tolPlus">Δ Obergrenze [mm]</label><input id="tolPlus" inputmode="decimal" placeholder="z. B. +0,5"></div><div class="field"><label for="activeStage">Aktueller Prüfzustand</label><select id="activeStage"></select></div><div class="field"><label for="compareStart">Vergleich: Ausgangszustand</label><select id="compareStart"></select></div><div class="field"><label for="compareEnd">Vergleich: Endzustand</label><select id="compareEnd"></select></div></div>
 <p class="hint"><strong id="formula">Abweichung = Messwert − Soll-Ø / 2</strong> · Maßänderung = Endmessung − Ausgangsmessung (je Probe). Unterschiedliche Sollwerte je Sorte und einzelne Probe möglich.</p></section>
 <section class="card pad"><div class="head"><h2>02 / Sorten und Projekte</h2><small>Jede Sorte bekommt eigene Proben und einen Soll-Durchmesser</small></div>
-<div class="new-line"><div class="field"><label for="projectName">Neue Sorte / Projekt</label><input id="projectName" placeholder="z. B. A20X – Parameter A"></div><div class="field"><label for="projectSoll">Soll-Ø [mm]</label><input id="projectSoll" inputmode="decimal" placeholder="19,22"></div><div class="field"><label for="numberingMode">Probennummern</label><select id="numberingMode"><option value="auto">Automatisch</option><option value="manual">Manuell eingeben</option></select></div><div class="field" id="qtyField"><label for="projectQty">Proben</label><input id="projectQty" type="number" min="1" max="500" value="10"></div><div class="field" id="prefixField"><label for="projectPrefix">Nr.-Präfix</label><input id="projectPrefix" placeholder="z. B. A"></div><button class="btn primary" id="addProject">＋ Sorte anlegen</button></div>
-<div class="manual-numbers" id="manualNumbersBox" hidden><div class="field"><label for="projectManualNumbers">Probennummern dieser Sorte – einzeln, je Zeile oder durch Komma / Semikolon getrennt</label><textarea id="projectManualNumbers" placeholder="143&#10;147&#10;168&#10;T7-004"></textarea></div><p class="hint"><span class="numbering-badge" id="manualCount">0 Proben</span> Eigene Nummern inklusive führender Nullen möglich (z. B. 0012 oder A-12). Innerhalb einer Sorte muss jede Nummer eindeutig sein; bei anderen Sorten darf sie erneut vorkommen.</p></div>
-<p class="manual-entry">Wahlweise automatische Nummerierung oder frei vergebene Probennummern <strong>pro Sorte / Projekt</strong>. Nachträglich in der Messwerttabelle änderbar.</p>
+<div class="new-line"><div class="field"><label for="projectName">Neue Sorte / Projekt</label><input id="projectName" placeholder="z. B. A20X – Parameter A"></div><div class="field"><label for="projectSoll">Soll-Ø [mm]</label><input id="projectSoll" inputmode="decimal" placeholder="19,22"></div><div class="field"><label for="numberingMode">Probennummern</label><select id="numberingMode"><option value="auto">Automatisch</option><option value="manual">Manuell / Foto</option></select></div><div class="field" id="qtyField"><label for="projectQty">Proben</label><input id="projectQty" type="number" min="1" max="500" value="10"></div><div class="field" id="prefixField"><label for="projectPrefix">Nr.-Präfix</label><input id="projectPrefix" placeholder="z. B. A"></div><button class="btn primary" id="addProject">＋ Sorte anlegen</button></div>
+<div class="manual-numbers" id="manualNumbersBox" hidden><div class="field"><label for="projectManualNumbers">Probennummern dieser Sorte – einzeln, je Zeile oder durch Komma / Semikolon getrennt</label><textarea id="projectManualNumbers" placeholder="143&#10;147&#10;168&#10;T7-004"></textarea></div><div class="buttons" style="margin-top:9px"><button type="button" class="btn" id="photoForNewProject">📷 Aus Bauteilfoto übernehmen</button></div><p class="hint"><span class="numbering-badge" id="manualCount">0 Proben</span> Eigene Nummern inklusive führender Nullen möglich (z. B. 0012 oder A-12). Innerhalb einer Sorte muss jede Nummer eindeutig sein; bei anderen Sorten darf sie erneut vorkommen.</p></div>
+<p class="manual-entry">Wahlweise automatische Nummerierung, manuell eingegebene oder aus Bauteilfotos erkannte Probennummern <strong>pro Sorte / Projekt</strong>. Nachträglich in der Messwerttabelle änderbar.</p>
 <div class="projectgrid" id="projectCards"></div></section>
 <section class="card pad"><div class="head"><h2>03 / Prüfzustände</h2><small>Zu jeder Probe können mehrere Messwerte gespeichert werden</small></div><div class="newstage"><input id="newStageName" placeholder="Weiterer Zustand, z. B. T6"><button id="addStage" class="btn">＋ Prüfzustand</button></div><div class="stagemanager" id="stageCards"></div><p class="hint">Prüfzustand oben auswählen; die Messwerte der anderen Zustände bleiben erhalten. Im Vergleich lassen sich beliebige zwei Zustände gegenüberstellen.</p></section>
 <div class="kpis"><div class="kpi"><div class="label">Messwerte / aktiver Zustand</div><div class="big" id="statCount">0 / 0</div><div class="small" id="statCountFoot">Alle Sorten</div></div><div class="kpi teal"><div class="label">Ø Abweichung</div><div class="big" id="statMean">–</div><div class="small">mm · zum Sollmaß</div></div><div class="kpi"><div class="label">Max. |Abweichung|</div><div class="big" id="statMax">–</div><div class="small">mm</div></div><div class="kpi"><div class="label">Toleranz i.O. / n.i.O.</div><div class="big" id="statTol">–</div><div class="small">Grenzen optional</div></div><div class="kpi teal"><div class="label">Ø Maßänderung</div><div class="big" id="statChange">–</div><div class="small" id="statChangeFoot">Vergleich beider Zustände</div></div></div>
-<section class="card"><div class="pad" style="padding-bottom:0"><div class="head"><h2>04 / Messwerte</h2><small id="saveStatus">Automatisch lokal gespeichert</small></div><div class="toolbar"><div class="side"><div class="field"><label for="filterProject">Sorte / Projekt filtern</label><select id="filterProject"></select></div><div class="field"><label for="filterStatus">Status filtern</label><select id="filterStatus"><option value="all">Alle Proben</option><option value="open">Nur offene</option><option value="filled">Nur gemessene</option><option value="fail">n.i.O.</option></select></div><div class="field"><label for="sort">Sortieren</label><select id="sort"><option value="original">Erfassungsreihenfolge</option><option value="nr">Proben-Nr.</option><option value="delta">Größte |Abweichung|</option></select></div></div><div class="buttons"><button class="btn" id="addSample">＋ Probe automatisch</button><button class="btn" id="addManualSample">＋ Probe mit Nr.</button><button class="btn dark" id="exportXlsx">↓ Excel (.xlsx)</button></div></div></div>
+<section class="card"><div class="pad" style="padding-bottom:0"><div class="head"><h2>04 / Messwerte</h2><small id="saveStatus">Automatisch lokal gespeichert</small></div><div class="toolbar"><div class="side"><div class="field"><label for="filterProject">Sorte / Projekt filtern</label><select id="filterProject"></select></div><div class="field"><label for="filterStatus">Status filtern</label><select id="filterStatus"><option value="all">Alle Proben</option><option value="open">Nur offene</option><option value="filled">Nur gemessene</option><option value="fail">n.i.O.</option></select></div><div class="field"><label for="sort">Sortieren</label><select id="sort"><option value="original">Erfassungsreihenfolge</option><option value="nr">Proben-Nr.</option><option value="delta">Größte |Abweichung|</option></select></div></div><div class="buttons"><button class="btn" id="addSample">＋ Probe automatisch</button><button class="btn" id="addManualSample">＋ Probe mit Nr.</button><button class="btn" id="openPhotoImport">📷 Probennummern aus Foto</button><button class="btn dark" id="exportXlsx">↓ Excel (.xlsx)</button></div></div></div>
 <div class="tablewrap"><table class="sheet"><thead><tr><th>Projekt / Sorte</th><th>Probe</th><th>Ø Soll [mm]</th><th>Messwert [mm]</th><th>Referenz [mm]</th><th>Abweichung [mm]</th><th>Bewertung</th><th>Δ Vergleich [mm]</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
 <div class="tablefoot"><span id="rowInfo"></span><div class="buttons"><button class="btn tiny" id="exportCsv">CSV</button><button class="btn tiny" id="importCsv">CSV importieren</button><button class="btn tiny" id="exportJson">Sicherung (JSON)</button><button class="btn tiny" id="importJson">Sicherung laden</button></div></div></section>
 <div class="bottom"><section class="card pad quick"><div class="head"><h2>05 / Schnellerfassung</h2><span id="quickProgress" class="tag">–</span></div><p class="muted" style="margin-top:-9px">Sorte und Proben-Nr. eindeutig auswählen, Messwert eingeben – mit Enter übernehmen.</p><div class="quickgrid"><div class="field"><label for="quickProject">Projekt / Sorte</label><select id="quickProject"></select></div><div class="field"><label for="quickSample">Probe</label><select id="quickSample"></select></div><div class="field"><label for="quickValue">Messwert [mm]</label><input id="quickValue" inputmode="decimal" autocomplete="off" placeholder="10,236"></div></div><div class="buttons" style="margin-top:14px"><button class="btn primary" id="quickSave" style="flex:1">Messwert speichern →</button><button class="btn" id="quickSkip">Überspringen</button></div><p class="hint" id="quickHint"></p></section>
 <section class="card pad"><div class="head"><h2>06 / Vergleich der Prüfzustände</h2><span id="compareCaption" class="tag"></span></div><div class="tablewrap"><table class="comparetable"><thead><tr><th>Projekt / Sorte</th><th>Vollständige Paare</th><th>Ø Änderung [mm]</th><th>Min [mm]</th><th>Max [mm]</th></tr></thead><tbody id="compareBody"></tbody></table></div></section></div>
 <section class="card pad"><div class="head"><h2>Maßänderung je Probe</h2><small>Endmessung − Ausgangsmessung · gleiche Probe über mehrere Prüfzustände</small></div><div id="chart" class="chart"><div class="empty">Noch keine vollständigen Vergleichspaare vorhanden.</div></div><div class="legend" id="chartCaption">Positive Werte = Maßzunahme · negative Werte = Maßabnahme</div></section>
-<p class="footapp">Becker Tools – Messreihen V1.2.1 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
+<p class="footapp">Becker Tools – Messreihen V1.3.0 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
 </main>
 <input id="fileCsv" type="file" accept=".csv,.txt,text/plain,text/csv" hidden><input id="fileJson" type="file" accept=".json,application/json" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="modalcover" id="modalCover" style="display:none"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><h2 id="modalTitle">Bestätigen</h2><p id="modalBody"></p><div class="buttons"><button class="btn" id="modalCancel">Abbrechen</button><button class="btn primary" id="modalConfirm">Bestätigen</button></div></div></div>
 <div class="modalcover" id="sampleModalCover" style="display:none"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="sampleModalTitle"><h2 id="sampleModalTitle">Probe mit eigener Nummer</h2><p>Neue Probe für die ausgewählte Sorte anlegen. Die Probennummer kann beliebige Zeichen enthalten.</p><div class="field"><label for="manualSingleProject">Sorte / Projekt</label><select id="manualSingleProject"></select></div><div class="field" style="margin:13px 0 18px"><label for="manualSingleNr">Probennummer</label><input id="manualSingleNr" maxlength="100" placeholder="z. B. 168 oder A20X-017" autocomplete="off"></div><div class="buttons"><button class="btn" id="cancelManualSingle">Abbrechen</button><button class="btn primary" id="saveManualSingle">＋ Probe anlegen</button></div></div></div>
+
+<!-- Foto-OCR ist freiwillig; Bilder werden weder im Projekt gespeichert noch hochgeladen. -->
+<div class="modalcover" id="photoModalCover" style="display:none" role="presentation">
+ <div class="modal photo-modal" role="dialog" aria-modal="true" aria-labelledby="photoModalTitle">
+  <div class="head" style="margin-bottom:9px"><h2 id="photoModalTitle">📷 Probennummern vom Bauteilfoto</h2><button type="button" id="photoCloseTop" class="btn tiny" aria-label="Schließen">✕</button></div>
+  <p class="hint" style="margin:0 0 15px">Fotografiere die eingravierten, geprägten oder aufgedruckten Nummern auf einem oder mehreren Bauteilen. Du kannst die Ergebnisse vor dem Übernehmen bearbeiten.</p>
+  <div class="photo-settings">
+    <div class="field"><label for="photoTarget">Übernehmen nach</label><select id="photoTarget"></select></div>
+    <div class="field"><label for="photoCharset">Nummernformat</label><select id="photoCharset"><option value="digits">Nur Ziffern (z. B. 143)</option><option value="mixed">Buchstaben + Ziffern (z. B. A20X-001)</option></select></div>
+    <div class="field"><label for="photoProcessing">Bildverbesserung</label><select id="photoProcessing"><option value="contrast">Graustufen + Kontrast</option><option value="original">Original</option><option value="binary">Schwarz-Weiß</option></select></div>
+  </div>
+  <div class="buttons" style="margin:13px 0 8px">
+    <button class="btn primary" id="photoCapture" type="button">📷 Jetzt fotografieren</button>
+    <button class="btn" id="photoSelect" type="button">▧ Foto auswählen</button>
+    <button class="btn" id="photoRotate" type="button" disabled>↻ Drehen</button>
+    <button class="btn" id="photoResetCrop" type="button" disabled>Ganzen Bereich</button>
+  </div>
+  <input id="photoCameraFile" type="file" accept="image/*" capture="environment" hidden>
+  <input id="photoGalleryFile" type="file" accept="image/*" hidden>
+  <div class="photo-preview" id="photoPreviewWrap"><canvas id="photoPreview" aria-label="Fotovorschau. Mit dem Finger oder der Maus einen Ausschnitt um die Nummern markieren."></canvas><p id="photoEmpty">Noch kein Foto ausgewählt</p></div>
+  <p class="hint">Tipp: Nummern groß und scharf fotografieren. Du kannst mehrere Fotos nacheinander auswerten; die Vorschläge werden gesammelt. Bei spiegelndem Metall die Beleuchtung seitlich ändern. Du kannst auf dem Bild einen Ausschnitt mit den Nummern markieren; mehrere Bauteile pro Foto sind möglich.</p>
+  <div class="buttons" style="margin-top:13px"><button class="btn primary" id="photoRunOcr" type="button" disabled>Nummern erkennen</button><span class="tag" id="photoOcrStatus" aria-live="polite">Noch kein Foto geladen</span></div>
+  <div class="photo-results">
+    <div class="head" style="margin-top:18px;margin-bottom:7px"><h3 style="font-size:15px;margin:0">Erkannte Nummern prüfen</h3><span class="tag" id="photoResultCount">0 Vorschläge</span></div>
+    <label for="photoNumbers" class="hint" style="display:block;margin:0 0 7px">Eine Probennummer pro Zeile; falsche Nummern löschen, fehlende ergänzen. <strong>Keine automatische Übernahme.</strong></label>
+    <textarea id="photoNumbers" rows="5" placeholder="Erkannte Probennummern erscheinen hier. Auch manuell ergänzbar."></textarea>
+    <details class="photo-raw"><summary>Originaltext der OCR anzeigen</summary><pre id="photoRawText">–</pre></details>
+  </div>
+  <p class="hint">Datenschutz: Das Foto bleibt auf deinem Gerät. Die Texterkennung wird im Browser ausgeführt; zum erstmaligen Laden der Erkennungsbibliothek ist Internet erforderlich. Die OCR ist bei schwachen Lasergravuren nicht immer zuverlässig.</p>
+  <div class="buttons photo-footer"><button id="photoCancel" class="btn" type="button">Abbrechen</button><button id="photoApply" class="btn primary" type="button">Geprüfte Nummern übernehmen</button></div>
+ </div>
+</div>
 <script>
 'use strict';
 (() => {
@@ -445,6 +490,197 @@
   const encoder=new TextEncoder();const crcTable=(()=>{const t=new Uint32Array(256);for(let i=0;i<256;i++){let n=i;for(let j=0;j<8;j++)n=n&1?0xedb88320^(n>>>1):n>>>1;t[i]=n>>>0;}return t;})();
   function crc32(a){let c=0xffffffff;for(const v of a)c=crcTable[(c^v)&255]^(c>>>8);return (c^0xffffffff)>>>0;}
   function zipFiles(entries){const pieces=[],central=[];let offset=0;for(const [name,text] of entries){const nb=encoder.encode(name),db=encoder.encode(text),crc=crc32(db);const l=new Uint8Array(30+nb.length),dv=new DataView(l.buffer);dv.setUint32(0,0x04034b50,true);dv.setUint16(4,20,true);dv.setUint16(6,0x0800,true);dv.setUint16(8,0,true);dv.setUint32(14,crc,true);dv.setUint32(18,db.length,true);dv.setUint32(22,db.length,true);dv.setUint16(26,nb.length,true);l.set(nb,30);pieces.push(l,db);const c=new Uint8Array(46+nb.length),cdv=new DataView(c.buffer);cdv.setUint32(0,0x02014b50,true);cdv.setUint16(4,20,true);cdv.setUint16(6,20,true);cdv.setUint16(8,0x0800,true);cdv.setUint16(10,0,true);cdv.setUint32(16,crc,true);cdv.setUint32(20,db.length,true);cdv.setUint32(24,db.length,true);cdv.setUint16(28,nb.length,true);cdv.setUint32(42,offset,true);c.set(nb,46);central.push(c);offset+=l.length+db.length;}const cOffset=offset;for(const c of central){pieces.push(c);offset+=c.length;}const end=new Uint8Array(22),v=new DataView(end.buffer);v.setUint32(0,0x06054b50,true);v.setUint16(8,entries.length,true);v.setUint16(10,entries.length,true);v.setUint32(12,offset-cOffset,true);v.setUint32(16,cOffset,true);pieces.push(end);return new Blob(pieces,{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});}
+
+  // ------- Optional OCR-Erfassung von Probennummern auf echten Bauteilfotos -------
+  let photoSource = null, photoCrop = null, photoDragging = null, photoIsBusy = false;
+  let photoWorker = null, photoLibraryPromise = null;
+  const photoCanvas = $('photoPreview');
+  const photoLog = msg => {$('photoOcrStatus').textContent = msg;};
+  function openPhotoImport(target=''){
+    const options = ['<option value="draft">Neue Sorte / Projekt (noch nicht angelegt)</option>',
+      ...state.projects.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`)];
+    $('photoTarget').innerHTML=options.join('');
+    const preferred=target==='draft'?'draft':(proj(target)?.id|| (state.filterProject!=='all'?state.filterProject:state.quickProject));
+    $('photoTarget').value=preferred||'draft';
+    $('photoModalCover').style.display='flex';
+    $('photoNumbers').value='';$('photoRawText').textContent='–';
+    updatePhotoCount();photoLog('Foto auswählen oder aufnehmen');
+  }
+  function closePhotoImport(){
+    if(photoIsBusy){toast('Bitte die laufende Texterkennung abschließen lassen.');return;}
+    $('photoModalCover').style.display='none';
+    // Bilder werden nie in localStorage gespeichert; nach Schließen Arbeitsspeicher freigeben.
+    photoSource=null;photoCrop=null;photoCanvas.width=0;photoCanvas.height=0;
+    $('photoCameraFile').value='';$('photoGalleryFile').value='';
+    $('photoPreview').style.display='none';$('photoEmpty').style.display='block';
+    $('photoRunOcr').disabled=$('photoRotate').disabled=$('photoResetCrop').disabled=true;
+  }
+  function photoXY(evt){
+    const r=photoCanvas.getBoundingClientRect();
+    return {x:Math.max(0,Math.min(photoCanvas.width, (evt.clientX-r.left)*photoCanvas.width/r.width)),
+      y:Math.max(0,Math.min(photoCanvas.height, (evt.clientY-r.top)*photoCanvas.height/r.height))};
+  }
+  function paintPhoto(){
+    if(!photoSource)return;
+    photoCanvas.width=photoSource.width;photoCanvas.height=photoSource.height;
+    const g=photoCanvas.getContext('2d');g.drawImage(photoSource,0,0);
+    const area=photoDragging?{x:Math.min(photoDragging.start.x,photoDragging.end.x),y:Math.min(photoDragging.start.y,photoDragging.end.y),w:Math.abs(photoDragging.end.x-photoDragging.start.x),h:Math.abs(photoDragging.end.y-photoDragging.start.y)}:photoCrop;
+    if(area&&area.w>=8&&area.h>=8){
+      g.fillStyle='rgba(13,39,52,.26)';g.fillRect(0,0,photoCanvas.width,photoCanvas.height);
+      g.drawImage(photoSource,area.x,area.y,area.w,area.h,area.x,area.y,area.w,area.h);
+      g.lineWidth=Math.max(3,photoCanvas.width/350);g.strokeStyle='#00e2c4';g.strokeRect(area.x,area.y,area.w,area.h);
+    }
+  }
+  photoCanvas.addEventListener('pointerdown',evt=>{
+    if(!photoSource||photoIsBusy)return;
+    evt.preventDefault();photoDragging={start:photoXY(evt),end:photoXY(evt)};
+    photoCanvas.setPointerCapture(evt.pointerId);
+  });
+  photoCanvas.addEventListener('pointermove',evt=>{
+    if(!photoDragging)return;evt.preventDefault();photoDragging.end=photoXY(evt);paintPhoto();
+  });
+  function finishPhotoSelection(evt){
+    if(!photoDragging)return;
+    const a=photoDragging.start,b=photoXY(evt),rect={x:Math.round(Math.min(a.x,b.x)),y:Math.round(Math.min(a.y,b.y)),w:Math.round(Math.abs(a.x-b.x)),h:Math.round(Math.abs(a.y-b.y))};
+    photoDragging=null;
+    if(rect.w>=20&&rect.h>=20)photoCrop=rect;
+    paintPhoto();
+  }
+  photoCanvas.addEventListener('pointerup',finishPhotoSelection);
+  photoCanvas.addEventListener('pointercancel',()=>{photoDragging=null;paintPhoto();});
+  function readPhotoFile(file){
+    if(!file)return;
+    if(!file.type.startsWith('image/')){toast('Bitte ein Bild auswählen.');return;}
+    if(file.size>35*1024*1024){toast('Foto ist zu groß (max. 35 MB).');return;}
+    const url=URL.createObjectURL(file), img=new Image();
+    img.onload=()=>{
+      const maxSide=2500,ratio=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
+      const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.naturalWidth*ratio));canvas.height=Math.max(1,Math.round(img.naturalHeight*ratio));
+      const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      photoSource=canvas;photoCrop=null;
+      $('photoPreview').style.display='block';$('photoEmpty').style.display='none';
+      $('photoRunOcr').disabled=$('photoRotate').disabled=$('photoResetCrop').disabled=false;
+      $('photoRawText').textContent='–';updatePhotoCount();
+      paintPhoto();photoLog(`Foto geladen: ${canvas.width} × ${canvas.height} Pixel`);
+      URL.revokeObjectURL(url);
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);toast('Foto konnte nicht geladen werden. Bitte JPEG/PNG verwenden.');};
+    img.src=url;
+  }
+  function rotatePhoto(){
+    if(!photoSource||photoIsBusy)return;
+    const rotated=document.createElement('canvas');rotated.width=photoSource.height;rotated.height=photoSource.width;
+    const g=rotated.getContext('2d');g.translate(rotated.width,0);g.rotate(Math.PI/2);g.drawImage(photoSource,0,0);
+    photoSource=rotated;photoCrop=null;paintPhoto();photoLog('Bild um 90° gedreht');
+  }
+  function processedPhoto(){
+    if(!photoSource)throw new Error('Bitte zunächst ein Foto auswählen.');
+    const r=photoCrop||{x:0,y:0,w:photoSource.width,h:photoSource.height};
+    const maxEdge=Math.max(r.w,r.h),factor=Math.min(3,Math.max(1,2200/maxEdge));
+    const c=document.createElement('canvas');c.width=Math.min(3600,Math.round(r.w*factor));c.height=Math.min(3600,Math.round(r.h*factor));
+    const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(photoSource,r.x,r.y,r.w,r.h,0,0,c.width,c.height);
+    const mode=$('photoProcessing').value;
+    if(mode!=='original'){
+      const im=g.getImageData(0,0,c.width,c.height),d=im.data;
+      for(let i=0;i<d.length;i+=4){
+        const gray=.299*d[i]+.587*d[i+1]+.114*d[i+2];
+        const adjusted=mode==='binary'?(gray>139?255:0):Math.max(0,Math.min(255,(gray-128)*1.8+128));
+        d[i]=d[i+1]=d[i+2]=adjusted;
+      }
+      g.putImageData(im,0,0);
+    }
+    return c;
+  }
+  function updatePhotoCount(){
+    const entries=parseManualNumbers($('photoNumbers').value);const dedup=duplicatesIn(entries);
+    $('photoResultCount').textContent=`${entries.length} Nummern${dedup.length?' · doppelte prüfen':''}`;
+  }
+  function extractPhotoNumbers(ocrText,chars){
+    const lines=String(ocrText||'').split(/\r?\n/);const nums=[];
+    for(const line of lines){
+      const matches=chars==='digits'?line.match(/\d{1,14}/g):line.toUpperCase().match(/[A-Z0-9]+(?:[-._/][A-Z0-9]+)*/g);
+      if(matches)nums.push(...matches);
+    }
+    return [...new Set(nums)]; // Import wird separat und unter Kontrolle geprüft.
+  }
+  function ensureTesseract(){
+    if(window.Tesseract?.createWorker)return Promise.resolve();
+    if(photoLibraryPromise)return photoLibraryPromise;
+    photoLibraryPromise=new Promise((resolve,reject)=>{
+      const t=document.createElement('script');t.src='https://cdn.jsdelivr.net/npm/tesseract.js@6.0.1/dist/tesseract.min.js';t.async=true;
+      t.onload=()=>window.Tesseract?.createWorker?resolve():reject(new Error('OCR-Bibliothek nicht verfügbar.'));
+      t.onerror=()=>reject(new Error('OCR-Bibliothek konnte nicht geladen werden. Internetzugang prüfen.'));
+      document.head.appendChild(t);
+    }).catch(e=>{photoLibraryPromise=null;throw e;});
+    return photoLibraryPromise;
+  }
+  async function recognizePhoto(){
+    if(!photoSource||photoIsBusy)return;
+    photoIsBusy=true;$('photoRunOcr').disabled=true;$('photoApply').disabled=true;
+    let worker=null;
+    try{
+      photoLog('Texterkennung wird geladen …');
+      await ensureTesseract();
+      worker=await window.Tesseract.createWorker('eng',1,{logger:m=>{
+        if(m.status==='recognizing text')photoLog(`Nummern erkennen: ${Math.round((m.progress||0)*100)} %`);
+      }});
+      const numeric=$('photoCharset').value==='digits';
+      await worker.setParameters({
+        tessedit_pageseg_mode:'11', // verstreute Textzeilen auf mehreren Bauteilen
+        tessedit_char_whitelist:numeric?'0123456789':'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._/',
+        preserve_interword_spaces:'1'
+      });
+      const processed=processedPhoto();
+      const {data}=await worker.recognize(processed);
+      $('photoRawText').textContent=(data.text||'').trim()||'(keine Zeichen erkannt)';
+      const proposals=extractPhotoNumbers(data.text,numeric?'digits':'mixed');
+      const existing=parseManualNumbers($('photoNumbers').value),seen=new Set(existing.map(sampleKey));
+      for(const proposal of proposals)if(!seen.has(sampleKey(proposal))){existing.push(proposal);seen.add(sampleKey(proposal));}
+      $('photoNumbers').value=existing.join('\n');updatePhotoCount();
+      photoLog(`${proposals.length} auf diesem Foto gefunden · ${existing.length} Vorschläge insgesamt – bitte prüfen`);
+      if(!proposals.length)toast('Keine Nummer erkannt. Ausschnitt, Kontrast oder Beleuchtung ändern und erneut probieren.');
+    }catch(err){
+      console.warn('Foto-OCR:',err);photoLog('OCR konnte nicht abgeschlossen werden');toast(err.message||'Texterkennung fehlgeschlagen.');
+    }finally{
+      try{if(worker)await worker.terminate();}catch(e){console.warn(e);}
+      photoIsBusy=false;$('photoRunOcr').disabled=!photoSource;$('photoApply').disabled=false;
+    }
+  }
+  function applyPhotoNumbers(){
+    const names=parseManualNumbers($('photoNumbers').value),duplicates=duplicatesIn(names);
+    if(!names.length){toast('Bitte mindestens eine überprüfte Probennummer eingeben.');return;}
+    if(names.some(n=>n.length>100)){toast('Eine Probennummer ist länger als 100 Zeichen.');return;}
+    if(duplicates.length){toast(`Doppelte Probennummer „${duplicates[0]}“ – bitte korrigieren.`);return;}
+    const target=$('photoTarget').value;
+    if(target==='draft'){
+      if(names.length>500){toast('Für eine neue Sorte max. 500 Proben zulässig.');return;}
+      $('numberingMode').value='manual';updateNumberingMode();
+      $('projectManualNumbers').value=names.join('\n');updateManualCount();
+      closePhotoImport();$('projectName').scrollIntoView({behavior:'smooth',block:'center'});
+      toast(`${names.length} Nummern übernommen. Jetzt Sorte / Projekt anlegen.`);
+      return;
+    }
+    const p=proj(target);if(!p){toast('Bitte ein gültiges Projekt auswählen.');return;}
+    if(state.samples.length>=MAX_SAMPLES){toast('Maximal 5.000 Proben erlaubt.');return;}
+    const already=new Set(state.samples.filter(s=>s.projectId===p.id).map(s=>sampleKey(s.nr)));
+    const todo=names.filter(n=>!already.has(sampleKey(n))),skipped=names.length-todo.length;
+    if(todo.length+state.samples.length>MAX_SAMPLES){toast('Maximal 5.000 Proben in einer Messreihe.');return;}
+    todo.forEach(n=>state.samples.push(mkSample(p.id,n)));
+    state.quickProject=p.id;state.filterProject=p.id;
+    closePhotoImport();saveAndRender();
+    toast(`${todo.length} Proben in „${p.name}“ hinzugefügt${skipped?`, ${skipped} bereits vorhanden`:''}.`);
+  }
+  $('openPhotoImport').onclick=()=>openPhotoImport(state.filterProject==='all'?state.quickProject:state.filterProject);
+  $('photoForNewProject').onclick=()=>openPhotoImport('draft');
+  $('photoCancel').onclick=closePhotoImport;$('photoCloseTop').onclick=closePhotoImport;
+  $('photoCapture').onclick=()=>$('photoCameraFile').click();$('photoSelect').onclick=()=>$('photoGalleryFile').click();
+  for(const id of ['photoCameraFile','photoGalleryFile'])$(id).addEventListener('change',e=>{readPhotoFile(e.target.files?.[0]);e.target.value='';});
+  $('photoRotate').onclick=rotatePhoto;
+  $('photoResetCrop').onclick=()=>{photoCrop=null;paintPhoto();};
+  $('photoRunOcr').onclick=recognizePhoto;
+  $('photoApply').onclick=applyPhotoNumbers;
+  $('photoNumbers').addEventListener('input',updatePhotoCount);
+
   // Controls and actions
   loadState();render();
   for(const id of coreFields){
@@ -557,7 +793,7 @@
   };
   $('modalCancel').onclick=()=>dismiss(false);$('modalConfirm').onclick=()=>dismiss(true);
   $('modalCover').addEventListener('click',e=>{if(e.target===$('modalCover'))dismiss(false);});
-  window.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('sampleModalCover').style.display!=='none')dismissManualSample();else if($('modalCover').style.display!=='none')dismiss(false);}});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('photoModalCover').style.display!=='none')closePhotoImport();else if($('sampleModalCover').style.display!=='none')dismissManualSample();else if($('modalCover').style.display!=='none')dismiss(false);}});
   if('serviceWorker' in navigator && /^https?:$/.test(location.protocol))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script>
