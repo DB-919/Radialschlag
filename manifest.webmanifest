@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Becker Tools – Messreihen & Drehwinkel-Erkennung",
+  "name": "Becker Tools – Messreihen & Probenerkennung",
   "short_name": "Messreihen",
-  "description": "Runde Bauteile auf Fotos automatisch lokalisieren, Probennummern in verschiedenen Winkeln erkennen und Messreihen nach Excel exportieren.",
+  "description": "Runde Bauteile direkt im Browser erkennen, Probennummern erfassen und Messreihen nach Excel exportieren.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

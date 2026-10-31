@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Becker Messreihen">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Becker Tools | Messreihen V1.4.0</title>
+<title>Becker Tools | Messreihen V1.4.1</title>
 <style>
 :root{--ink:#192f41;--muted:#6a7e8a;--line:#dfebee;--bg:#f3f7f8;--navy:#142d40;--teal:#087e81;--red:#be3545;--shadow:0 10px 28px #143d5010}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:3px solid #8adcd2;outline-offset:2px}
@@ -32,7 +32,7 @@
 .photo-footer{margin-top:17px;justify-content:flex-end}
 @media(max-width:720px){.photo-modal{padding:14px 15px;max-height:100dvh;border-radius:11px}.photo-settings{grid-template-columns:1fr;gap:8px}.photo-modal .buttons .btn{white-space:normal}.photo-preview{max-height:270px}.photo-preview canvas{max-height:270px}.photo-footer .btn{flex:1}}
 
-/* V1.4.0: individuelle Stirnflächen mit unabhängiger Drehwinkel-OCR */
+/* V1.4.1: individuelle Stirnflächen mit unabhängiger Drehwinkel-OCR */
 .photo-advanced{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:10px;margin-top:10px}
 .photo-advanced .hint{font-size:10px;margin:4px 0 0}
 .photo-face-actions{flex-wrap:wrap}
@@ -52,7 +52,7 @@
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Drehwinkel-OCR · Excel · V1.4.0</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
+<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Lokale Kreissuche · OCR · Excel · V1.4.1</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
 <main class="main wrap">
 <section class="card pad"><div class="head"><h2>01 / Messreihe</h2><div class="buttons"><button class="btn tiny" id="loadDemo">Demo: 2 × 10 Proben</button><button class="btn tiny danger" id="newSeries">Neue Messreihe</button></div></div>
 <div class="fields"><div class="field"><label for="series">Bezeichnung / Messreihe</label><input id="series" placeholder="z. B. WB-Versuch T7 – Oktober"></div><div class="field"><label for="date">Prüfdatum</label><input type="date" id="date"></div><div class="field"><label for="inspector">Prüfer</label><input id="inspector" placeholder="Name / Kürzel"></div><div class="field"><label for="mode">Messverfahren</label><select id="mode"><option value="radius">Radius (Ø / 2)</option><option value="diameter">Durchmesser (Ø)</option></select></div><div class="field"><label for="tolMinus">Δ Untergrenze [mm]</label><input id="tolMinus" inputmode="decimal" placeholder="z. B. -0,5"></div></div>
@@ -71,7 +71,7 @@
 <div class="bottom"><section class="card pad quick"><div class="head"><h2>05 / Schnellerfassung</h2><span id="quickProgress" class="tag">–</span></div><p class="muted" style="margin-top:-9px">Sorte und Proben-Nr. eindeutig auswählen, Messwert eingeben – mit Enter übernehmen.</p><div class="quickgrid"><div class="field"><label for="quickProject">Projekt / Sorte</label><select id="quickProject"></select></div><div class="field"><label for="quickSample">Probe</label><select id="quickSample"></select></div><div class="field"><label for="quickValue">Messwert [mm]</label><input id="quickValue" inputmode="decimal" autocomplete="off" placeholder="10,236"></div></div><div class="buttons" style="margin-top:14px"><button class="btn primary" id="quickSave" style="flex:1">Messwert speichern →</button><button class="btn" id="quickSkip">Überspringen</button></div><p class="hint" id="quickHint"></p></section>
 <section class="card pad"><div class="head"><h2>06 / Vergleich der Prüfzustände</h2><span id="compareCaption" class="tag"></span></div><div class="tablewrap"><table class="comparetable"><thead><tr><th>Projekt / Sorte</th><th>Vollständige Paare</th><th>Ø Änderung [mm]</th><th>Min [mm]</th><th>Max [mm]</th></tr></thead><tbody id="compareBody"></tbody></table></div></section></div>
 <section class="card pad"><div class="head"><h2>Maßänderung je Probe</h2><small>Endmessung − Ausgangsmessung · gleiche Probe über mehrere Prüfzustände</small></div><div id="chart" class="chart"><div class="empty">Noch keine vollständigen Vergleichspaare vorhanden.</div></div><div class="legend" id="chartCaption">Positive Werte = Maßzunahme · negative Werte = Maßabnahme</div></section>
-<p class="footapp">Becker Tools – Messreihen V1.4.0 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
+<p class="footapp">Becker Tools – Messreihen V1.4.1 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
 </main>
 <input id="fileCsv" type="file" accept=".csv,.txt,text/plain,text/csv" hidden><input id="fileJson" type="file" accept=".json,application/json" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -97,18 +97,18 @@
   <input id="photoCameraFile" type="file" accept="image/*" capture="environment" hidden>
   <input id="photoGalleryFile" type="file" accept="image/*" hidden>
   <div class="photo-advanced">
-    <div class="field"><label for="photoMethod">Erkennung</label><select id="photoMethod"><option value="faces">Runde Bauteile – beliebige Drehlage</option><option value="whole">Klassisch – gesamtes Bild</option></select></div>
+    <div class="field"><label for="photoMethod">Erkennung</label><select id="photoMethod"><option value="faces">Runde Bauteile – ohne zusätzliche Bildbibliothek</option><option value="whole">Klassisch – gesamtes Bild</option></select></div>
     <div class="field"><label for="photoFaceDiameter">Stirnflächen-Ø im Bild (Pixel)</label><input id="photoFaceDiameter" type="number" min="25" max="900" step="5" value="130" inputmode="numeric"><span class="hint">Für dieses Beispielfoto etwa 130 px; bei anderer Entfernung anpassen</span></div>
     <div class="field"><label for="photoScanMode">Drehwinkel-Prüfung</label><select id="photoScanMode"><option value="fast">Schnell – 4 Winkel (90°)</option><option value="thorough">Gründlich – 12 Winkel (30°)</option></select></div>
   </div>
   <div class="buttons photo-face-actions" style="margin:11px 0">
-    <button type="button" class="btn primary" id="photoAutoFaces" disabled>◉ Stirnflächen automatisch finden</button>
+    <button type="button" class="btn primary" id="photoAutoFaces" disabled>◉ Stirnflächen finden</button>
     <button type="button" class="btn" id="photoTapFaces" disabled>⊕ Fehlende Probe antippen</button>
     <button type="button" class="btn" id="photoCropMode" disabled>▱ Bildausschnitt</button>
     <button type="button" class="btn" id="photoClearFaces" disabled>Markierungen löschen</button>
   </div>
   <div class="photo-preview" id="photoPreviewWrap"><canvas id="photoPreview" aria-label="Bauteilfoto: Ausschnitt markieren oder mit dem Finger einzelne runde Proben antippen."></canvas><p id="photoEmpty">Noch kein Foto ausgewählt</p></div>
-  <p class="hint" id="photoFacesHint">Bei runden Bauteilen zuerst „Stirnflächen automatisch finden“, danach ggf. fehlende Kreise mit „Probe antippen“ ergänzen. Kreise können erneut angetippt werden, um sie zu entfernen.</p>
+  <p class="hint" id="photoFacesHint">Bei runden Bauteilen zuerst „Stirnflächen finden“, danach ggf. fehlende Kreise mit „Probe antippen“ ergänzen. Kreise können erneut angetippt werden, um sie zu entfernen.</p>
   <div id="photoFaceResults" class="photo-face-results" hidden></div>
   <p class="hint">Tipp: Nummern scharf und möglichst groß fotografieren. Bei reflektierendem Metall seitliches, diffuses Licht verwenden. Die vorgeschlagenen Nummern unbedingt am Foto kontrollieren: z. B. 6/9 oder 2/5 können verwechselt werden. Mehrere Fotos lassen sich sammeln.</p>
   <div class="buttons" style="margin-top:13px"><button class="btn primary" id="photoRunOcr" type="button" disabled>Nummern erkennen</button><span class="tag" id="photoOcrStatus" aria-live="polite">Noch kein Foto geladen</span></div>
@@ -118,7 +118,7 @@
     <textarea id="photoNumbers" rows="5" placeholder="Erkannte Probennummern erscheinen hier. Auch manuell ergänzbar."></textarea>
     <details class="photo-raw"><summary>Originaltext der OCR anzeigen</summary><pre id="photoRawText">–</pre></details>
   </div>
-  <p class="hint">Datenschutz: Fotos werden lokal verarbeitet und nicht hochgeladen. Für die automatische Kreisfindung (OpenCV.js) und Texterkennung (Tesseract.js) ist Internet zum Laden der Bibliotheken erforderlich; ihre Offline-Verfügbarkeit hängt vom Browsercache ab. Geprägte Nummern können falsch oder unvollständig erkannt werden.</p>
+  <p class="hint">Datenschutz: Fotos werden lokal verarbeitet und nicht hochgeladen. Die Kreisfindung funktioniert ohne Internet und ohne zusätzliche Bibliothek. Nur die automatische Texterkennung (Tesseract.js) benötigt beim ersten Gebrauch Internet. Bei fehlendem Zugriff bleiben manuelle Markierung und Eingabe möglich. Geprägte Nummern können falsch oder unvollständig erkannt werden.</p>
   <div class="buttons photo-footer"><button id="photoCancel" class="btn" type="button">Abbrechen</button><button id="photoApply" class="btn primary" type="button">Geprüfte Nummern übernehmen</button></div>
  </div>
 </div>
@@ -760,60 +760,105 @@
     }
     return c;
   }
-  function ensureOpenCV(){
-    if(window.cv?.Mat&&window.cv?.HoughCircles)return Promise.resolve(window.cv);
-    if(photoCvPromise)return photoCvPromise;
-    photoCvPromise=new Promise((resolve,reject)=>{
-      const t=document.createElement('script');t.src='https://docs.opencv.org/4.10.0/opencv.js';t.async=true;
-      t.onerror=()=>reject(new Error('Kreiserkennung konnte nicht geladen werden. Du kannst die Proben stattdessen antippen.'));
-      t.onload=async()=>{
-        try{
-          let mod=window.cv;
-          if(mod&&typeof mod.then==='function'){mod=await mod;window.cv=mod;}
-          if(mod?.Mat&&mod?.HoughCircles){resolve(mod);return;}
-          // Ältere OpenCV.js-Builds initialisieren WebAssembly asynchron.
-          if(!mod){reject(new Error('OpenCV nicht initialisiert.'));return;}
-          const previous=mod.onRuntimeInitialized;
-          mod.onRuntimeInitialized=()=>{try{previous?.();if(mod.Mat&&mod.HoughCircles)resolve(mod);else reject(new Error('Kreisfunktion fehlt.'));}catch(e){reject(e);}};
-        }catch(e){reject(e);}
-      };
-      document.head.append(t);
-    }).catch(err=>{photoCvPromise=null;throw err;});
-    return photoCvPromise;
+  // V1.4.1: lokaler, vollständig offline laufender Kreisfinder.
+  // Richtungsbasierte Hough-Abstimmung über geglättete Kanten; keine externe
+  // OpenCV-Bibliothek/WebAssembly und damit kein stiller CDN-Ausfall auf iOS.
+  function faceGaussianKernel(size,sigma){
+    const values=[],half=(size-1)/2;let sum=0;
+    for(let i=-half;i<=half;i++){const x=Math.exp(-.5*(i/sigma)**2);values.push(x);sum+=x;}
+    return values.map(v=>v/sum);
+  }
+  function faceSmooth(src,w,h,kernel){
+    const tmp=new Float32Array(src.length),dst=new Float32Array(src.length),off=Math.floor(kernel.length/2);
+    for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+      let v=0;for(let z=-off;z<=off;z++){const px=Math.max(0,Math.min(w-1,x+z));v+=src[y*w+px]*kernel[z+off];}
+      tmp[y*w+x]=v;
+    }
+    for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+      let v=0;for(let z=-off;z<=off;z++){const py=Math.max(0,Math.min(h-1,y+z));v+=tmp[py*w+x]*kernel[z+off];}
+      dst[y*w+x]=v;
+    }
+    return dst;
+  }
+  function detectCircularFacesLocal(){
+    if(!photoSource)throw new Error('Bitte zuerst ein Foto auswählen.');
+    const srcW=photoSource.width,srcH=photoSource.height;
+    const factor=Math.min(1,768/Math.max(srcW,srcH));
+    const w=Math.max(2,Math.round(srcW*factor)),h=Math.max(2,Math.round(srcH*factor));
+    const down=document.createElement('canvas');down.width=w;down.height=h;
+    const ctx=down.getContext('2d',{willReadFrequently:true});ctx.drawImage(photoSource,0,0,w,h);
+    const rgba=ctx.getImageData(0,0,w,h).data,gray=new Float32Array(w*h);
+    for(let i=0,j=0;i<rgba.length;i+=4,j++)gray[j]=.299*rgba[i]+.587*rgba[i+1]+.114*rgba[i+2];
+    const sm=faceSmooth(gray,w,h,faceGaussianKernel(9,2.5));
+    const votes=new Float32Array(w*h);
+    const radius0=Math.max(12,Math.min(120,(Number($('photoFaceDiameter').value)||130)*factor*.5));
+    const radii=[-.23,-.14,-.05,.05,.14].map(d=>radius0*(1+d));
+    let edgeCount=0;
+    for(let y=2;y<h-2;y+=2)for(let x=2;x<w-2;x+=2){
+      const idx=y*w+x, a=sm[idx-w-1],b=sm[idx-w],c=sm[idx-w+1],d=sm[idx-1],e=sm[idx+1],f=sm[idx+w-1],g=sm[idx+w],q=sm[idx+w+1];
+      const gx=(c+2*e+q)-(a+2*d+f),gy=(f+2*g+q)-(a+2*b+c);
+      const strength=Math.hypot(gx,gy);if(strength<45)continue;
+      edgeCount++;
+      const nx=gx/strength,ny=gy/strength;
+      for(const r of radii)for(const sign of [-1,1]){
+        const cx=Math.round(x+sign*r*nx),cy=Math.round(y+sign*r*ny);
+        if(cx>=0&&cy>=0&&cx<w&&cy<h)votes[cy*w+cx]+=1;
+      }
+    }
+    const score=faceSmooth(votes,w,h,faceGaussianKernel(13,3));
+    const candidates=[],minimum=Math.max(3.1,Math.min(4.5,edgeCount/(w*h)*145));
+    for(let y=Math.max(2,Math.round(radius0*.8));y<h-radius0*.8;y+=2){
+      for(let x=Math.max(2,Math.round(radius0*.8));x<w-radius0*.8;x+=2){
+        const val=score[y*w+x];if(val<minimum)continue;
+        candidates.push({x,y,score:val});
+      }
+    }
+    candidates.sort((a,b)=>b.score-a.score);
+    const selected=[],separation=Math.max(17,radius0*1.12);
+    for(const c of candidates){
+      if(selected.length>=120)break;
+      if(selected.some(q=>Math.hypot(q.x-c.x,q.y-c.y)<separation))continue;
+      if(c.x<radius0*.93||c.y<radius0*.93||c.x+radius0*.93>w||c.y+radius0*.93>h)continue;
+      // Dunkle Tastaturtasten / helle Tischflächen nicht als Metallstirnflächen übernehmen.
+      let centerLuma=0,checks=0;
+      for(const dy of [-.25,0,.25])for(const dx of [-.25,0,.25]){
+        const xx=Math.round(c.x+dx*radius0),yy=Math.round(c.y+dy*radius0);
+        centerLuma+=sm[yy*w+xx];checks++;
+      }
+      centerLuma/=checks;
+      if(centerLuma<78||centerLuma>220)continue;
+      const fx=c.x/factor,fy=c.y/factor,rr=radius0/factor;
+      if(photoCrop&&(fx<photoCrop.x||fx>photoCrop.x+photoCrop.w||fy<photoCrop.y||fy>photoCrop.y+photoCrop.h))continue;
+      selected.push({...c,r:radius0});
+    }
+    return {faces:selected.map(f=>({x:f.x/factor,y:f.y/factor,r:f.r/factor,number:'',confidence:null,alternatives:[],enabled:true})),
+      candidates:candidates.length,edges:edgeCount,diameter:Math.round(radius0*2/factor)};
   }
   async function autoFindPhotoFaces(){
-    if(!photoSource||photoIsBusy)return;
-    photoIsBusy=true;updatePhotoFaceControls();photoLog('Kreiserkennung wird geladen …');
-    let src,gray,blur,circles;
+    if(!photoSource||photoIsBusy)return 0;
+    photoIsBusy=true;updatePhotoFaceControls();photoLog('Stirnflächen werden direkt im Browser gesucht …');
+    // Kurze UI-Pause ermöglicht sichtbaren Status, bevor die synchrone Bildanalyse startet.
+    await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,0)));
     try{
-      const cv=await ensureOpenCV();
-      const factor=Math.min(1,1400/Math.max(photoSource.width,photoSource.height));
-      const scaled=document.createElement('canvas');scaled.width=Math.round(photoSource.width*factor);scaled.height=Math.round(photoSource.height*factor);
-      scaled.getContext('2d').drawImage(photoSource,0,0,scaled.width,scaled.height);
-      const d=(Number($('photoFaceDiameter').value)||130)*factor;
-      src=cv.imread(scaled);gray=new cv.Mat();blur=new cv.Mat();circles=new cv.Mat();
-      cv.cvtColor(src,gray,cv.COLOR_RGBA2GRAY);cv.medianBlur(gray,blur,5);
-      const minDist=Math.max(12,d*.80),lo=Math.max(7,Math.floor(d*.39)),hi=Math.ceil(d*.59);
-      photoLog('Runde Stirnflächen werden gesucht …');
-      cv.HoughCircles(blur,circles,cv.HOUGH_GRADIENT,1.2,minDist,110,38,lo,hi);
-      let found=[];const nums=circles.data32F||new Float32Array();
-      for(let i=0;i<nums.length;i+=3){
-        const f={x:nums[i]/factor,y:nums[i+1]/factor,r:nums[i+2]/factor,number:'',confidence:null,alternatives:[],enabled:true};
-        if(photoCrop&&(f.x<photoCrop.x||f.x>photoCrop.x+photoCrop.w||f.y<photoCrop.y||f.y>photoCrop.y+photoCrop.h))continue;
-        if(f.x-f.r<0||f.y-f.r<0||f.x+f.r>photoSource.width||f.y+f.r>photoSource.height)continue;
-        found.push(f);
+      const detected=detectCircularFacesLocal();
+      for(const f of detected.faces){
+        if(!photoFaces.some(p=>Math.hypot(p.x-f.x,p.y-f.y)<Math.min(p.r,f.r)*.70))photoFaces.push(f);
       }
-      if(!found.length)toast('Keine Kreise gefunden. Durchmesser anpassen oder die Proben im Bild antippen.');
-      // Bereits manuell ausgewählte Kreise behalten und dieselbe Stirnfläche nicht doppelt anlegen.
-      for(const f of found){if(!photoFaces.some(p=>Math.hypot(p.x-f.x,p.y-f.y)<Math.min(p.r,f.r)*.65))photoFaces.push(f);}
       if(photoFaces.length>120)photoFaces=photoFaces.slice(0,120);
       orderPhotoFaces();renderPhotoFaces();paintPhoto();
-      photoLog(`${found.length} Stirnflächen gefunden, insgesamt ${photoFaces.length} markiert. Bitte Kreise prüfen und dann „Nummern erkennen“. `);
-    }catch(e){console.warn('Kreiserkennung',e);photoLog('Automatische Kreiserkennung nicht verfügbar – Proben antippen');toast(e.message||String(e));}
-    finally{for(const m of [src,gray,blur,circles])try{m?.delete();}catch(e){}photoIsBusy=false;updatePhotoFaceControls();}
+      if(photoFaces.length){
+        photoLog(`${photoFaces.length} Stirnflächen markiert (lokal erkannt). Bitte prüfen und „Nummern erkennen“ wählen.`);
+      }else{
+        photoLog(`Keine Stirnflächen erkannt. Ø im Bild prüfen (aktuell ${detected.diameter}px) oder „Fehlende Probe antippen“ verwenden.`);
+        toast('Keine Kreise gefunden. Kreisdurchmesser anpassen, Fotoausschnitt wählen oder Kreise antippen.');
+      }
+      return photoFaces.length;
+    }catch(e){console.error('Lokale Kreisfindung:',e);photoLog(`Kreisfindung fehlgeschlagen: ${e.message||e}`);toast(String(e.message||e));return 0;}
+    finally{photoIsBusy=false;updatePhotoFaceControls();}
   }
   async function recognizePhotoFaces(){
-    if(!photoFaces.length){toast('Bitte zuerst Stirnflächen automatisch finden oder einzelne Proben antippen.');return;}
+    if(!photoFaces.length)await autoFindPhotoFaces();
+    if(!photoFaces.length){toast('Keine Stirnflächen gefunden. Kreisdurchmesser anpassen oder Stirnflächen antippen.');return;}
     if(photoIsBusy)return;
     photoIsBusy=true;$('photoRunOcr').disabled=$('photoApply').disabled=true;updatePhotoFaceControls();
     let worker=null;
@@ -850,7 +895,7 @@
       const ok=photoFaces.filter(f=>f.number).length;
       photoLog(`${ok} von ${photoFaces.length} Nummern vorgeschlagen · bitte jede Probe kontrollieren`);
       if(ok<photoFaces.length)toast('Nicht alle Nummern erkannt. Fehlende Werte können direkt in der Probe ergänzt werden.');
-    }catch(e){console.warn('Drehwinkel-OCR',e);photoLog('Drehwinkel-OCR nicht abgeschlossen');toast(e.message||String(e));}
+    }catch(e){console.warn('Drehwinkel-OCR',e);photoLog(`Texterkennung nicht verfügbar: ${e.message||e}. Nummern können in die Einzelprobenfelder eingetragen werden.`);toast(e.message||String(e));}
     finally{try{await worker?.terminate();}catch(e){}photoIsBusy=false;$('photoRunOcr').disabled=!photoSource;$('photoApply').disabled=false;updatePhotoFaceControls();}
   }
   function recognizePhoto(){

@@ -1,52 +1,45 @@
-BECKER TOOLS – MESSREIHEN V1.4.0
+BECKER TOOLS MESSREIHEN – V1.4.1
 ===================================
 
-NEU: BAUTEIL-FOTOS MIT DREHBARER EINZELPROBEN-ERKENNUNG
-1. Messreihe öffnen. „Probennummern aus Foto“ oder „Aus Bauteilfoto übernehmen“ wählen.
-2. Projekt/Sorte wählen (oder Neue Sorte/Projekt).
-3. Jetzt fotografieren / Foto auswählen. Für runde Proben ist der Modus
-   „Runde Bauteile – beliebige Drehlage“ voreingestellt.
-4. „Stirnflächen automatisch finden“ anklicken; die Kreise mit dem Bild abgleichen.
-   Bei nicht erkannten/fehlerhaft markierten Proben „Fehlende Probe antippen“.
-   Erneut auf einen markierten Kreis tippen entfernt ihn. Kreisdurchmesser in Pixel
-   bei Bedarf ändern. Über „Bildausschnitt“ kann das Bild eingegrenzt werden.
-5. „Nummern erkennen“ wählen. Jede Stirnfläche wird separat per OCR mit
-   4 Drehwinkeln (0/90/180/270) oder im gründlichen Modus mit 12 Winkeln
-   (0 bis 330 Grad in 30-Grad-Schritten) geprüft.
-6. Im Bereich „Einzelproben“ die Nummern anhand der angezeigten
-   Stirnflächenausschnitte prüfen und korrigieren. Mehrstellige Zahlen und
-   optional Buchstaben-Ziffer-Kennungen werden unterstützt.
-7. Die geprüfte Nummernliste kontrollieren und „Geprüfte Nummern übernehmen“.
-   Bereits vorhandene Proben im selben Projekt werden nicht doppelt angelegt.
+Fehlerkorrektur gegenüber V1.4.0:
+Die runden Stirnflächen werden jetzt durch einen eigenen Bildalgorithmus
+im Browser gefunden. OpenCV.js ist hierfür nicht mehr notwendig.
 
-Weitere Fotos können innerhalb desselben Fotodialogs nacheinander ergänzt werden.
-Die klassische Ganzfoto-Erkennung aus V1.3 bleibt als Auswahl verfügbar.
+ANWENDUNG
+1. Projekt / Sorte auswählen und "Probennummern aus Foto" öffnen.
+2. Foto aufnehmen oder aus der Galerie wählen.
+3. "Stirnflächen finden" antippen – markierte Kreise kontrollieren.
+   Im bereitgestellten Musterfoto wurden 21 Kreisflächen erkannt.
+4. Irrtümlich markierte Kreise entfernen oder fehlende ergänzen:
+   "Fehlende Probe antippen" aktivieren und auf das Foto tippen.
+5. "Nummern erkennen" antippen. Hierfür wird Tesseract.js benötigt;
+   beim ersten Aufruf ist Internet zum Laden der Bibliothek notwendig.
+6. Alle Nummern gegen das Foto prüfen. Fehlerhafte oder nicht erkannte
+   Nummern in den Einzelprobenfeldern korrigieren. Auch längere Nummern
+   werden übernommen.
+7. "Geprüfte Nummern übernehmen"; anschließend Messwerte erfassen
+   und als .xlsx exportieren.
 
-WICHTIGE GRENZEN
-- Eine auf ein Foto aufgedruckte/gravierte Nummer wird nicht immer richtig
-  erkannt, insbesondere bei rauer Metalloberfläche, Reflexen, kleinen Schriften
-  oder 6/9 bzw. 2/5. Jeder Vorschlag MUSS am Foto überprüft werden.
-- Automatische Kreisfindung funktioniert am besten mit runden Stirnflächen
-  ungefähr gleicher Größe. Im Einzelfall zusätzliche Kreise antippen.
-- Tesseract.js und OpenCV.js werden beim ersten Gebrauch aus dem Netz geladen;
-  eine Online-Verbindung ist hierfür erforderlich. Eine dauerhafte Offline-
-  Verfügbarkeit dieser Bibliotheken ist nicht garantiert.
-- Die Fotos werden ausschließlich im Browser verarbeitet; nicht an einen
-  eigenen Uploadserver übertragen oder im Messprojekt gespeichert.
+HINWEISE
+- Die automatische Erkennung von geprägten Nummern auf rauem Metall
+  ist mit allgemeiner OCR nur eingeschränkt zuverlässig. Wenn die OCR
+  nicht lädt, die schon erkannten Kreisflächen manuell beschriften.
+- Die Kreisfindung läuft offline. Fotos werden nicht an einen
+  eigenen Server gesendet und nicht im Messprojekt gespeichert.
+- Proben-/Projektinformationen werden im Browser gespeichert.
+  Vor Aktualisierung unbedingt zuerst eine JSON-Sicherung erstellen.
 
-AKTUALISIEREN / IPHONE
-1. Die bestehende Messreihe vorher als JSON sichern.
-2. Alle Dateien dieser ZIP in dasselbe GitHub-Pages-Repository hochladen.
-3. Vorhandene index.html, manifest.webmanifest, sw.js ersetzen.
-4. GitHub Pages in Safari neu laden; ggf. PWA schließen und erneut starten.
-5. Lokale Projektdaten verwenden weiterhin denselben Storage-Key wie V1.2/V1.3,
-   sofern URL / Origin gleich bleibt. Eine JSON-Sicherung ist trotzdem sinnvoll.
+AKTUALISIEREN (GitHub Pages)
+1. JSON-Sicherung erstellen.
+2. Alle Dateien dieser ZIP in dasselbe Repository hochladen.
+3. Die bisherige index.html, sw.js und manifest.webmanifest ersetzen.
+4. App komplett schließen, Safari/Startbildschirm-App neu starten.
+   Bei angezeigter alter Version die Webseite erneut laden.
 
 TESTSTATUS
-- Mit dem mitgelieferten Beispielbauteilfoto getestet: die Python-OpenCV-
-  Kreissuche ermittelt unter ähnlichen Parametern ca. 21 Kreis-Kandidaten.
-- Browser-Test mit markierten Einzelproben, mehreren 3- bis 8-stelligen
-  simulierten OCR-Ergebnissen, manueller Korrektur und Übernahme erfolgreich.
-- .xlsx-Export im Browser erstellt und erfolgreich mit openpyxl geöffnet.
-- OpenCV.js- und Tesseract.js-OCR-Automatikergebnisse auf dem echten Foto
-  wurden in dieser Ausführung nicht vollständig live im iPhone-Browser geprüft.
+- Originalfoto: 21 Kreise (Browser, keine OpenCV-Datei geladen).
+- Mobilgröße: 21 Kreise (Chromium emulierte mobile Ansicht).
+- OCR-Ablauf/Übernahme: Test mit simulierten OCR-Werten, inkl. langer Nummern.
+- Excel-Dateistruktur: geöffnet und geprüft (openpyxl).
+- Eine echte Safari-auf-iPhone-Prüfung und zuverlässige OCR-Lesung der
+  Metallprägungen sind noch nicht nachgewiesen.
