@@ -1,0 +1,25 @@
+BECKER MESSREIHEN V1.6.2 - iPhone und GitHub Pages
+
+1. Bestehende Messreihe zuerst als JSON sichern.
+2. Die Dateien index.html, manifest.webmanifest, sw.js, icon-192.png
+   und icon-512.png in das Stammverzeichnis des GitHub-Pages-Repositories hochladen.
+3. Danach dieselbe GitHub-Pages-URL in Safari öffnen und neu laden.
+4. Ggf. die Seite im Safari-Tab schließen und neu öffnen, wenn noch
+   die vorherige Version aus dem Cache angezeigt wird.
+5. Auf Wunsch in Safari: Teilen > Zum Home-Bildschirm.
+
+MESSWERT PER FOTO:
+- Probe und Prüfzustand auswählen, Kamera-Symbol antippen.
+- Foto der Digitalanzeige aufnehmen oder aus der Fotomediathek auswählen.
+- Im X-Modus zeigt die Vorschau ausschließlich den oberen Zahlenstreifen.
+  Ist der Z-Wert sichtbar, den Rahmen manuell enger auf die X-Zeile ziehen.
+- Auf 'Zahlenanzeige erkennen' tippen. Wert und Einheit kontrollieren.
+- Erst danach 'Wert übernehmen' antippen.
+- Bei wiederkehrendem Bildaufbau 'Ausschnitt merken' verwenden.
+
+HINWEISE:
+- Die automatische X-Zeilensuche ist auf helle Ziffern auf dunklem Display
+  ausgelegt. Bei anderem Bildaufbau kann man den Bereich per Finger markieren.
+- OCR benötigt beim ersten Einsatz eine Internetverbindung (Tesseract.js).
+- Kamera-Fotos und Messwerte werden ohne ausdrücklichen Export lokal verarbeitet.
+- Die Software ist keine metrologisch validierte Messdatenerfassung.

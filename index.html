@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Becker Messreihen">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Becker Tools | Messreihen V1.6.1</title>
+<title>Becker Tools | Messreihen V1.6.2</title>
 <style>
 :root{--ink:#192f41;--muted:#6a7e8a;--line:#dfebee;--bg:#f3f7f8;--navy:#142d40;--teal:#087e81;--red:#be3545;--shadow:0 10px 28px #143d5010}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}:focus-visible{outline:3px solid #8adcd2;outline-offset:2px}
@@ -87,7 +87,7 @@
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Lokale Kreissuche · OCR · Excel · X-Wert · V1.6.1</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
+<header class="top"><div class="wrap"><div class="topline"><div class="brand">BECKER <b>Tools</b> <span style="opacity:.65">/ QUALITY</span></div><span class="pill">● Messreihen · Lokale Kreissuche · OCR · Excel · X-Wert · V1.6.2</span></div><h1>Messreihen &amp; Maßvergleich</h1><p>Mehrere Sorten, mehrere Prüfzustände – eine zusammenhängende Messreihe.</p></div></header>
 <main class="main wrap">
 <section class="card pad"><div class="head"><h2>01 / Messreihe</h2><div class="buttons"><button class="btn tiny" id="loadDemo">Demo: 2 × 10 Proben</button><button class="btn tiny danger" id="newSeries">Neue Messreihe</button></div></div>
 <div class="fields"><div class="field"><label for="series">Bezeichnung / Messreihe</label><input id="series" placeholder="z. B. WB-Versuch T7 – Oktober"></div><div class="field"><label for="date">Prüfdatum</label><input type="date" id="date"></div><div class="field"><label for="inspector">Prüfer</label><input id="inspector" placeholder="Name / Kürzel"></div><div class="field"><label for="mode">Messverfahren</label><select id="mode"><option value="radius">Radius (Ø / 2)</option><option value="diameter">Durchmesser (Ø)</option></select></div><div class="field"><label for="tolMinus">Δ Untergrenze [mm]</label><input id="tolMinus" inputmode="decimal" placeholder="z. B. -0,5"></div></div>
@@ -106,7 +106,7 @@
 <div class="bottom"><section class="card pad quick"><div class="head"><h2>05 / Schnellerfassung</h2><span id="quickProgress" class="tag">–</span></div><p class="muted" style="margin-top:-9px">Sorte und Proben-Nr. eindeutig auswählen, Messwert manuell eingeben oder die Digitalanzeige des Messgeräts fotografieren.</p><div class="quickgrid"><div class="field"><label for="quickProject">Projekt / Sorte</label><select id="quickProject"></select></div><div class="field"><label for="quickSample">Probe</label><select id="quickSample"></select></div><div class="field"><label for="quickValue">Messwert [mm]</label><input id="quickValue" inputmode="decimal" autocomplete="off" placeholder="10,236"></div></div><div class="buttons" style="margin-top:14px"><button class="btn primary" id="quickSave" style="flex:1">Messwert speichern →</button><button class="btn" id="quickCamera">📷 Messwert fotografieren</button><button class="btn" id="quickSkip">Überspringen</button></div><p class="hint" id="quickHint"></p></section>
 <section class="card pad"><div class="head"><h2>06 / Vergleich der Prüfzustände</h2><span id="compareCaption" class="tag"></span></div><div class="tablewrap"><table class="comparetable"><thead><tr><th>Projekt / Sorte</th><th>Vollständige Paare</th><th>Ø Änderung [mm]</th><th>Min [mm]</th><th>Max [mm]</th></tr></thead><tbody id="compareBody"></tbody></table></div></section></div>
 <section class="card pad"><div class="head"><h2>Maßänderung je Probe</h2><small>Endmessung − Ausgangsmessung · gleiche Probe über mehrere Prüfzustände</small></div><div id="chart" class="chart"><div class="empty">Noch keine vollständigen Vergleichspaare vorhanden.</div></div><div class="legend" id="chartCaption">Positive Werte = Maßzunahme · negative Werte = Maßabnahme</div></section>
-<p class="footapp">Becker Tools – Messreihen V1.6.1 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
+<p class="footapp">Becker Tools – Messreihen V1.6.2 · Alles bleibt lokal auf dem jeweiligen Gerät. JSON als vollständige Sicherung exportieren; Excel zur Auswertung und Archivierung.</p>
 </main>
 <input id="fileCsv" type="file" accept=".csv,.txt,text/plain,text/csv" hidden><input id="fileJson" type="file" accept=".json,application/json" hidden>
 <!-- Messgerät-OCR: separates Foto, gespeicherte Messreihe wird erst nach Bestätigung verändert. -->
@@ -119,7 +119,8 @@
   <div class="measure-target" id="measureTarget">–</div>
   <div class="buttons" style="margin:12px 0 10px"><button type="button" class="btn primary" id="measureCamera">📷 Fotografieren</button><button type="button" class="btn" id="measureGallery">▧ Bild auswählen</button><button type="button" class="btn" id="measureRotate" disabled>↻ 90° drehen</button><button type="button" class="btn" id="measurePresetTop" disabled>⊞ Oberer X-Wert</button><button type="button" class="btn" id="measureResetCrop" disabled>Ausschnitt zurücksetzen</button><button type="button" class="btn" id="measureSavePreset" disabled>💾 Ausschnitt merken</button></div>
   <div class="measure-preview"><canvas id="measureCanvas" width="600" height="260" aria-label="Digitalanzeige: einen Rahmen um die Zahl ziehen"></canvas><p id="measureEmpty">Foto auswählen. Anschließend den Zahlenbereich mit dem Finger einrahmen.</p></div>
-  <p class="hint">Im Modus <b>„Nur oberer X-Wert“</b> setzt die App automatisch einen passenden Ausschnitt für die obere Anzeige. Du kannst ihn bei Bedarf verschieben oder einen eigenen Rahmen ziehen.</p>
+  <div id="measureCropPreviewWrap" hidden style="margin-top:8px;padding:9px;border:1px solid #c8dfe4;border-radius:10px;background:#f4faf9"><b style="display:block;font-size:12px;margin-bottom:5px">Ausgewählter Bereich – hier darf nur der X-Wert stehen:</b><canvas id="measureCropPreview" width="440" height="115" style="display:block;width:auto;max-width:100%;height:auto;max-height:125px;border-radius:5px"></canvas><p class="hint" style="margin:5px 0 0">Wenn hier der Z-Wert erscheint, bitte den Rahmen auf dem Foto enger um die obere Zahl ziehen.</p></div>
+  <p class="hint">Im Modus <b>„Nur oberer X-Wert“</b> wird zunächst die <b>obere helle Zahlenzeile</b> gesucht. Die Vorschau zeigt genau den Bereich, den die OCR liest. Ein Z-Wert darf dort nicht sichtbar sein.</p>
   <div class="measure-options">
    <div class="field"><label for="measureFilter">Bildaufbereitung</label><select id="measureFilter"><option value="contrast">Kontrast (empfohlen)</option><option value="original">Original</option><option value="binary">Schwarz-Weiß</option><option value="invert">Invertierte Anzeige</option></select></div>
    <div class="field"><label for="measureDecimals">Dezimalstellen</label><select id="measureDecimals"><option value="auto">Automatisch</option><option value="2">2 Nachkommastellen</option><option value="3">3 Nachkommastellen</option><option value="4">4 Nachkommastellen</option></select></div>
@@ -1128,7 +1129,7 @@
       // Kurzer Fokuslauf: zwei Bildvarianten und beide Einzelwort-/Einzelzeilenmodi.
       for(const mode of [...new Set([preferred,preferred==='local'?'original':'local'])]){
         const image=photoFocusOcrImage(mode);
-        for(const psm of (($('measureReadMode').value==='topx')?['7','13','8']:['7','8'])){
+        for(const psm of (($('measureReadMode').value==='topx')?['7','6']:['7','8'])){
           label.textContent=`Stempel lesen: ${mode} · OCR-Modus ${psm}`;
           await worker.setParameters({tessedit_pageseg_mode:psm});
           const {data}=await worker.recognize(image);
@@ -1167,7 +1168,9 @@
   // Unabhängig von der OCR der eingeprägten Proben-NUMMERN.
   let measureTargetSampleId='',measureTargetStageId='',measurePhoto=null,measureCrop=null,measureDrag=null,measureBusy=false;
   const measureCanvas=$('measureCanvas');
-  const MEASURE_PRESET_KEY='becker_messreihen_measure_preset_v1';
+  const MEASURE_PRESET_KEY='becker_messreihen_measure_preset_v2';
+  const measureCropPreview=$('measureCropPreview');
+  let measureAutoXFound=false;
   function loadMeasurePreset(){
     try{const obj=JSON.parse(localStorage.getItem(MEASURE_PRESET_KEY)||'null');
       if(obj&&Number.isFinite(obj.x)&&Number.isFinite(obj.y)&&Number.isFinite(obj.w)&&Number.isFinite(obj.h))return obj;
@@ -1194,7 +1197,8 @@
     const sample=state.samples.find(s=>s.id===selected);
     if(!sample){toast('Bitte zuerst eine Probe auswählen.');return;}
     measureTargetSampleId=sample.id;measureTargetStageId=state.activeStage;
-    measurePhoto=null;measureCrop=null;measureDrag=null;
+    measurePhoto=null;measureCrop=null;measureDrag=null;measureAutoXFound=false;
+    $('measureCropPreviewWrap').hidden=true;
     $('measureProposed').value='';$('measureRaw').textContent='–';$('measureSuggestions').replaceChildren();$('measureWarning').hidden=true;
     $('measureFilter').value='contrast';$('measureDecimals').value='3';$('measureReadMode').value='topx';
     $('measureCanvas').style.display='none';$('measureEmpty').hidden=false;
@@ -1206,6 +1210,7 @@
   function closeMeasurePhoto(){
     if(measureBusy){toast('Bitte die laufende Erkennung abschließen lassen.');return;}
     $('measureModalCover').style.display='none';measurePhoto=null;measureCrop=null;measureDrag=null;
+    $('measureCropPreviewWrap').hidden=true;
     measureCanvas.width=1;measureCanvas.height=1;
     $('measureCameraFile').value='';$('measureGalleryFile').value='';
   }
@@ -1214,23 +1219,75 @@
     return {x:Math.max(0,Math.min(measureCanvas.width,(evt.clientX-r.left)*measureCanvas.width/r.width)),y:Math.max(0,Math.min(measureCanvas.height,(evt.clientY-r.top)*measureCanvas.height/r.height))};
   }
   function measureRect(a,b){return{x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),w:Math.abs(a.x-b.x),h:Math.abs(a.y-b.y)}}
+  // Den oberen Zahlenstreifen vom unteren Z-Streifen trennen, BEVOR OCR startet.
+  // Sucht helle Ziffern auf dem dunklen Display. Bei fehlender Erkennung nur
+  // einen engen X-Standardrahmen anbieten; der Nutzer prüft die Vorschau.
+  function findUpperXRow(photo){
+    if(!photo)return null;
+    const W=photo.width,H=photo.height;
+    const x0=Math.round(W*.245),x1=Math.round(W*.56);
+    const y0=Math.round(H*.19),y1=Math.round(H*.41);
+    if(x1<=x0||y1<=y0)return null;
+    let pixels;
+    try{pixels=photo.getContext('2d',{willReadFrequently:true}).getImageData(x0,y0,x1-x0,y1-y0).data;}catch(e){return null;}
+    const scanW=x1-x0,scanH=y1-y0,threshold=Math.max(12,Math.round(scanW*.065/2));
+    const count=[];
+    for(let y=0;y<scanH;y++){
+      let n=0;
+      for(let x=0;x<scanW;x+=2){
+        const i=(y*scanW+x)*4;
+        const l=.299*pixels[i]+.587*pixels[i+1]+.114*pixels[i+2];
+        if(l>170)n++;
+      }
+      count.push(n);
+    }
+    let start=-1,last=-1;
+    const groups=[];
+    for(let i=0;i<=scanH+2;i++){
+      const bright=i<scanH&&count[i]>=threshold;
+      if(bright){if(start<0)start=i;last=i;}
+      else if(start>=0&&i-last>3){
+        if(last-start+1>=Math.max(9,Math.round(H*.014)))groups.push({a:y0+start,b:y0+last+1});
+        start=-1;last=-1;
+      }
+    }
+    // Die früheste zusammenhängende helle Zeile ist üblicherweise X.
+    // Zusätzliche weiße Dialogfenster weiter unten werden nicht bevorzugt.
+    const first=groups[0];if(!first)return null;
+    const padY=Math.max(5,Math.round(H*.0045));
+    const y=Math.max(0,first.a-padY);
+    const bottom=Math.min(H,first.b+padY);
+    if(bottom-y>H*.11)return null; // vermutlich statt einer Zahl eine große helle Fläche
+    return {x:Math.round(W*.245),y,w:Math.round(W*.315),h:bottom-y};
+  }
   function measureDefaultCrop(){
     if(!measurePhoto)return null;
     const W=measurePhoto.width,H=measurePhoto.height;
-    const mode=$('measureReadMode')?.value||'topx';
-    if(mode==='topx'){
-      const stored=loadMeasurePreset();
-      if(stored){const r=presetToRect(stored);if(r)return r;}
-      return {x:Math.round(W*0.13),y:Math.round(H*0.16),w:Math.round(W*0.52),h:Math.round(H*0.18)};
+    if($('measureReadMode').value==='topx'){
+      const stored=loadMeasurePreset();if(stored){const r=presetToRect(stored);if(r)return r;}
+      const found=findUpperXRow(measurePhoto);if(found){measureAutoXFound=true;return found;}
+      measureAutoXFound=false;
+      // Für das mitgelieferte Bildschirmbeispiel: nur die erste Zeile, niemals X und Z zusammen.
+      return {x:Math.round(W*.245),y:Math.round(H*.235),w:Math.round(W*.315),h:Math.round(H*.058)};
     }
     return {x:Math.round(W*.1),y:Math.round(H*.2),w:Math.round(W*.8),h:Math.round(H*.6)};
   }
-  function setMeasureTopPreset(){if(!measurePhoto)return;measureCrop=measureDefaultCrop();measurePaint();}
+  function setMeasureTopPreset(){if(!measurePhoto)return;measureCrop=null;measureCrop=measureDefaultCrop();measurePaint();}
+  function paintMeasureCropPreview(rect){
+    if(!measurePhoto||!rect){$('measureCropPreviewWrap').hidden=true;return;}
+    $('measureCropPreviewWrap').hidden=false;
+    const outW=Math.min(600,Math.max(150,Math.round(rect.w*1.7)));
+    const outH=Math.min(210,Math.max(24,Math.round(outW*rect.h/rect.w)));
+    measureCropPreview.width=outW;measureCropPreview.height=outH;
+    const ctx=measureCropPreview.getContext('2d');ctx.fillStyle='#101c25';ctx.fillRect(0,0,outW,outH);
+    ctx.drawImage(measurePhoto,rect.x,rect.y,rect.w,rect.h,0,0,outW,outH);
+  }
   function measurePaint(){
     if(!measurePhoto)return;
     measureCanvas.width=measurePhoto.width;measureCanvas.height=measurePhoto.height;
     const g=measureCanvas.getContext('2d');g.drawImage(measurePhoto,0,0);
     const r=measureDrag?measureRect(measureDrag.start,measureDrag.end):(measureCrop||measureDefaultCrop());
+    paintMeasureCropPreview(r);
     if(r){
       g.fillStyle='rgba(10,33,49,.40)';g.fillRect(0,0,measureCanvas.width,measureCanvas.height);
       g.drawImage(measurePhoto,r.x,r.y,r.w,r.h,r.x,r.y,r.w,r.h);
@@ -1261,11 +1318,11 @@
       const ratio=Math.min(1,2500/Math.max(img.naturalWidth,img.naturalHeight));
       const c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.naturalWidth*ratio));c.height=Math.max(1,Math.round(img.naturalHeight*ratio));
       c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      measurePhoto=c;measureCrop=null;measureDrag=null;
+      measurePhoto=c;measureCrop=null;measureDrag=null;measureAutoXFound=false;
       measureCanvas.style.display='block';$('measureEmpty').hidden=true;
-      $('measureRotate').disabled=$('measureResetCrop').disabled=$('measureRecognize').disabled=false;
+      $('measureRotate').disabled=$('measureResetCrop').disabled=$('measureRecognize').disabled=$('measurePresetTop').disabled=$('measureSavePreset').disabled=false;
       $('measureRaw').textContent='–';$('measureSuggestions').replaceChildren();measurePaint();
-      measureStatus(`Foto geladen (${c.width} × ${c.height}). Rahmen um die Messzahl ziehen.`);URL.revokeObjectURL(url);
+      measureStatus(measureAutoXFound?'Obere Zahlenzeile automatisch gefunden. Vorschau vor OCR prüfen.':'Rahmen bitte prüfen: Nur die obere X-Anzeige darf in der Vorschau sichtbar sein.');URL.revokeObjectURL(url);
     };
     img.onerror=()=>{URL.revokeObjectURL(url);toast('Bild konnte nicht geöffnet werden. Bitte JPEG/PNG verwenden.');};
     img.src=url;
@@ -1339,14 +1396,14 @@
       const all=[],raw=[];
       for(const variant of variants){
         const image=processedMeasurePhoto(variant);
-        for(const psm of (($('measureReadMode').value==='topx')?['7','13','8']:['7','8'])){
+        for(const psm of (($('measureReadMode').value==='topx')?['7','6']:['7','8'])){
           measureStatus(`Anzeige lesen: ${variant} / Modus ${psm} …`);
           await worker.setParameters({tessedit_pageseg_mode:psm});
           const {data}=await worker.recognize(image);
           const str=String(data.text||'').trim();raw.push(`${variant} · Modus ${psm}: ${str||'(kein Text)'}`);
           for(const match of parseMeasureCandidates(str)){
             const confidence=Number.isFinite(data.confidence)?data.confidence:0;
-            let score=confidence+(match.estimated?-35:0)+(match.value.includes('.')?12:0)+(($('measureReadMode').value==='topx'&&Number(match.value)<1000)?8:0);
+            let score=confidence+(match.estimated?-35:0)+(match.value.includes('.')?20:0)+(String(match.value.split('.')[1]||'').length===3?14:0)+(psm==='7'?5:0);
             // Bestätigung bleibt zwingend, unabhängig vom Score.
             all.push({...match,confidence,score,source:variant});
           }
@@ -1357,6 +1414,8 @@
         const prev=byValue.get(candidate.value);if(!prev||prev.score<candidate.score)byValue.set(candidate.value,candidate);
       }
       const candidates=[...byValue.values()].sort((a,b)=>b.score-a.score).slice(0,6);
+      const hasTwoMeasurements=$('measureReadMode').value==='topx'&&candidates.filter(c=>!c.estimated&&c.value.includes('.')).some(c=>Number(c.value)>=100) && candidates.some(c=>Number(c.value)<100);
+      if(hasTwoMeasurements)measureStatus('Achtung: Zwei Messzeilen erkannt. Nur den X-Wert im Rahmen lassen!');
       $('measureSuggestions').replaceChildren();
       if(candidates.length){
         const label=document.createElement('span');label.textContent='Vorschläge:';$('measureSuggestions').append(label);
@@ -1367,8 +1426,8 @@
         const best=candidates[0],farFromNominal=nominal!==null&&Math.abs(number(best.value)-nominal)>5;
         // Keine automatische Vorauswahl extrem abweichender OCR-Ergebnisse.
         // Ein tatsächlich abweichender Messwert bleibt über den Vorschlagsbutton auswählbar.
-        $('measureProposed').value=farFromNominal?'':best.value.replace('.',',');
-        measureStatus(farFromNominal?'OCR-Ergebnis auffällig: Bitte korrekten Vorschlag wählen oder selbst eingeben.':`${candidates.length} Vorschläge – bitte den oberen X-Wert und die Dezimalstellen kontrollieren.`);
+        $('measureProposed').value=(farFromNominal||hasTwoMeasurements)?'':best.value.replace('.',',');
+        measureStatus(hasTwoMeasurements?'Mehrere Messzeilen erkannt: Bitte den Rahmen ausschließlich um X ziehen.':farFromNominal?'OCR-Ergebnis auffällig: Bitte korrekten Vorschlag wählen oder selbst eingeben.':`${candidates.length} Vorschläge – bitte X-Wert und Dezimalstellen kontrollieren.`);
       }else measureStatus('Kein Messwert erkannt. Ausschnitt enger ziehen oder Wert manuell eintragen.');
       const rawCombined=raw.join(' ').toLowerCase();
       if(/\b(inch|inches)\b/.test(rawCombined)){
