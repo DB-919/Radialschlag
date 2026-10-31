@@ -1,43 +1,52 @@
-BECKER TOOLS MESSREIHEN – V1.5.0
-===================================
-NEU: Stempel-Lupe für schwer erkennbare, gedrehte Gravuren.
+BECKER TOOLS – MESSREIHEN V1.6.0
+================================
+NEU: FOTOERKENNUNG VON MESSWERTEN AUF DIGITALEN MESSGERAETEN
 
-VERWENDUNG
-1. Foto wählen, Sorte/Projekt auswählen, Stirnflächen finden.
-2. Runde Markierungen kontrollieren und fehlende Kreise antippen.
-3. Bei einer Probe auf „Lupe“ tippen.
-4. Nummer möglichst waagerecht drehen (Schieberegler).
-5. Kleines Rechteck direkt um die Ziffern ziehen. Tesseract liest
-   ausschließlich dieses Feld. Bei Bedarf Lokalkontrast versuchen.
-6. Gewünschte Ziffernzahl wählen; „Nur Nummernfeld erkennen“ drücken.
-7. Nummer am Bauteilbild prüfen, bei Bedarf korrigieren.
-8. „Nummer übernehmen und weiter“ wählen.
-9. Zum Schluss Liste prüfen und geprüfte Nummern übernehmen.
-10. Messwerte erfassen und echte XLSX-Datei exportieren.
+Variante A – Manuell
+1. Unter „05 / Schnellerfassung“ Sorte und Probe wählen.
+2. Messwert eingeben, Enter oder „Messwert speichern“.
 
-AUFNAHME-TIPPS
-- Nicht alle 20 Proben aus großer Entfernung: in Gruppen von 4–6 fotografieren.
-- iPhone möglichst lotrecht; Fokus auf Stirnflächen setzen.
-- Diffuses, seitliches Licht statt Blitz; keine starken Reflexionen.
-- Ziffern groß und scharf aufnehmen; möglichst stabile Ablage.
+Variante B – Foto eines digitalen Messgeraets
+1. Sorte / Probe / Prüfzustand auswählen.
+2. „Messwert fotografieren“ drücken oder Kamera-Symbol neben dem
+   Messwert einer Probe in der Tabelle wählen.
+3. „Fotografieren“ wählen und die Zahl auf der Anzeige fotografieren.
+   Alternativ aus der Fotogalerie auswählen.
+4. Im Foto den Zahlenbereich mit dem Finger einrahmen. Nicht das
+   ganze Messgerät und nicht den Körper der Probe markieren.
+5. Optional Bildkontrast und erwartete Dezimalstellen auswählen.
+6. „Zahlenanzeige erkennen“ drücken. Beim ersten Mal benötigt die
+   Texterkennungsbibliothek eine Internetverbindung.
+7. Erkannten Zahlenwert und Einheit (mm) genau kontrollieren.
+   Bei Bedarf Zahl direkt korrigieren oder anderen Vorschlag wählen.
+8. „Wert übernehmen“ drücken. Erst dann wird gespeichert.
 
-HINWEISE
-- Die automatische Erkennung der Prägungen ist weiterhin nicht zuverlässig
-  genug für eine unbeaufsichtigte automatische Übernahme.
-- Die Stempel-Lupe soll gezielte Ausschnitte und eine schnelle manuelle
-  Korrektur ermöglichen. Eine reale Qualitätssteigerung der OCR muss im
-  Praxisversuch auf mehreren Bauteilfotos geprüft werden.
-- Fotos verbleiben im Browser; OCR lädt die Bibliothek aus dem Internet.
-- Vor Aktualisierung JSON-Projektsicherung anlegen.
+Hinweis: Diese Funktion liest das DIGITALE DISPLAY (z. B. einer
+Schieblehre oder eines Digitalmessgeräts). Sie vermisst kein Bauteil
+rein geometrisch anhand eines Fotos.
 
-INSTALLATION MIT GITHUB PAGES
-1. ZIP entpacken; alle enthaltenen Dateien ins bestehende Repository laden.
-2. Vorhandene index.html, sw.js und manifest.webmanifest ersetzen.
-3. App beenden, neu öffnen, ggf. Webseite aktualisieren.
+Ein Ablesefehler der OCR kann nicht ausgeschlossen werden. Zahlen,
+Vorzeichen, Dezimalpunkt und mm/Inch-Einstellung IMMER prüfen. Eine
+auffällige Abweichung von >5 mm zur Referenz wird signalisiert, aber
+nicht automatisch abgeändert. Keine automatische Übernahme.
+
+Foto der BAUTEILNUMMER weiterhin über „Probennummern aus Foto“.
+
+XLSX-Export weiterhin mit vier Blättern:
+Messwerte, Vergleich, Auswertung, Stammdaten.
+
+INSTALLATION
+1. Vor dem Update in der bisherigen App eine JSON-Sicherung machen.
+2. ZIP entpacken und alle Dateien ins bisherige GitHub-Pages-Repository
+   hochladen; vorhandene Dateien ersetzen.
+3. App komplett schließen und erneut öffnen. Falls die neue Version
+   nicht erscheint, Safari-Seite aktualisieren bzw. Website-Daten prüfen.
+4. Bei derselben Herkunft/URL bleiben bestehende Browserdaten erhalten,
+   solange Website-Daten nicht entfernt wurden. Dennoch Backup machen.
 
 TESTSTATUS
-- 21 Stirnflächen am bereitgestellten Foto erkannt (lokaler Browser-Test).
-- Lupe: markieren, drehen, filtern, simulierte OCR, Nummer kontrollieren
-  und Übernahme: Browser-Test bestanden.
-- XLSX-Datei mit openpyxl geöffnet und Blätter validiert.
-- Tatsächliche OCR-Lesegenauigkeit auf iPhone/Safari nicht nachgewiesen.
+- Browser-Test der Fotoauswahl, Bildausschnitt- und Vorschlagsfunktion,
+  mit simuliertem OCR-Rohtext „10.236 mm“ erfolgreich.
+- Manuelle Korrektur / Speichern / Überschreibabfrage erfolgreich.
+- Exportierte XLSX-Datei im Test erfolgreich wieder eingelesen.
+- Keine Messung der OCR-Genauigkeit an einem realen Messgerät erfolgt.
