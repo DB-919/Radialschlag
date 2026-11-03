@@ -1,56 +1,48 @@
-BECKER TOOLS – MESSREIHEN V1.8.0 (V1.7 + V1.8)
-====================================================
+BECKER TOOLS – MESSREIHEN V1.8.1
+=================================
 
-INSTALLATION / UPDATE MIT GITHUB PAGES
-
-1) Vor der Aktualisierung: bestehende Messreihe als JSON sichern.
-2) Alle Dateien aus diesem ZIP in dasselbe Verzeichnis wie bisher
-   auf GitHub Pages hochladen und die alten Dateien ersetzen:
+WICHTIG VOR DEM UPDATE
+1. Eine JSON-Sicherung der bisherigen Messreihe erstellen.
+2. Alle fünf App-Dateien in dasselbe Verzeichnis deiner bisherigen
+   GitHub-Pages-Seite hochladen und ersetzen:
    index.html, sw.js, manifest.webmanifest, icon-192.png, icon-512.png
-3) In Safari die bisherige GitHub-Pages-Adresse neu laden.
-4) Wenn die alte Version noch erscheint: Safari-Tab schließen,
-   URL neu aufrufen und ggf. Website-Cache leeren.
-5) Bei Nutzung als Home-Bildschirm-App ggf. die App beenden
-   und neu öffnen. Der bestehende lokale Speicher bleibt
-   bei gleichbleibender Website-Adresse normalerweise erhalten.
+3. Seite in Safari neu öffnen. Falls weiter V1.8.0 angezeigt wird,
+   Safari-Tab schließen und die URL erneut öffnen; eventuell
+   Website-Cache in Safari löschen.
+4. Gespeicherte Messreihen bleiben bei gleicher Webadresse und gleichem
+   lokalen Browserprofil normalerweise erhalten. JSON-Sicherung ist
+   dennoch wichtig; es findet keine automatische Synchronisation statt.
 
-SICHERHEITSHINWEIS: JSON-Sicherung vorher erstellen; lokale
-Browserdaten lassen sich nicht geräteübergreifend synchronisieren.
+SCHNELLMESSUNG
+1. In der Schnellerfassung Sorte und Prüfzustand auswählen.
+2. „Messrunde starten“ wählen.
+3. Live-Kamera, Foto oder „Manuell“ benutzen.
+4. X-Messwert und Probennummer kontrollieren.
+5. „Speichern & weiter“ betätigen; danach erscheint die nächste Probe.
+6. „Probe überspringen“ merkt ausgelassene Proben bis zum Ende der Runde.
+7. „Abbrechen“ beendet den Durchlauf; bereits gespeicherte Werte bleiben.
 
-NEUER SCHNELLMESS-WORKFLOW (V1.7)
+ERWEITERTE OPTIONEN
+- Workflow-Grenzen über „Ablauf und Prüfgrenzen anpassen“.
+- Kameraausschnitt, Profile und OCR-Varianten über „Bildausschnitt,
+  Messgeräteprofile und OCR-Einstellungen“.
+- Die X-Ausschnitt-Vorschau muss NUR die obere X-Zeile enthalten.
+- Bei OCR-Problemen steht „Manuell“ jederzeit zur Verfügung.
+- Die OCR-Bibliothek wird beim ersten Einsatz per Internet geladen.
 
-1) In Abschnitt "Schnellerfassung" Sorte und Prüfzustand auswählen.
-2) Optional: Checkboxen zum automatischen Wechsel, Überspringen
-   bereits gemessener Proben und Plausibilitätskontrolle setzen.
-3) Toleranz für Referenzabweichung und Änderung zwischen Zuständen
-   optional einstellen. Eingabe 0 = Prüfung ausgeschaltet.
-4) "Geführte Messrunde starten" wählen.
-5) Messgerät per Foto oder Live-Kamera erfassen, X-Wert lesen lassen,
-   kontrollieren und bestätigen. Nächste Probe wird vorbereitet.
-6) "Probe überspringen" bei unklarer Messung verwenden.
-7) Bei auffälligen Werten nur nach ausdrücklicher Bestätigung speichern.
+VERBESSERUNGEN GEGENÜBER V1.8.0
+- Übersichtlicheres Messfenster und größere Touch-Bedienelemente
+- Fehlerhafte Sichtbarkeit von Start/Stopp und Panels korrigiert
+- Kreisfreies erneutes Berechnen des X-Bereichs bei Fingerbewegungen vermieden
+- Abbrechbare OCR und automatischer Fehler-/Ladezeit-Ausweg
+- Verhindert doppelte Speicherung bei Doppeltippen
+- Verhindert verspätetes Laden alter Fotos während einer neuen Messung
+- Übersprungene Proben laufen nicht endlos im Kreis
+- Excel-Export weiterhin mit Messwerte/Vergleich/Auswertung/Stammdaten
 
-KAMERA & MESSGERÄTEPROFILE (V1.8)
-
-- "Live-Kamera" verlangt eine moderne Browser-Version mit HTTPS;
-  bei Problemen "Fotografieren" oder "Bild auswählen" verwenden.
-- "Messgerätanzeige erfassen" übernimmt ein Standbild aus dem
-  laufenden Kamerabild. Die Kamera kann beim Probenwechsel offenbleiben.
-- "Live-Aufnahme sofort auslesen" kann optional aktiviert werden.
-- "Auto-Ausrichten" versucht nach 90°-Schritten eine besser passende
-  Bildorientierung. X-Vorschau auf jeden Fall kontrollieren.
-- Für wiederkehrende Messgeräte: Foto laden, X-Rahmen anpassen,
-  Profilname eingeben und "Profil speichern / aktualisieren" wählen.
-- "Schnell" nutzt einen OCR-Durchlauf; "Gründlich" prüft mehr Varianten.
-- Für das Beispiel mit X oben und Z unten: nur der obere X-Wert darf
-  in der Bildausschnitt-Vorschau sichtbar sein.
-- Manuelle Eingabe bleibt jederzeit verfügbar.
-
-WICHTIG
-
-- Die OCR muss beim ersten Einsatz Tesseract.js aus dem Internet laden.
-- Fotoaufnahme und Texterkennung erfolgen im Browser; Fotos werden nicht
-  als Projektbestandteil gespeichert oder an einen Bilderkennungsdienst gesendet.
-- Messwerte und Profile sind nur lokal auf dem jeweiligen Gerät gespeichert.
-- Kontrolliere jeden erkannten Wert und die Einheit mm.
-- Die Software ersetzt keine metrologische Prüfung oder Validierung.
+HINWEISE
+- Datenspeicherung lokal im Browser; JSON exportieren zur Sicherung.
+- Messwert und Maßeinheit vor jeder Übernahme verifizieren.
+- Automatische OCR kann Zahlen falsch lesen und ersetzt keine QS-Prüfung.
+- Live-Kamera benötigt HTTPS und eine Browserfreigabe.
+- Getestet im Chromium-Browser in mobiler Ansicht; nicht auf einem realen iPhone.

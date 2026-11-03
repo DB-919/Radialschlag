@@ -1,4 +1,4 @@
-const CACHE='becker-messreihen-v1.8.0';
+const CACHE='becker-messreihen-v1.8.1';
 const CORE=['./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));
